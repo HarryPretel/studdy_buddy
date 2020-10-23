@@ -14,7 +14,7 @@ class Message(models.Model):
     timestamp = models.DateTimeField()
 
     def __str__(self):
-        return str(self.sender, self.content)
+        return 'from: ' + self.sender.username + ' message: ' + self.content
 
     def save(self, *args, **kwargs):
         self.timestamp = datetime.datetime.now()

@@ -1,11 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
-from rest_framework import viewsets
-from .serializers import *
-from .models import *
-from .permissions import *
-
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from rest_framework import permissions, status
@@ -13,6 +6,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
+
+# Create your views here.
+from rest_framework import viewsets
+from .serializers import *
+from .models import *
+from .permissions import *
 
 
 class UserList(generics.ListCreateAPIView):
