@@ -13,4 +13,9 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
 
         # Write permissions are only allowed to the owner of the snippet.
-        return obj.owner == request.user
+        return obj.sender == request.user
+
+
+class IsOwnerOrNoAccess(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.sender == request.user and request.method in ('POST', 'GET')

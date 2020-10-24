@@ -24,17 +24,32 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
 
-class MessageList(generics.ListCreateAPIView):
+class SentMessageList(generics.ListAPIView):
     """
     List all snippets, or create a new snippet.
     """
-    queryset = Message.objects.all()
+    model = Message
     serializer_class = MessageSerializer
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+        IsOwnerOrNoAccess
+    ]
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer):  # does nothing because this view is read-only
         serializer.save(owner=self.request.user)
+
+    def get_queryset(self):
+        return self.request.user.sent_message.all()
+
+
+class ReceivedMessageList(generics.ListAPIView):
+    model = Message
+    serializer_class = MessageSerializer
+    permission_classes = [
+        IsOwnerOrNoAccess
+    ]
+
+    def get_queryset(self):
+        return self.request.user.received_message.all()
 
 
 class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -45,4 +60,4 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MessageSerializer
 
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+        IsOwnerOrNoAccess]

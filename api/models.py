@@ -7,8 +7,8 @@ import datetime
 
 class Message(models.Model):
     sender = models.ForeignKey(
-        User, related_name='source', on_delete=models.CASCADE)
-    receivers = models.ManyToManyField(User, related_name='destination')
+        User, related_name='sent_message', on_delete=models.CASCADE)
+    receivers = models.ManyToManyField(User, related_name='received_message')
     message_type = models.CharField(max_length=10)
     content = models.CharField(max_length=140)
     timestamp = models.DateTimeField()
