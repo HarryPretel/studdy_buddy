@@ -24,11 +24,20 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
 
 
+class AllMessageList(generics.ListAPIView):
+    serializer_class = MessageSerializer
+    permission_classes = [
+        IsOwnerOrNoAccess
+    ]
+
+    def get_queryset(self):
+        return self.request.user.sent_message.all() | self.request.user.received_message.all()
+
+
 class SentMessageList(generics.ListAPIView):
     """
     List all snippets, or create a new snippet.
     """
-    model = Message
     serializer_class = MessageSerializer
     permission_classes = [
         IsOwnerOrNoAccess
@@ -42,7 +51,6 @@ class SentMessageList(generics.ListAPIView):
 
 
 class ReceivedMessageList(generics.ListAPIView):
-    model = Message
     serializer_class = MessageSerializer
     permission_classes = [
         IsOwnerOrNoAccess
@@ -60,4 +68,5 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MessageSerializer
 
     permission_classes = [
-        IsOwnerOrNoAccess]
+        IsOwnerOrNoAccess
+    ]

@@ -7,9 +7,6 @@ from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    messages = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Message.objects.all())
-
     class Meta:
         model = User
         fields = ('username', 'pk', 'first_name', 'last_name', 'email',
