@@ -19,3 +19,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 class IsOwnerOrNoAccess(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.sender == request.user and request.method in ('POST', 'GET')
+
+
+class IsOwnerPutOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.send == request.user and request.method in ('POST')

@@ -1,0 +1,3 @@
+fix userlistview so that when a new user is created, the password is stored as a hash
+create model tests
+create view tests

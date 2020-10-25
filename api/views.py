@@ -20,7 +20,7 @@ class UserList(generics.ListCreateAPIView):
 
 
 class UserDetail(generics.RetrieveAPIView):
-    questset = User.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
@@ -31,7 +31,9 @@ class AllMessageList(generics.ListAPIView):
     ]
 
     def get_queryset(self):
-        return self.request.user.sent_message.all() | self.request.user.received_message.all()
+        return (
+            self.request.user.sent_message.all() | self.request.user.received_message.all()
+        ).order_by('-timestamp')
 
 
 class SentMessageList(generics.ListAPIView):
@@ -48,6 +50,13 @@ class SentMessageList(generics.ListAPIView):
 
     def get_queryset(self):
         return self.request.user.sent_message.all()
+
+
+class SendMessage(generics.CreateAPIView):
+    serializer_class = MessageSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)
 
 
 class ReceivedMessageList(generics.ListAPIView):
