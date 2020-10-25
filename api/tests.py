@@ -12,7 +12,7 @@ default_user = {
     'password': 'testtesttest',
 }
 
-
+# TDD
 class UserModelTests(TestCase):
 
     def test_message_create(self):
