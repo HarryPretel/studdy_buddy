@@ -4,7 +4,7 @@ import datetime
 
 # Create your models here.
 
-
+# School model
 class School(models.Model):
     name = models.CharField(max_length=25)
     extension = models.CharField(max_length=25)
@@ -17,7 +17,7 @@ class School(models.Model):
         self.date_joined = datetime.datetime.now()
         super(School, self).save(*args, **kwargs)
 
-
+# Department sub of School
 class Department(models.Model):
     name = models.CharField(max_length=25)
     school = models.ForeignKey(
@@ -32,7 +32,7 @@ class Department(models.Model):
         self.date_joined = datetime.datetime.now()
         super(Department, self).save(*args, **kwargs)
 
-
+# Class is sub of department
 class Class(models.Model):
     number = models.CharField(max_length=3)
     department = models.ForeignKey(
@@ -47,7 +47,7 @@ class Class(models.Model):
         self.date_joined = datetime.datetime.now()
         super(Class, self).save(*args, **kwargs)
 
-
+#Profile is sub of User
 class Profile(models.Model):
     user = models.ForeignKey(
         User, related_name='profile', on_delete=models.CASCADE)
@@ -58,7 +58,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-
+# Message is sub of USer
 class Message(models.Model):
     sender = models.ForeignKey(
         User, related_name='sent_message', on_delete=models.CASCADE
@@ -75,7 +75,7 @@ class Message(models.Model):
         self.timestamp = datetime.datetime.now()
         super(Message, self).save(*args, **kwargs)
 
-
+# Event is sub of Class and User
 class Event(models.Model):
     class_focus = models.ForeignKey(
         Class, related_name='events', on_delete=models.CASCADE)
@@ -95,7 +95,7 @@ class Event(models.Model):
         self.time_organized = datetime.datetime.now()
         super(Event, self).save(*args, **kwargs)
 
-
+# Attendance is sub of User and Event
 class Attendance(models.Model):
     user = models.ForeignKey(
         User, related_name='attendance', on_delete=models.CASCADE)
