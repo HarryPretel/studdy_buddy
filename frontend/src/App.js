@@ -3,14 +3,9 @@ import Nav from './components/Nav';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import './App.css';
-import React, { Component } from 'react';
-import MessageForm from './components/MessageForm';
-import './App.css';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+import MessageForm from './components/MessageForm';
+
 
 class App extends Component {
   constructor(props) {
