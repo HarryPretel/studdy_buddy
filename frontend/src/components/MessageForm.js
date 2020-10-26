@@ -37,7 +37,7 @@ class MessageForm extends React.Component {
             )
         })
     }
-
+// this renders sender reciever and content, sender will be changed when log in is fixed
     render() {
         console.log('state upon  message ender:')
         console.log(this.state)
