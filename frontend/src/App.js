@@ -116,7 +116,7 @@ class App extends Component {
         form = <SignupForm handle_signup={this.handle_signup} />;
         break;
       case 'message':
-        form = <SignupForm />;
+        form = <MessageForm />;
       default:
         form = null;
     }
