@@ -118,6 +118,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'studdy_buddy.utils.my_jwt_response_handler'
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
