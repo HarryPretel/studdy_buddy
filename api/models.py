@@ -4,56 +4,40 @@ import datetime
 
 # Create your models here.
 
-# School model
-class School(models.Model):
-    name = models.CharField(max_length=25)
-    extension = models.CharField(max_length=25)
-    date_joined = models.DateTimeField()
 
-    def __str__(self):
-        return self.extension
 
-    def save(self, *args, **kwargs):
-        self.date_joined = datetime.datetime.now()
-        super(School, self).save(*args, **kwargs)
-
-# Department sub of School
-class Department(models.Model):
-    name = models.CharField(max_length=25)
-    school = models.ForeignKey(
-        School, related_name='departments', on_delete=models.CASCADE)
-    code = models.CharField(max_length=5)
-    date_joined = models.DateTimeField()
-
-    def __str__(self):
-        return self.name + ' at ' + self.school.name
-
-    def save(self, *args, **kwargs):
-        self.date_joined = datetime.datetime.now()
-        super(Department, self).save(*args, **kwargs)
-
-# Class is sub of department
-class Class(models.Model):
+class Course(models.Model):
+    department = models.CharField(max_length=5)
     number = models.CharField(max_length=3)
-    department = models.ForeignKey(
-        Department, related_name='classes', on_delete=models.CASCADE
-    )
+
     date_joined = models.DateTimeField()
 
     def __str__(self):
-        return self.department.code + '' + self.number
+        return self.department + '' + self.number
 
     def save(self, *args, **kwargs):
         self.date_joined = datetime.datetime.now()
-        super(Class, self).save(*args, **kwargs)
+        super(Course, self).save(*args, **kwargs)
+
+
+
+class StudyTime(models.Model):
+    STUDY_TIMES = (
+        ('m', 'morning'),
+        ('a', 'afternoon'),
+        ('e', 'evening'),
+        ('n', 'night'),
+
+    )
+    time = models.CharField(max_length=1, choices=STUDY_TIMES)
 
 #Profile is sub of User
 class Profile(models.Model):
     user = models.ForeignKey(
         User, related_name='profile', on_delete=models.CASCADE)
-    classes = models.ManyToManyField(Class, related_name='students')
-    departments = models.ManyToManyField(Department, related_name='students')
-    schools = models.ManyToManyField(School, related_name='students')
+    studytime = models.ManyToManyField(StudyTime, related_name='students')
+    studylocation = models.CharField(max_length=15)
+    courses = models.ManyToManyField(Course, related_name='students')
 
     def __str__(self):
         return self.user.username
@@ -66,6 +50,8 @@ class Message(models.Model):
     receivers = models.ManyToManyField(User, related_name='received_message')
     message_type = models.CharField(max_length=10)
     content = models.CharField(max_length=140)
+    # files in MEDIA_ROOT/uploads/year/m/d
+    # attachment = models.FileField(upload_to='uploads/%Y/%m/%d/')
     timestamp = models.DateTimeField()
 
     def __str__(self):
@@ -77,8 +63,8 @@ class Message(models.Model):
 
 # Event is sub of Class and User
 class Event(models.Model):
-    class_focus = models.ForeignKey(
-        Class, related_name='events', on_delete=models.CASCADE)
+    course_focus = models.ForeignKey(
+        Course, related_name='events', on_delete=models.CASCADE)
     organizer = models.ForeignKey(
         User, related_name='organized_events', on_delete=models.CASCADE)
     time_organized = models.DateTimeField()
