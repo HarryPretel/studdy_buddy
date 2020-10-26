@@ -2,6 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 from . import views
 from .views import *
+from rest_framework_jwt.views import obtain_jwt_token
 
 router = routers.DefaultRouter()
 
@@ -16,4 +17,5 @@ urlpatterns = [
 
     path('users/', views.UserList.as_view()),
     path('users/<int:pk>', views.UserDetail.as_view()),
+    path('token-auth/', obtain_jwt_token)
 ]
