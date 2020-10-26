@@ -49,7 +49,7 @@ class SentMessageList(generics.ListAPIView):
         serializer.save(owner=self.request.user)
 
     def get_queryset(self):
-        return self.request.user.sent_message.all()
+        return self.request.user.sent_message.all().order_by('-timestamp')
 
 
 class SendMessage(generics.CreateAPIView):
@@ -66,7 +66,7 @@ class ReceivedMessageList(generics.ListAPIView):
     ]
 
     def get_queryset(self):
-        return self.request.user.received_message.all()
+        return self.request.user.received_message.all().order_by('-timestamp')
 
 
 class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
