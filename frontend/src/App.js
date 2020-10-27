@@ -13,7 +13,8 @@ class App extends Component {
     this.state = {
       displayed_form: '',
       logged_in: localStorage.getItem('token') ? true : false,
-      username: ''
+      username: '',
+      messaging: true,
     };
   }
 
@@ -112,9 +113,11 @@ class App extends Component {
         break;
       case 'message':
         form = <MessageForm />;
+        break;
       default:
         form = null;
     }
+    let messaging = this.state.messaging ? <MessageForm /> : null
 
     return (
       <div className="App">
@@ -124,6 +127,7 @@ class App extends Component {
           handle_logout={this.handle_logout}
         />
         {form}
+        {messaging}
         <h3>
           {this.state.logged_in
             ? `Hello, ${this.state.username}`

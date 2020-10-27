@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import App from '../App'
 import { get_messages } from '../functions/messaging/HelperFunctions'
+import './MessageForm.css'
 
 
 class MessageForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = get_messages()
+        let messages = get_messages()
+        this.state = { ...messages, un: 'harrisonp' }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -25,19 +27,31 @@ class MessageForm extends React.Component {
         event.preventDefault()
     }
 
-    renderTableData() {
+    renderMessages() {
         return this.state.messages.map((message, index) => {
             const { pk, sender, receiver, content } = message //destructuring
-            return (
-                <tr key={pk}>
-                    <td>{sender}</td>
-                    <td>{receiver}</td>
-                    <td>{content}</td>
-                </tr>
+            let ret;
+            if (sender == this.state.un) {
+                ret = (
+                    <sentmessage>
+                        {sender}<br />
+                        {receiver}<br />
+                        {content}<br />
+                    </sentmessage>
+                )
+            }
+            else ret = (
+                <receivedmessage>
+                    {sender} <br />
+                    {receiver}<br />
+                    {content}<br />
+                </receivedmessage>
+
             )
+            return ret
         })
     }
-// this renders sender reciever and content, sender will be changed when log in is fixed
+    // this renders sender reciever and content, sender will be changed when log in is fixed
     render() {
         console.log('state upon  message ender:')
         console.log(this.state)
@@ -46,30 +60,34 @@ class MessageForm extends React.Component {
                 <h1>
                     yoyoyo
                 </h1>
-                <table id='messages'>
-                    <tbody>
-                        {this.renderTableData()}
-                    </tbody>
-                </table>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        sender:
-                        <input type="text" value={this.state.outgoing_message ? this.state.outgoing_message.sender : ''} onChange={this.handleChange} />
-                    </label>
-                    <br></br>
-                    <label>
-                        receiver:
-                        <input type="text" value={this.state.outgoing_message ? this.state.outgoing_message.receiver : ''} onChange={this.handleChange} />
-                    </label>
-                    <br></br>
-                    <label>
-                        content:
-                        <input type="text" value={this.state.outgoing_message ? this.state.outgoing_message.content : ''} onChange={this.handleChange} />
-                    </label>
-                    <br></br>
-                    <input type="submit" value="SEND" />
+                <div>
 
-                </form>
+                    {this.renderMessages()}
+                </div>
+                <div>
+
+                    <form onSubmit={this.handleSubmit}>
+                        <post>
+                            sender:
+                        <input type="text" value={this.state.outgoing_message ? this.state.outgoing_message.sender : ''} onChange={this.handleChange} />
+                            <br />
+                            <label>
+                                receiver:<input type="text" value={this.state.outgoing_message ? this.state.outgoing_message.receiver : ''} onChange={this.handleChange} />
+                            </label>
+                            <br />
+
+                            <label>
+                                content:
+                        <input type="text" value={this.state.outgoing_message ? this.state.outgoing_message.content : ''} onChange={this.handleChange} />
+                            </label>
+                            <br />
+
+
+                        </post>
+                        <input type="submit" value="SEND" />
+
+                    </form >
+                </div>
             </div >
         )
     }
