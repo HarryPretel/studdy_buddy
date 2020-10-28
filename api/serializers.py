@@ -35,7 +35,19 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password')
+        fields = ('token', 'username', 'password','pk')
+
+class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer(required = True)
+
+    class Meta:
+        model = UserProfile
+        fields = ('pk','studytime','studylocation','courses','user')
+
+class CourseSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Course
+        fields = ('pk','department','number','date_joined')
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')

@@ -4,6 +4,8 @@ from . import views
 from .views import *
 
 router = routers.DefaultRouter()
+router.register(r'userprofiles', views.UserProfileViewSet)
+router.register(r'course',views.CourseViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -14,8 +16,6 @@ urlpatterns = [
     path('messages/<int:pk>', views.MessageDetail.as_view()),
     path('messages/send', views.SendMessage.as_view()),
 
-   #path('users/', views.UserList.as_view()),
-    #path('users/<int:pk>', views.UserDetail.as_view()),
     path('current_user/', current_user),
     path('users/', UserList.as_view()),
     path('api-auth/', include('rest_framework.urls')),

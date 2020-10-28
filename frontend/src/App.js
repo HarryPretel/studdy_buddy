@@ -19,6 +19,15 @@ class App extends Component {
 
   componentDidMount() {
     console.log('componentDidMount')
+    if (this.state.logged_in) {
+      var json = fetch('http://localhost:8000/api/current_user/', {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`
+        }
+      })
+      json = Promise.resolve(json)
+      this.setState({ username: json.username });
+    }
 
     if (this.state.logged_in) {
       fetch('http://localhost:8000/api/userprofiles/', {
@@ -94,6 +103,8 @@ class App extends Component {
         console.log("ERROR: " + error)
         alert(error);
       });
+      this.setState({display_form: 'createProfile'})
+      this.render()
   };
 
   handle_logout = () => {

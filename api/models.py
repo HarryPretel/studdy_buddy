@@ -21,21 +21,30 @@ class Course(models.Model):
 
 
 
-class StudyTime(models.Model):
+# class StudyTime(models.Model):
+#     STUDY_TIMES = (
+#         ('m', 'morning'),
+#         ('a', 'afternoon'),
+#         ('e', 'evening'),
+#         ('n', 'night'),
+
+#     )
+#     time = models.CharField(max_length=1, choices=STUDY_TIMES)
+
+#Profile is sub of User
+class UserProfile(models.Model):
+    # user = models.ForeignKey(
+    #     User, related_name='profile', on_delete=models.CASCADE)
     STUDY_TIMES = (
         ('m', 'morning'),
         ('a', 'afternoon'),
         ('e', 'evening'),
         ('n', 'night'),
-
     )
-    time = models.CharField(max_length=1, choices=STUDY_TIMES)
 
-#Profile is sub of User
-class Profile(models.Model):
-    user = models.ForeignKey(
-        User, related_name='profile', on_delete=models.CASCADE)
-    studytime = models.ManyToManyField(StudyTime, related_name='students')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #studytime = models.ManyToManyField(StudyTime, related_name='students')
+    studytime = models.CharField(max_length=1,choices=STUDY_TIMES,default='e')
     studylocation = models.CharField(max_length=15)
     courses = models.ManyToManyField(Course, related_name='students')
 

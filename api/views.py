@@ -6,8 +6,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
-from .serializers import UserSerializer, UserSerializerWithToken
-
 # Create your views here.
 from rest_framework import viewsets
 from .serializers import *
@@ -44,11 +42,13 @@ class UserList(APIView):
 #    queryset = User.objects.all()
 #    serializer_class = UserSerializer
 
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
 
-class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
 
 class AllMessageList(generics.ListAPIView):
     serializer_class = MessageSerializer
