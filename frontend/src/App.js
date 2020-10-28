@@ -18,15 +18,31 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount')
     if (this.state.logged_in) {
-      fetch('http://localhost:8000/api/current_user/', {
+      var json = fetch('http://localhost:8000/api/current_user/', {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`
+        }
+      }).json()
+      json = Promise.resolve(json)
+      this.setState({ username: json.username });
+    }
+
+    if (this.state.logged_in) {
+      fetch('http://localhost:8000/api/userprofiles/', {
         headers: {
           Authorization: `JWT ${localStorage.getItem('token')}`
         }
       })
         .then(res => res.json())
         .then(json => {
-          this.setState({ username: json.username });
+          console.log('state when mounting: ' + JSON.stringify(this.state) + '\njson: ' + JSON.stringify(json))
+          for (var i = 0; i < json.length; i++) {
+            if (json[i].username === this.state.username) {
+              this.setState({ pk: json[i].pk });
+            }
+          }
         });
     }
   }
