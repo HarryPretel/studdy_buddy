@@ -103,9 +103,6 @@ function Copyright() {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
             <form className={classes.form} noValidate>
             <InputLabel id="studytime-label">Preferred Study Time</InputLabel>
             <Select
@@ -143,14 +140,6 @@ function Copyright() {
               onChange={this.handle_change}
               autoFocus
             />
-
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-            </Grid>
           </form>
           </div>
           <Box mt={5}>

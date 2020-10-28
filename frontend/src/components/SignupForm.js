@@ -71,12 +71,6 @@ class SignupForm extends React.Component {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          {/* <Typography component="h1" variant="h5">
-            Sign up
-          </Typography> */}
           <form className={classes.form} noValidate onSubmit={e => this.props.handle_signup(e, this.state)}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
