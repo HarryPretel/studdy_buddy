@@ -19,15 +19,6 @@ class App extends Component {
 
   componentDidMount() {
     console.log('componentDidMount')
-    if (this.state.logged_in) {
-      var json = fetch('http://localhost:8000/api/current_user/', {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`
-        }
-      }).json()
-      json = Promise.resolve(json)
-      this.setState({ username: json.username });
-    }
 
     if (this.state.logged_in) {
       fetch('http://localhost:8000/api/userprofiles/', {
