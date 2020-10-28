@@ -44,7 +44,7 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     #studytime = models.ManyToManyField(StudyTime, related_name='students')
-    studytime = models.CharField(max_length=1,choices=STUDY_TIMES,default='e')
+    studytime = models.MultipleChoiceField(max_length=1,choices=STUDY_TIMES,default='e')
     studylocation = models.CharField(max_length=15)
     courses = models.ManyToManyField(Course, related_name='students')
 

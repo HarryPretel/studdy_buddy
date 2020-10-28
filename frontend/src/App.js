@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Nav from './components/Nav';
 import LoginForm from './components/LoginForm';
-import SignupForm from './components/SignupForm';
+import Signup from './components/Signup';
 import MessageForm from './components/MessageForm';
 
 import './App.css';
@@ -126,7 +126,7 @@ class App extends Component {
         form = <LoginForm handle_login={this.handle_login} />;
         break;
       case 'signup':
-        form = <SignupForm handle_signup={this.handle_signup} />;
+        form = <Signup handle_signup={this.handle_signup} />;
         break;
       case 'message':
         form = <MessageForm />;

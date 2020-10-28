@@ -74,9 +74,9 @@ class SignupForm extends React.Component {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          {/* <Typography component="h1" variant="h5">
             Sign up
-          </Typography>
+          </Typography> */}
           <form className={classes.form} noValidate onSubmit={e => this.props.handle_signup(e, this.state)}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -141,7 +141,7 @@ class SignupForm extends React.Component {
                 />
               </Grid>
             </Grid>
-            <Button
+            {/* <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -149,7 +149,7 @@ class SignupForm extends React.Component {
               className={classes.submit}
             >
               Sign Up
-            </Button>
+            </Button> */}
             <Grid container justify="flex-end">
               <Grid item>
                 <Link href="#" variant="body2">
