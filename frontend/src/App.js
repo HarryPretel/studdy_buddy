@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import Nav from './components/Nav';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
-import './App.css';
-
 import MessageForm from './components/MessageForm';
 
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -117,6 +116,7 @@ class App extends Component {
       default:
         form = null;
     }
+
     let messaging = this.state.messaging ? <MessageForm /> : null
 
     return (
@@ -125,15 +125,17 @@ class App extends Component {
           logged_in={this.state.logged_in}
           display_form={this.display_form}
           handle_logout={this.handle_logout}
-        />
-        {form}
-        {messaging}
-        <h3>
-          {this.state.logged_in
-            ? `Hello, ${this.state.username}`
-            : 'Please Log In'}
-        </h3>
+         />
+         
+         <h3>
+           {this.state.logged_in
+             ? `Hello, ${this.state.username}`
+             : 'Please Log In'}
+         </h3>
+         {form}
+         {messaging}
       </div>
+
     );
   }
 }
