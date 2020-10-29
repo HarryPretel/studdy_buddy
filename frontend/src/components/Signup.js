@@ -81,8 +81,8 @@ class Signup extends Component {
         super()
         this.state = {
             step: 1,
-            firstname: '',
-            lastname: '',
+            first_name: '',
+            last_name: '',
             email: '',
             username: '',
             password:'',
@@ -140,8 +140,8 @@ class Signup extends Component {
                         <React.Fragment>
                             <Steps step = {this.state.step}/>
                             <SignupForm
-                                firstname = {this.state.firstname}
-                                lastname = {this.state.lastname}
+                                first_name = {this.state.first_name}
+                                last_name = {this.state.last_name}
                                 email = {this.state.email}
                                 username = {this.state.username}
                                 password = {this.state.password}

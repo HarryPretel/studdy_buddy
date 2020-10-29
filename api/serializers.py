@@ -35,7 +35,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password','pk')
+        fields = ('token', 'username', 'password','first_name','last_name','email','pk')
 
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(required = True)

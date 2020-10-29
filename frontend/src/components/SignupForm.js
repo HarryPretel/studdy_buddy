@@ -1,31 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Study Buddy
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-
 
 const useStyles = theme => ({
   paper: {
@@ -64,9 +44,9 @@ class SignupForm extends React.Component {
                   variant="outlined"
                   required
                   fullWidth
-                  id="firstname"
+                  id="first_name"
                   label="First Name"
-                  value = {this.props.firstname}
+                  value = {this.props.first_name}
                   onChange = {this.props.onChange}
                   autoFocus
                 />
@@ -76,10 +56,10 @@ class SignupForm extends React.Component {
                   variant="outlined"
                   required
                   fullWidth
-                  id="lastname"
+                  id="last_name"
                   label="Last Name"
                   name="lastName"
-                  value = {this.props.lastname}
+                  value = {this.props.last_name}
                   onChange = {this.props.onChange}
                   autoComplete="lname"
                 />
