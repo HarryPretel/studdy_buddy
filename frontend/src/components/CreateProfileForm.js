@@ -2,16 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { withStyles} from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
+import { Dropdown } from 'semantic-ui-react';
+import "semantic-ui-css/semantic.min.css";
 
   
   const useStyles = theme => ({
@@ -33,17 +28,11 @@ import Button from '@material-ui/core/Button';
       margin: theme.spacing(3, 0, 2),
     },
     formControl: {
-      margin: theme.spacing(1),
+      margin: theme.spacing(3),
       minWidth: 120,
       maxWidth: 300,
     },
-    chips: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    chip: {
-      margin: 2,
-    },
+
     noLabel: {
       marginTop: theme.spacing(3),
     },
@@ -51,50 +40,40 @@ import Button from '@material-ui/core/Button';
   
   class CreateProfileForm extends React.Component {
 
+
+
+
   
     render() {
       const classes = withStyles(useStyles);
-      const studyTime = ['morning','afternoon','evening','night']
-      const ITEM_HEIGHT = 48;
-      const ITEM_PADDING_TOP = 8;
-      const MenuProps = {
-        PaperProps: {
-          style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-          },
-        },
-      };
+      const options = [
+        {key: "m", text: "Morning", value: "m"},
+        {key: "a", text: "Afternoon", value: "a"},
+        {key: "e", text: "Evening", value: "e"},
+        {key: "n", text: "Night", value: "n"},
+      ];
+
+
+      // const [state, setState] = React.useState({
+      //   morning : false,
+      //   afternoon : false,
+      //   evening : false,
+      //   night : false,
+      // });
+      //const {morning, afternoon, evening, night} = state;
+      //const error = [morning, afternoon, evening, night].filter((v) => v).length > 2;
 
       return (
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
             <form className={classes.form} noValidate>
-            <InputLabel id="studytime-label">Preferred Study Time</InputLabel>
-            <Select
-              labelId="studytime-label"
-              id="time"
-              name = "studytime"
-              multiple
-              value={this.props.time}
+            <Dropdown 
+              placeholder='Preferred Study Time' 
+              fluid multiple selection options={options} 
+              value = {this.props.time}
               onChange={this.props.onChange}
-              input={<Input id="select-multiple-chip" />}
-              renderValue={(selected) => (
-                <div className={classes.chip}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} className={classes.chip} />
-                  ))}
-                </div>
-              )}
-              MenuProps={MenuProps}
-            >
-              {studyTime.map((time) => (
-                <MenuItem key={time} value={time}>
-                  {time}
-                </MenuItem>
-              ))}
-            </Select>
+            />
             <TextField
               variant="outlined"
               margin="normal"

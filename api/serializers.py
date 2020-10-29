@@ -43,17 +43,17 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('pk','studytime','studylocation','courses','user')
+        fields = ('pk','studytime','studylocation','user')
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
         fields = ('pk','department','number')
 
-class StudyTimeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = StudyTime
-        fields = ('pk','time')
+# class StudyTimeSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = StudyTime
+#         fields = ('pk','time')
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')

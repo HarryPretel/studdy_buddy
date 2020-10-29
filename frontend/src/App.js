@@ -103,9 +103,38 @@ class App extends Component {
         console.log("ERROR: " + error)
         alert(error);
       });
-    fetch('http://localhost:8000/api/')
+
+      fetch('http://localhost:8000/api/userprofiles', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .catch(error => {
+      console.log("ERROR: " + error)
+      alert(error);
+    })
+
     this.render()
   };
+
+  // handle_create_profile = (e, data) => {
+  //   e.preventDefault();
+  //   fetch('http://localhost:8000/api/userprofiles', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(data)
+  //   })
+  //   .then(response => response.json())
+  //   .catch(error => {
+  //     console.log("ERROR: " + error)
+  //     alert(error);
+  //   })
+  // }
 
   handle_logout = () => {
     console.log('handle_logout')

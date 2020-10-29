@@ -74,8 +74,9 @@ class Signup extends Component {
             email: '',
             username: '',
             password:'',
-            time: [],
-            location: '',
+            time: ['a'],
+            location: 'Home',
+            user: {username : ''}
         }
     }
 
@@ -92,9 +93,14 @@ class Signup extends Component {
     }
 
     handleOnChange(e) {
+      
         this.setState({
-            [e.target.id]: e.target.value
-        })
+          [e.target.id]: e.target.value
+        });
+        if (e.target.id === 'username'){
+          this.setState({user: {username: e.target.value}});
+        }
+          
     }
 
     render(){

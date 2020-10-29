@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from multiselectfield import MultiSelectField
 import datetime
 
 # Create your models here.
@@ -15,35 +17,44 @@ class Course(models.Model):
 
 
 
-class StudyTime(models.Model):
-    STUDY_TIMES = (
-        ('m', 'morning'),
-        ('a', 'afternoon'),
-        ('e', 'evening'),
-        ('n', 'night'),
-
-    )
-    time = models.CharField(max_length=1, choices=STUDY_TIMES)
+# class StudyTime(models.Model):
+#     STUDY_TIMES = (
+#         ('m', 'morning'),
+#         ('a', 'afternoon'),
+#         ('e', 'evening'),
+#         ('n', 'night'),
+#     )
+#     user = models.ForeignKey(User, on_delete = models.CASCADE)
+#     time = models.CharField(max_length=1, choices=STUDY_TIMES)
 
 #Profile is sub of User
 class UserProfile(models.Model):
     # user = models.ForeignKey(
     #     User, related_name='profile', on_delete=models.CASCADE)
-    # STUDY_TIMES = (
-    #     ('m', 'morning'),
-    #     ('a', 'afternoon'),
-    #     ('e', 'evening'),
-    #     ('n', 'night'),
-    # )
+    STUDY_TIMES = (
+        ('m', 'morning'),
+        ('a', 'afternoon'),
+        ('e', 'evening'),
+        ('n', 'night'),
+    )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    studytime = models.ManyToManyField(StudyTime, related_name='students')
-    #studytime = models.MultipleChoiceField(max_length=1,choices=STUDY_TIMES,default='e')
+    #studytime = models.ManyToManyField(StudyTime, related_name='students')
+    studytime = MultiSelectField(max_length=10,choices=STUDY_TIMES, default = 'e')
     studylocation = models.CharField(max_length=15)
-    courses = models.ManyToManyField(Course, related_name='students')
+    #courses = models.ManyToManyField(Course, related_name='students')
 
     def __str__(self):
         return self.user.username
+
+def create_user_profile(sender, instance, created, **kwargs):
+    """Create the UserProfile when a new User is saved"""
+    if created:
+        profile = UserProfile()
+        profile.user = instance
+        profile.save()
+
+post_save.connect(create_user_profile, sender=User)
 
 # Message is sub of USer
 class Message(models.Model):
