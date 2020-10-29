@@ -9,8 +9,9 @@ from django.contrib.auth.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'pk', 'first_name', 'last_name', 'email',
-                  'password', 'last_login', 'date_joined')
+        # fields = ('username', 'pk', 'first_name', 'last_name', 'email',
+        #           'password', 'last_login', 'date_joined')
+        fields = ('username', 'pk', 'first_name', 'last_name', 'email','password')
 
 class UserSerializerWithToken(serializers.ModelSerializer):
 
@@ -47,11 +48,12 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
-        fields = ('pk','department','number','date_joined')
+        fields = ('pk','department','number')
 
 class StudyTimeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        fields = ('time')
+        model = StudyTime
+        fields = ('pk','time')
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')

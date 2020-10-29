@@ -10,14 +10,8 @@ class Course(models.Model):
     department = models.CharField(max_length=5)
     number = models.CharField(max_length=3)
 
-    date_joined = models.DateTimeField()
-
     def __str__(self):
         return self.department + '' + self.number
-
-    def save(self, *args, **kwargs):
-        self.date_joined = datetime.datetime.now()
-        super(Course, self).save(*args, **kwargs)
 
 
 
