@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Nav from './components/Nav';
+import Navi from './components/Nav';
 import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import MessageForm from './components/MessageForm';
@@ -139,7 +139,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Nav
+        <Navi
           logged_in={this.state.logged_in}
           display_form={this.display_form}
           handle_logout={this.handle_logout}
