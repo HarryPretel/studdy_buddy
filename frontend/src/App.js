@@ -103,7 +103,8 @@ class App extends Component {
         console.log("ERROR: " + error)
         alert(error);
       });
-      this.render()
+    fetch('http://localhost:8000/api/')
+    this.render()
   };
 
   handle_logout = () => {

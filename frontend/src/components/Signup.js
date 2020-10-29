@@ -11,7 +11,6 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import SignupForm from './SignupForm';
 import CreateProfileForm from './CreateProfileForm';
-import Steps from './Steps';
 
 function Copyright() {
   return (
@@ -64,17 +63,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const steps = ['Credentials', 'Profile'];
-
-// function getStepContent(step) {
-//   switch (step) {
-//     case 0:
-//       return <SignupForm />;
-//     case 1:
-//       return <CreateProfileForm />;
-//     default:
-//       throw new Error('Unknown step');
-//   }
-// }
 
 class Signup extends Component {
     constructor() {
@@ -138,7 +126,6 @@ class Signup extends Component {
                         </React.Fragment>
                         ) : (
                         <React.Fragment>
-                            <Steps step = {this.state.step}/>
                             <SignupForm
                                 first_name = {this.state.first_name}
                                 last_name = {this.state.last_name}
@@ -147,8 +134,7 @@ class Signup extends Component {
                                 password = {this.state.password}
                                 onChange = {this.handleOnChange.bind(this)}
                                 next = {this.next.bind(this)}
-                                />
-                            
+                                />    
                         </React.Fragment>
                         )}
                     </React.Fragment>
@@ -173,7 +159,6 @@ class Signup extends Component {
                     </Stepper>
                     <React.Fragment>
                         <React.Fragment>
-                            <Steps step = {this.state.step}/>
                             <CreateProfileForm
                                 time = {this.state.time}
                                 location = {this.state.location}
@@ -198,65 +183,3 @@ export default Signup;
 Signup.propTypes = {
     handle_signup: PropTypes.func.isRequired
 };
-
-// export default function SignUp() {
-//   const classes = useStyles();
-//   const [activeStep, setActiveStep] = React.useState(0);
-
-//   const handleNext = () => {
-//     setActiveStep(activeStep + 1);
-//   };
-
-//   const handleBack = () => {
-//     setActiveStep(activeStep - 1);
-//   };
-
-//   return (
-//     <React.Fragment>
-//       <CssBaseline />
-//       <main className={classes.layout}>
-//         <Paper className={classes.paper}>
-//           <Typography component="h1" variant="h4" align="center">
-//            Signup
-//           </Typography>
-//           <Stepper activeStep={activeStep} className={classes.stepper}>
-//             {steps.map((label) => (
-//               <Step key={label}>
-//                 <StepLabel>{label}</StepLabel>
-//               </Step>
-//             ))}
-//           </Stepper>
-//           <React.Fragment>
-//             {activeStep === steps.length ? (
-//               <React.Fragment>
-//                 <Typography variant="h5" gutterBottom>
-//                   Thank you for signing up.
-//                 </Typography>
-//               </React.Fragment>
-//             ) : (
-//               <React.Fragment>
-//                 {getStepContent(activeStep)}
-//                 <div className={classes.buttons}>
-//                   {activeStep !== 0 && (
-//                     <Button onClick={handleBack} className={classes.button}>
-//                       Back
-//                     </Button>
-//                   )}
-//                   <Button
-//                     variant="contained"
-//                     color="primary"
-//                     onClick={handleNext}
-//                     className={classes.button}
-//                   >
-//                     {activeStep === steps.length - 1 ? 'Sign Up' : 'Next'}
-//                   </Button>
-//                 </div>
-//               </React.Fragment>
-//             )}
-//           </React.Fragment>
-//         </Paper>
-//         <Copyright />
-//       </main>
-//     </React.Fragment>
-//   );
-// }
