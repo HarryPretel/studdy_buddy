@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { withStyles} from '@material-ui/core/styles';
@@ -15,20 +11,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
 
-function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
-          Study Buddy
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
-  
   
   const useStyles = theme => ({
     paper: {
@@ -65,25 +49,8 @@ function Copyright() {
     },
   });
   
-  class SignupForm extends React.Component {
-    state = {
-      username: '',
-      password: '',
-      studytime: [],
-      studylocation: ''
-    };
-  
-    handle_change = e => {
-      const name = e.target.name
-      const value = e.target.value
-      this.setState(prevstate => {
-        const newState = { ...prevstate };
-        newState[name] = value;
-        return newState;
-      });
-    };
-  
-    
+  class CreateProfileForm extends React.Component {
+
   
     render() {
       const classes = withStyles(useStyles);
@@ -107,11 +74,11 @@ function Copyright() {
             <InputLabel id="studytime-label">Preferred Study Time</InputLabel>
             <Select
               labelId="studytime-label"
-              id="studytime"
+              id="time"
               name = "studytime"
               multiple
-              value={this.state.studytime}
-              onChange={this.handle_change}
+              value={this.props.time}
+              onChange={this.props.onChange}
               input={<Input id="select-multiple-chip" />}
               renderValue={(selected) => (
                 <div className={classes.chip}>
@@ -131,15 +98,23 @@ function Copyright() {
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               id="location"
               label="Preferred Study Location"
               name="location"
-              value={this.state.studylocation}
-              onChange={this.handle_change}
+              value={this.props.location}
+              onChange={this.props.onChange}
               autoFocus
             />
+            <Button
+              onClick = {this.props.next}
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign Up
+            </Button>
           </form>
           </div>
         </Container>
@@ -147,8 +122,4 @@ function Copyright() {
     }
   }
   
-  export default SignupForm;
-  
-  SignupForm.propTypes = {
-    handle_signup: PropTypes.func.isRequired
-  };
+  export default CreateProfileForm;

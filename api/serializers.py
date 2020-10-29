@@ -49,6 +49,10 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
         model = Course
         fields = ('pk','department','number','date_joined')
 
+class StudyTimeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        fields = ('time')
+
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')
 

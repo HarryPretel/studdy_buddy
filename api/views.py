@@ -50,6 +50,10 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
+class StudyTimeViewSet(viewsets.ModelViewSet):
+    queryset = StudyTime.objects.all()
+    serializer_class = StudyTimeSerializer
+
 class AllMessageList(generics.ListAPIView):
     serializer_class = MessageSerializer
     permission_classes = [

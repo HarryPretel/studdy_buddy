@@ -103,7 +103,6 @@ class App extends Component {
         console.log("ERROR: " + error)
         alert(error);
       });
-      this.setState({display_form: 'createProfile'})
       this.render()
   };
 

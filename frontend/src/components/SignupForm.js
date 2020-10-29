@@ -48,30 +48,14 @@ const useStyles = theme => ({
 });
 
 class SignupForm extends React.Component {
-  state = {
-    username: '',
-    password: ''
-  };
-
-  handle_change = e => {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.setState(prevstate => {
-      const newState = { ...prevstate };
-      newState[name] = value;
-      return newState;
-    });
-  };
-
-
-
+  
   render() {
     const classes = withStyles(useStyles);
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <form className={classes.form} noValidate onSubmit={e => this.props.handle_signup(e, this.state)}>
+          <form className={classes.form} noValidate>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -80,8 +64,10 @@ class SignupForm extends React.Component {
                   variant="outlined"
                   required
                   fullWidth
-                  id="firstName"
+                  id="firstname"
                   label="First Name"
+                  value = {this.props.firstname}
+                  onChange = {this.props.onChange}
                   autoFocus
                 />
               </Grid>
@@ -90,9 +76,11 @@ class SignupForm extends React.Component {
                   variant="outlined"
                   required
                   fullWidth
-                  id="lastName"
+                  id="lastname"
                   label="Last Name"
                   name="lastName"
+                  value = {this.props.lastname}
+                  onChange = {this.props.onChange}
                   autoComplete="lname"
                 />
               </Grid>
@@ -104,6 +92,8 @@ class SignupForm extends React.Component {
                   id="email"
                   label="Email Address"
                   name="email"
+                  value = {this.props.email}
+                  onChange = {this.props.onChange}
                   autoComplete="email"
                 />
               </Grid>
@@ -115,8 +105,8 @@ class SignupForm extends React.Component {
                   id="username"
                   label="Username"
                   name="username"
-                  value={this.state.username}
-                  onChange={this.handle_change}
+                  value = {this.props.username}
+                  onChange = {this.props.onChange}
                   autoComplete="username"
                 />
               </Grid>
@@ -129,21 +119,21 @@ class SignupForm extends React.Component {
                   label="Password"
                   type="password"
                   id="password"
-                  value={this.state.password}
-                  onChange={this.handle_change}
+                  value = {this.props.password}
+                  onChange = {this.props.onChange}
                   autoComplete="current-password"
                 />
               </Grid>
             </Grid>
-            {/* <Button
-              type="submit"
+            <Button
+              onClick = {this.props.next}
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
             >
-              Sign Up
-            </Button> */}
+              Next
+            </Button>
             <Grid container justify="flex-end">
               <Grid item>
                 <Link href="#" variant="body2">
@@ -159,7 +149,3 @@ class SignupForm extends React.Component {
 }
 
 export default SignupForm;
-
-SignupForm.propTypes = {
-  handle_signup: PropTypes.func.isRequired
-};
