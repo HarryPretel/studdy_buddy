@@ -14,6 +14,8 @@ class App extends Component {
       logged_in: localStorage.getItem('token') ? true : false,
       username: '',
       messaging: true,
+      pk: 0,
+      token: '',
     };
   }
 
@@ -26,25 +28,28 @@ class App extends Component {
         }
       })
       json = Promise.resolve(json)
+      console.log('here')
+      console.log(localStorage.getItem('token'))
+      console.log(this.state)
       this.setState({ username: json.username });
     }
 
-    if (this.state.logged_in) {
-      fetch('http://localhost:8000/api/userprofiles/', {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`
-        }
-      })
-        .then(res => res.json())
-        .then(json => {
-          console.log('state when mounting: ' + JSON.stringify(this.state) + '\njson: ' + JSON.stringify(json))
-          for (var i = 0; i < json.length; i++) {
-            if (json[i].username === this.state.username) {
-              this.setState({ pk: json[i].pk });
-            }
-          }
-        });
-    }
+    // if (this.state.logged_in) {
+    //   fetch('http://localhost:8000/api/userprofiles/', {
+    //     headers: {
+    //       Authorization: `JWT ${localStorage.getItem('token')}`
+    //     }
+    //   })
+    //     .then(res => res.json())
+    //     .then(json => {
+    //       console.log('state when mounting: ' + JSON.stringify(this.state) + '\njson: ' + JSON.stringify(json))
+    //       for (var i = 0; i < json.length; i++) {
+    //         if (json[i].username === this.state.username) {
+    //           this.setState({ pk: json[i].pk });
+    //         }
+    //       }
+    //     });
+    // }
   }
 
   handle_login = (e, data) => {
@@ -80,36 +85,49 @@ class App extends Component {
 
   handle_signup = (e, data) => {
     console.log('handle_signup')
+    console.log(data)
     e.preventDefault();
     fetch('http://localhost:8000/api/users/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data.profile.user)
     })
       .then(res => res.json())
       .then(json => {
         if (json.username[0] === "A user with that username already exists.") throw Error("a user with that username already exists");
         console.log('here it is' + JSON.stringify(json))
-        localStorage.setItem('token', json.token);
+        console.log(json)
+        localStorage.setItem('token', json.token)
+        localStorage.setItem('userpk', json.pk)
         this.setState({
           logged_in: true,
           displayed_form: '',
-          username: json.username
+          username: json.username,
+          pk: json.pk,
+          token: json.token
         });
+        console.log(this.state)
+        this.handle_create_profile(e,data)
       })
       .catch(error => {
         console.log("ERROR: " + error)
         alert(error);
       });
+    
+  };
 
-      fetch('http://localhost:8000/api/userprofiles', {
-      method: 'POST',
+  handle_create_profile = (e, data) => {
+     e.preventDefault();
+     console.log(data.profile)
+     fetch('http://localhost:8000/api/userprofiles/' + this.state.pk + '/', {
+      method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${this.state.token}`,
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data.profile)
     })
     .then(response => response.json())
     .catch(error => {
@@ -118,23 +136,7 @@ class App extends Component {
     })
 
     this.render()
-  };
-
-  // handle_create_profile = (e, data) => {
-  //   e.preventDefault();
-  //   fetch('http://localhost:8000/api/userprofiles', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(data)
-  //   })
-  //   .then(response => response.json())
-  //   .catch(error => {
-  //     console.log("ERROR: " + error)
-  //     alert(error);
-  //   })
-  // }
+  }
 
   handle_logout = () => {
     console.log('handle_logout')

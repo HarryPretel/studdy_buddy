@@ -71,7 +71,7 @@ import "semantic-ui-css/semantic.min.css";
             <Dropdown 
               placeholder='Preferred Study Time' 
               fluid multiple selection options={options} 
-              value = {this.props.time}
+              value = {this.props.studytime}
               onChange={this.props.onChange}
             />
             <TextField
@@ -81,7 +81,7 @@ import "semantic-ui-css/semantic.min.css";
               id="location"
               label="Preferred Study Location"
               name="location"
-              value={this.props.location}
+              value={this.props.studylocation}
               onChange={this.props.onChange}
               autoFocus
             />
