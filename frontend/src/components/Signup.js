@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import SignupForm from './SignupForm';
@@ -126,7 +124,7 @@ class Signup extends Component {
                 return <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper className={classes.paper}>
+                    
                     <Typography component="h1" variant="h4" align="center">
                     Signup
                     </Typography>
@@ -158,7 +156,7 @@ class Signup extends Component {
                         </React.Fragment>
                         )}
                     </React.Fragment>
-                    </Paper>
+                   
                     <Copyright />
                 </main>
                 </React.Fragment>
@@ -166,7 +164,7 @@ class Signup extends Component {
                 return <React.Fragment>
                 <CssBaseline />
                 <main className={classes.layout}>
-                    <Paper className={classes.paper}>
+                    
                     <Typography component="h1" variant="h4" align="center">
                     Signup
                     </Typography>
@@ -188,7 +186,7 @@ class Signup extends Component {
                                 />
                         </React.Fragment>
                     </React.Fragment>
-                    </Paper>
+                    
                     <Copyright />
                 </main>
                 </React.Fragment>
