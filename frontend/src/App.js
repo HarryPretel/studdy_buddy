@@ -10,8 +10,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayed_form: '',
-      logged_in: localStorage.getItem('token') ? true : false,
+      displayed_form: 'login',
+      logged_in: false,//localStorage.getItem('token') ? true : false,
       username: '',
       messaging: true,
       pk: 0,
@@ -115,7 +115,7 @@ class App extends Component {
         console.log("ERROR: " + error)
         alert(error);
       });
-    
+
   };
 
   handle_create_profile = (e, data) => {
@@ -175,7 +175,7 @@ class App extends Component {
           display_form={this.display_form}
           handle_logout={this.handle_logout}
          />
-         
+
          <h3>
            {this.state.logged_in
              ? `Hello, ${this.state.username}`
