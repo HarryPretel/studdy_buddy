@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Navbar, Nav, Form, Button, FormControl} from 'react-bootstrap';
+import { Navbar, Nav, Form, Button, FormControl } from 'react-bootstrap';
 import { requirePropFactory } from '@material-ui/core';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -11,20 +11,21 @@ function Navi(props) {
     //   <li onClick={() => props.display_form('login')}>login</li>
     //   <li onClick={() => props.display_form('signup')}>signup</li>
     // </ul>
-     <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
-     <Navbar.Brand href="#home">StudyBuddy</Navbar.Brand>
-     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-     <Navbar.Collapse id="responsive-navbar-nav">
-       <Nav>
-         <Nav.Link onClick={() => props.display_form('login')}>Login</Nav.Link>
-         <Nav.Link onClick={() => props.display_form('signup')}>Signup</Nav.Link>
-       </Nav>
-     </Navbar.Collapse>
-   </Navbar>
-    
+    <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
+      <Navbar.Brand href="#home">StudyBuddy</Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav>
+          <Nav.Link onClick={() => props.display_form('login')}>Login</Nav.Link>
+          <Nav.Link onClick={() => props.display_form('signup')}>Signup</Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+
   );
  
   const logged_in_nav = (
+
     
   <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
   <Navbar.Brand href="#home">StudyBuddy</Navbar.Brand>
@@ -33,7 +34,7 @@ function Navi(props) {
     <Nav className="mr-auto">
     <FormControl type="text" placeholder="SearchCourse" className="mr-sm-2" />
        <Button variant="outline-light">Search</Button>
-      <Nav.Link href="#features">Messages</Nav.Link>
+       <Nav.Link onClick={() => props.display_form('messaging')}>Messages</Nav.Link>
       <Nav.Link href="#pricing">Calendar</Nav.Link>
       <Nav.Link onClick = {props.handle_course}>Course</Nav.Link>
       
@@ -48,6 +49,8 @@ function Navi(props) {
   </Navbar.Collapse>
 </Navbar>
   
+
+
 
   );
 

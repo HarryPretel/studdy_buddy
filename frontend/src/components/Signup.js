@@ -69,13 +69,15 @@ class Signup extends Component {
         super()
         this.state = {
             step: 1,
-            first_name: '',
-            last_name: '',
-            email: '',
-            username: '',
-            password:'',
-            time: [],
-            location: '',
+            profile: {
+              studytime: ['a'],
+              studylocation: 'Home',
+              user: {username : '',
+                first_name: '',
+                last_name: '',
+                email: '',
+                password:'',}
+            } , 
         }
     }
 
@@ -91,11 +93,32 @@ class Signup extends Component {
         })
     }
 
-    handleOnChange(e) {
-        this.setState({
-            [e.target.id]: e.target.value
-        })
+    handleUserOnChange(e) {
+      
+        this.setState(prevState => ({
+          ...prevState,
+          profile: {
+              ...prevState.profile,
+              user: {
+                ...prevState.profile.user,
+                [e.target.id]: e.target.value,
+              }
+          }
+      }))
+          
     }
+
+    handleOnChange(e) {
+      
+      this.setState(prevState => ({
+        ...prevState,
+        profile: {
+            ...prevState.profile,
+            [e.target.id]: e.target.value
+        }
+    }))
+        
+  }
 
     render(){
         const classes = withStyles(useStyles);
@@ -127,12 +150,12 @@ class Signup extends Component {
                         ) : (
                         <React.Fragment>
                             <SignupForm
-                                first_name = {this.state.first_name}
-                                last_name = {this.state.last_name}
-                                email = {this.state.email}
-                                username = {this.state.username}
-                                password = {this.state.password}
-                                onChange = {this.handleOnChange.bind(this)}
+                                first_name = {this.state.profile.user.first_name}
+                                last_name = {this.state.profile.user.last_name}
+                                email = {this.state.profile.user.email}
+                                username = {this.state.profile.user.username}
+                                password = {this.state.profile.user.password}
+                                onChange = {this.handleUserOnChange.bind(this)}
                                 next = {this.next.bind(this)}
                                 />    
                         </React.Fragment>
@@ -160,8 +183,8 @@ class Signup extends Component {
                     <React.Fragment>
                         <React.Fragment>
                             <CreateProfileForm
-                                time = {this.state.time}
-                                location = {this.state.location}
+                                studytime = {this.state.profile.studytime}
+                                studylocation = {this.state.profile.studylocation}
                                 onChange = {this.handleOnChange.bind(this)}
                                 next = {e => this.props.handle_signup(e, this.state)}
                                 prev = {this.prev.bind(this)}

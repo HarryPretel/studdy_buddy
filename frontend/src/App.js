@@ -11,10 +11,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayed_form: '',
-      logged_in: localStorage.getItem('token') ? true : false,
+      displayed_form: 'login',
+      logged_in: false,//localStorage.getItem('token') ? true : false,
       username: '',
-      messaging: true,
+      messaging: false,
+      pk: 0,
+      token: '',
     };
   }
 
@@ -27,25 +29,28 @@ class App extends Component {
         }
       })
       json = Promise.resolve(json)
+      console.log('here')
+      console.log(localStorage.getItem('token'))
+      console.log(this.state)
       this.setState({ username: json.username });
     }
 
-    if (this.state.logged_in) {
-      fetch('http://localhost:8000/api/userprofiles/', {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`
-        }
-      })
-        .then(res => res.json())
-        .then(json => {
-          console.log('state when mounting: ' + JSON.stringify(this.state) + '\njson: ' + JSON.stringify(json))
-          for (var i = 0; i < json.length; i++) {
-            if (json[i].username === this.state.username) {
-              this.setState({ pk: json[i].pk });
-            }
-          }
-        });
-    }
+    // if (this.state.logged_in) {
+    //   fetch('http://localhost:8000/api/userprofiles/', {
+    //     headers: {
+    //       Authorization: `JWT ${localStorage.getItem('token')}`
+    //     }
+    //   })
+    //     .then(res => res.json())
+    //     .then(json => {
+    //       console.log('state when mounting: ' + JSON.stringify(this.state) + '\njson: ' + JSON.stringify(json))
+    //       for (var i = 0; i < json.length; i++) {
+    //         if (json[i].username === this.state.username) {
+    //           this.setState({ pk: json[i].pk });
+    //         }
+    //       }
+    //     });
+    // }
   }
 
   handle_course = (e,data) => {
@@ -89,40 +94,69 @@ class App extends Component {
 
   handle_signup = (e, data) => {
     console.log('handle_signup')
+    console.log(data)
     e.preventDefault();
     fetch('http://localhost:8000/api/users/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data.profile.user)
     })
       .then(res => res.json())
       .then(json => {
         if (json.username[0] === "A user with that username already exists.") throw Error("a user with that username already exists");
         console.log('here it is' + JSON.stringify(json))
-        localStorage.setItem('token', json.token);
+        console.log(json)
+        localStorage.setItem('token', json.token)
+        localStorage.setItem('userpk', json.pk)
         this.setState({
           logged_in: true,
           displayed_form: '',
-          username: json.username
+          username: json.username,
+          pk: json.pk,
+          token: json.token
         });
+        console.log(this.state)
+        this.handle_create_profile(e, data)
       })
       .catch(error => {
         console.log("ERROR: " + error)
         alert(error);
       });
-    fetch('http://localhost:8000/api/')
-    this.render()
+
   };
+
+  handle_create_profile = (e, data) => {
+    e.preventDefault();
+    console.log(data.profile)
+    fetch('http://localhost:8000/api/userprofiles/' + this.state.pk + '/', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `JWT ${this.state.token}`,
+      },
+      body: JSON.stringify(data.profile)
+    })
+      .then(response => response.json())
+      .catch(error => {
+        console.log("ERROR: " + error)
+        alert(error);
+      })
+
+    this.render()
+  }
 
   handle_logout = () => {
     console.log('handle_logout')
     localStorage.removeItem('token');
-    this.setState({ logged_in: false, username: '' });
+    this.setState({ logged_in: false, username: '', displayed_form: 'login' });
   };
 
   display_form = form => {
+    if (form == 'messaging') {
+      this.setState({ messaging: !this.state.messaging })
+    }
     this.setState({
       displayed_form: form
     });
@@ -137,12 +171,10 @@ class App extends Component {
       case 'signup':
         form = <Signup handle_signup={this.handle_signup} />;
         break;
-      case 'message':
-        form = <MessageForm />;
-        break;
       case 'course':
         form = <CourseDemo handle_course = {this.handle_course} />;
         break;
+
       default:
         {this.state.logged_in? form = <CourseDemo /> : form = null}
         // form = null
@@ -157,17 +189,15 @@ class App extends Component {
           logged_in={this.state.logged_in}
           display_form={this.display_form}
           handle_logout={this.handle_logout}
-         />
-         
-         <h3>
-           {this.state.logged_in
-             ? `Hello, ${this.state.username}`
-             : 'Please Log In'}
-         </h3>
-         
-         {form}
-         {messaging}
-         
+        />
+
+        <h3>
+          {this.state.logged_in
+            ? `Hello, ${this.state.username}`
+            : 'Welcome to Studdy Buddy'}
+        </h3>
+        {form}
+        {messaging}
       </div>
 
     );
