@@ -13,7 +13,7 @@ class App extends Component {
       displayed_form: 'login',
       logged_in: false,//localStorage.getItem('token') ? true : false,
       username: '',
-      messaging: true,
+      messaging: false,
       pk: 0,
       token: '',
     };
@@ -109,7 +109,7 @@ class App extends Component {
           token: json.token
         });
         console.log(this.state)
-        this.handle_create_profile(e,data)
+        this.handle_create_profile(e, data)
       })
       .catch(error => {
         console.log("ERROR: " + error)
@@ -119,9 +119,9 @@ class App extends Component {
   };
 
   handle_create_profile = (e, data) => {
-     e.preventDefault();
-     console.log(data.profile)
-     fetch('http://localhost:8000/api/userprofiles/' + this.state.pk + '/', {
+    e.preventDefault();
+    console.log(data.profile)
+    fetch('http://localhost:8000/api/userprofiles/' + this.state.pk + '/', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -129,11 +129,11 @@ class App extends Component {
       },
       body: JSON.stringify(data.profile)
     })
-    .then(response => response.json())
-    .catch(error => {
-      console.log("ERROR: " + error)
-      alert(error);
-    })
+      .then(response => response.json())
+      .catch(error => {
+        console.log("ERROR: " + error)
+        alert(error);
+      })
 
     this.render()
   }
@@ -159,9 +159,6 @@ class App extends Component {
       case 'signup':
         form = <Signup handle_signup={this.handle_signup} />;
         break;
-      case 'message':
-        form = <MessageForm />;
-        break;
       default:
         form = null;
     }
@@ -174,15 +171,15 @@ class App extends Component {
           logged_in={this.state.logged_in}
           display_form={this.display_form}
           handle_logout={this.handle_logout}
-         />
+        />
 
-         <h3>
-           {this.state.logged_in
-             ? `Hello, ${this.state.username}`
-             : 'Please Log In'}
-         </h3>
-         {form}
-         {messaging}
+        <h3>
+          {this.state.logged_in
+            ? `Hello, ${this.state.username}`
+            : 'Please Log In'}
+        </h3>
+        {form}
+        {this.state.messaging ? messaging : null}
       </div>
 
     );
