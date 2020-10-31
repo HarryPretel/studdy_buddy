@@ -38,7 +38,6 @@ class MessageForm extends React.Component {
                             {sender}<br />
                             {receiver}<br />
                             {content}<br />
-
                         </sentmessage>
                     </message>
                 )
