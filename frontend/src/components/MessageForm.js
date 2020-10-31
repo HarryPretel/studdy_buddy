@@ -33,19 +33,23 @@ class MessageForm extends React.Component {
             let ret;
             if (sender == this.state.un) {
                 ret = (
-                    <sentmessage>
-                        {sender}<br />
-                        {receiver}<br />
-                        {content}<br />
-                    </sentmessage>
+                    <message>
+                        <sentmessage>
+                            {sender}<br />
+                            {receiver}<br />
+                            {content}<br />
+                        </sentmessage>
+                    </message>
                 )
             }
             else ret = (
-                <receivedmessage>
-                    {sender} <br />
-                    {receiver}<br />
-                    {content}<br />
-                </receivedmessage>
+                <message>
+                    <receivedmessage>
+                        {sender} <br />
+                        {receiver}<br />
+                        {content}<br />
+                    </receivedmessage>
+                </message>
 
             )
             return ret
@@ -56,14 +60,15 @@ class MessageForm extends React.Component {
         console.log('state upon  message ender:')
         console.log(this.state)
         return (
-            < div >
+            < div className="MessageForm">
                 <h1>
-                    yoyoyo
+                    Conversations
                 </h1>
                 <div>
 
                     {this.renderMessages()}
                 </div>
+                <br />
                 <div>
 
                     <form onSubmit={this.handleSubmit}>
