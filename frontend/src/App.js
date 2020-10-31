@@ -145,6 +145,9 @@ class App extends Component {
   };
 
   display_form = form => {
+    if (form == 'messaging') {
+      this.setState({ messaging: !this.state.messaging })
+    }
     this.setState({
       displayed_form: form
     });
