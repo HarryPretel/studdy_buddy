@@ -3,6 +3,7 @@ import Navi from './components/Nav';
 import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import MessageForm from './components/MessageForm';
+import CourseDemo from './components/Course';
 
 import './App.css';
 
@@ -51,6 +52,14 @@ class App extends Component {
     //     });
     // }
   }
+
+  handle_course = (e,data) => {
+    console.log('handle_course')
+    e.preventDefault();
+    this.setState({
+      displayed_form: 'course'
+    });
+  };
 
   handle_login = (e, data) => {
     console.log('handle_login')
@@ -163,10 +172,16 @@ class App extends Component {
       case 'signup':
         form = <Signup handle_signup={this.handle_signup} />;
         break;
+      case 'course':
+        form = <CourseDemo handle_course = {this.handle_course} />;
+        break;
+
       default:
-        form = null;
+        {this.state.logged_in? form = <CourseDemo /> : form = null}
+        // form = null
     }
 
+    // let course = <CourseDemo />;
     let messaging = this.state.messaging ? <MessageForm /> : null
 
     return (
