@@ -21,5 +21,4 @@ urlpatterns = [
     path('current_user/', current_user),
     path('users/', UserList.as_view()),
     path('api-auth/', include('rest_framework.urls')),
-
 ]

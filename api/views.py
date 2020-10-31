@@ -111,7 +111,11 @@ class SentMessageList(generics.ListAPIView):
 
 class MessageList(APIView):
     permission_classes = (permissions.AllowAny,)
-    queryset = Message.objects.all()
+
+    def get(self, request, format=None):
+        messages = Message.objects.all()
+        serializer = MessageSerializer(Message)
+        return Response(serializer.data)
 
     def post(self, request, format=None):
         serializer = MessageSerializer(data=request.data)
