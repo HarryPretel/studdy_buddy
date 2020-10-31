@@ -141,7 +141,7 @@ class App extends Component {
   handle_logout = () => {
     console.log('handle_logout')
     localStorage.removeItem('token');
-    this.setState({ logged_in: false, username: '' });
+    this.setState({ logged_in: false, username: '', displayed_form: 'login' });
   };
 
   display_form = form => {
@@ -179,7 +179,7 @@ class App extends Component {
          <h3>
            {this.state.logged_in
              ? `Hello, ${this.state.username}`
-             : 'Please Log In'}
+             : 'Welcome to Studdy Buddy'}
          </h3>
          {form}
          {messaging}
