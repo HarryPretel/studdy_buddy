@@ -92,7 +92,7 @@ class App extends Component {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data.profile.user)
+      body: JSON.stringify(data.user)
     })
       .then(res => res.json())
       .then(json => {
@@ -120,12 +120,13 @@ class App extends Component {
 
   handle_create_profile = (e, data) => {
     e.preventDefault();
-    console.log(data.profile)
+    console.log(JSON.stringify(data.profile))
+    console.log('create profile here')
     fetch('http://localhost:8000/api/userprofiles/' + this.state.pk + '/', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `JWT ${this.state.token}`,
+        //Authorization: `JWT ${this.state.token}`,
       },
       body: JSON.stringify(data.profile)
     })

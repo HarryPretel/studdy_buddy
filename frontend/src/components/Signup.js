@@ -70,14 +70,14 @@ class Signup extends Component {
         this.state = {
             step: 1,
             profile: {
-              studytime: ['a'],
+              studytime: 'a',
               studylocation: 'Home',
-              user: {username : '',
+            } , 
+            user: {username : '',
                 first_name: '',
                 last_name: '',
                 email: '',
                 password:'',}
-            } , 
         }
     }
 
@@ -97,12 +97,9 @@ class Signup extends Component {
       
         this.setState(prevState => ({
           ...prevState,
-          profile: {
-              ...prevState.profile,
-              user: {
-                ...prevState.profile.user,
-                [e.target.id]: e.target.value,
-              }
+          user: {
+            ...prevState.user,
+            [e.target.id]: e.target.value
           }
       }))
           
@@ -150,11 +147,11 @@ class Signup extends Component {
                         ) : (
                         <React.Fragment>
                             <SignupForm
-                                first_name = {this.state.profile.user.first_name}
-                                last_name = {this.state.profile.user.last_name}
-                                email = {this.state.profile.user.email}
-                                username = {this.state.profile.user.username}
-                                password = {this.state.profile.user.password}
+                                first_name = {this.state.user.first_name}
+                                last_name = {this.state.user.last_name}
+                                email = {this.state.user.email}
+                                username = {this.state.user.username}
+                                password = {this.state.user.password}
                                 onChange = {this.handleUserOnChange.bind(this)}
                                 next = {this.next.bind(this)}
                                 />    

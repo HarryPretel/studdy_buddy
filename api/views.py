@@ -42,9 +42,34 @@ class UserList(APIView):
 #    queryset = User.objects.all()
 #    serializer_class = UserSerializer
 
-class UserProfileViewSet(viewsets.ModelViewSet):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+class UserProfileView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    
+    def get(self, request, format = None):
+        profile = UserProfile.objects.all()
+        serializer = UserProfileSerializer(profile, many = True)
+        return Response(serializer.data)
+
+class UserProfileDetailView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    #queryset = UserProfile.objects.all()
+    #serializer_class = UserProfileSerializer
+
+    def get(self, request, pk,format = None):
+        profile = self.get_object(pk)
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data)
+
+    def get_object(self,pk):
+        return UserProfile.objects.get(pk=pk)
+
+    def patch(self, request, pk, format = None):
+        profile_object = self.get_object(pk)
+        serializer = UserProfileSerializer(profile_object, data = request.data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
