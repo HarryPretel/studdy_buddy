@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Navbar, Nav, Form, Button, FormControl} from 'react-bootstrap';
 import { requirePropFactory } from '@material-ui/core';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 function Navi(props) {
   const logged_out_nav = (
@@ -21,8 +23,9 @@ function Navi(props) {
    </Navbar>
     
   );
-
+ 
   const logged_in_nav = (
+    
   <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
   <Navbar.Brand href="#home">StudyBuddy</Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -32,20 +35,15 @@ function Navi(props) {
        <Button variant="outline-light">Search</Button>
       <Nav.Link href="#features">Messages</Nav.Link>
       <Nav.Link href="#pricing">Calendar</Nav.Link>
+      <Nav.Link onClick = {props.handle_course}>Course</Nav.Link>
       
     </Nav>
     <Nav>
       <Nav.Link onClick = {props.handle_logout}>Logout</Nav.Link>
-      {/* <Navbar.Brand href="#home">
-      <img
-        src={ require ('../components/profile.png')}
-        width="15"
-        height="15"
-        className="d-inline-block align-top"
-        alt="React Bootstrap logo"
-      />
-    </Navbar.Brand> */}
-      <Nav.Link href = "#profile">Profile</Nav.Link>
+     
+      <Navbar.Brand href="#profile">
+      <PermIdentityIcon style={{ fontSize: 25}} >profile</PermIdentityIcon>
+      </Navbar.Brand>
     </Nav>
   </Navbar.Collapse>
 </Navbar>
@@ -61,5 +59,6 @@ export default Navi;
 Navi.propTypes = {
   logged_in: PropTypes.bool.isRequired,
   display_form: PropTypes.func.isRequired,
-  handle_logout: PropTypes.func.isRequired
+  handle_logout: PropTypes.func.isRequired,
+  handle_course: PropTypes.func.isRequired
 };
