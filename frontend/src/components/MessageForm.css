@@ -32,7 +32,8 @@ sentmessage {
     background: rgb(107, 252, 107);
     position: relative;
     left: 100px;
-    border: dashed;
+    border-style: round;
+    border-radius: 5px;
 }
 receivedmessage {
     background: rgb(152, 152, 255);
