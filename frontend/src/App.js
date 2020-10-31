@@ -3,7 +3,7 @@ import Navi from './components/Nav';
 import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import MessageForm from './components/MessageForm';
-import CourseDemo from './components/Course';
+import Dashboard from './components/Dashboard';
 
 import './App.css';
 
@@ -172,12 +172,12 @@ class App extends Component {
       case 'signup':
         form = <Signup handle_signup={this.handle_signup} />;
         break;
-      case 'course':
-        form = <CourseDemo handle_course = {this.handle_course} />;
-        break;
+      // case 'course':
+      //   form = <CourseDemo handle_course = {this.handle_course} />;
+      //   break;
 
       default:
-        {this.state.logged_in? form = <CourseDemo /> : form = null}
+        {this.state.logged_in? form = <Dashboard /> : form = null}
         // form = null
     }
 
