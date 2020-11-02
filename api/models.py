@@ -7,16 +7,6 @@ import datetime
 # Create your models here.
 
 
-
-class Course(models.Model):
-    department = models.CharField(max_length=5)
-    number = models.CharField(max_length=3)
-
-    def __str__(self):
-        return self.department + '' + self.number
-
-
-
 # class StudyTime(models.Model):
 #     STUDY_TIMES = (
 #         ('m', 'morning'),
@@ -29,8 +19,6 @@ class Course(models.Model):
 
 #Profile is sub of User
 class UserProfile(models.Model):
-    # user = models.ForeignKey(
-    #     User, related_name='profile', on_delete=models.CASCADE)
     STUDY_TIMES = (
         ('m', 'morning'),
         ('a', 'afternoon'),
@@ -39,10 +27,8 @@ class UserProfile(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    #studytime = models.ManyToManyField(StudyTime, related_name='students')
     studytime = MultiSelectField(max_length=10,choices=STUDY_TIMES, default = 'e')
     studylocation = models.CharField(max_length=15)
-    #courses = models.ManyToManyField(Course, related_name='students')
 
     def __str__(self):
         return self.user.username
@@ -55,6 +41,17 @@ def create_user_profile(sender, instance, created, **kwargs):
         profile.save()
 
 post_save.connect(create_user_profile, sender=User)
+
+
+class Course(models.Model):
+    department = models.CharField(max_length=20)
+    number = models.CharField(max_length=3)
+    name = models.CharField(max_length = 200, default = "")
+    user = models.ManyToManyField(User, related_name = 'enrolled')
+
+    def __str__(self):
+        return self.department + '' + self.number
+
 
 # Message is sub of USer
 class Message(models.Model):

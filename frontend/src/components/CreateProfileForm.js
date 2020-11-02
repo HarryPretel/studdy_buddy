@@ -40,10 +40,6 @@ import "semantic-ui-css/semantic.min.css";
   
   class CreateProfileForm extends React.Component {
 
-
-
-
-  
     render() {
       const classes = withStyles(useStyles);
       const options = [

@@ -25,7 +25,7 @@ class App extends Component {
     if (this.state.logged_in) {
       var json = fetch('http://localhost:8000/api/current_user/', {
         headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`
+          Authorization: `Token ${this.state.token}`
         }
       })
       json = Promise.resolve(json)
@@ -135,7 +135,7 @@ class App extends Component {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        //Authorization: `JWT ${this.state.token}`,
+        'Authorization': 'Token '+ this.state.token
       },
       body: JSON.stringify(data.profile)
     })

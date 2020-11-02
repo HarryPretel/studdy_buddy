@@ -46,9 +46,11 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('pk','studytime','studylocation','user')
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer(read_only = True, many = True)
+    
     class Meta:
         model = Course
-        fields = ('pk','department','number')
+        fields = ('pk','department','number','name','user')
 
 # class StudyTimeSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:

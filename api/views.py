@@ -43,7 +43,7 @@ class UserList(APIView):
 #    serializer_class = UserSerializer
 
 class UserProfileView(APIView):
-    permission_classes = (permissions.AllowAny,)
+    #permission_classes = (permissions.AllowAny,)
     
     def get(self, request, format = None):
         profile = UserProfile.objects.all()
@@ -52,15 +52,13 @@ class UserProfileView(APIView):
 
 class UserProfileDetailView(APIView):
     permission_classes = (permissions.AllowAny,)
-    #queryset = UserProfile.objects.all()
-    #serializer_class = UserProfileSerializer
 
     def get(self, request, pk,format = None):
         profile = self.get_object(pk)
         serializer = UserProfileSerializer(profile)
         return Response(serializer.data)
 
-    def get_object(self,pk):
+    def get_object(self, pk):
         return UserProfile.objects.get(pk=pk)
 
     def patch(self, request, pk, format = None):
@@ -71,9 +69,44 @@ class UserProfileDetailView(APIView):
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-class CourseViewSet(viewsets.ModelViewSet):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+class CourseView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format = None):
+        course = Course.objects.all()
+        serializer = CourseSerializer(course, many = True)
+        return Response(serializer.data)
+    
+    def post(self, request, format = None):
+        serializer = CourseSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CourseDetailView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, pk):
+        return Course.objects.get(pk=pk)
+
+    def get(self, request, pk, format = None):
+        course = self.get_object(pk)
+        serializer = CourseSerializer(course)
+        return Response(serializer.data)
+
+class EnrolledDetailView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self):
+        return Course.objects.all()
+    
+    def get(self, request, pk, format = None):
+         course = self.get_object().user.enrolled.all()
+         serializer = CourseSerializer(course)
+         return Response(serializer.data)
+    
+    
 
 # class StudyTimeViewSet(viewsets.ModelViewSet):
 #     queryset = StudyTime.objects.all()
