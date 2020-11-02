@@ -1,9 +1,10 @@
-from rest_framework import serializers
+from rest_framework import fields, serializers
 from django.contrib.auth.models import User
 from .models import *
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
+from multiselectfield import MultiSelectField
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,7 +12,9 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         # fields = ('username', 'pk', 'first_name', 'last_name', 'email',
         #           'password', 'last_login', 'date_joined')
-        fields = ('username', 'pk', 'first_name', 'last_name', 'email','password')
+        fields = ('username', 'pk', 'first_name',
+                  'last_name', 'email', 'password')
+
 
 class UserSerializerWithToken(serializers.ModelSerializer):
 
@@ -36,14 +39,18 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password','first_name','last_name','email','pk')
+        fields = ('token', 'username', 'password',
+                  'first_name', 'last_name', 'email', 'pk')
+
 
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer(required = True)
+    user = UserSerializer(required=True)
+    studytime = fields.MultipleChoiceField(choices=STUDY_TIMES)
 
     class Meta:
         model = UserProfile
-        fields = ('pk','studytime','studylocation','user')
+        fields = ('pk', 'studytime', 'studylocation', 'user')
+
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(read_only = True, many = True)
@@ -56,6 +63,7 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
 #         model = StudyTime
 #         fields = ('pk','time')
+
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')

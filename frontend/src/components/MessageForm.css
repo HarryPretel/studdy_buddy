@@ -1,9 +1,43 @@
-post {
+
+.MessageForm {
+    background-color: #add8e6;
+    border-style: inset;
+    border: 2px solid red;
+    border-radius: 5px;
+    margin-top: 100px;
+    margin-left: 100px;
+    margin-bottom: 0x;
+    margin-right: 100px;
+
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+
+    width: 500px;
+    height: 1000px;
+
+    overflow: auto;
+    max-height: 700px;
+
+    position: fixed;
+    bottom: 0;
+    right: 0;
 }
 
 sentmessage {
-    float:right;
+    background: rgb(107, 252, 107);
+    position: relative;
+    left: 100px;
+    border-style: round;
+    border-radius: 5px;
 }
 receivedmessage {
-    float:left;
+    background: rgb(152, 152, 255);
+    position: relative;
+    right: 100px;
+    width: 100px;
+}
+message {
+    width: 500px;
 }

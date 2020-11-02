@@ -1,6 +1,20 @@
 # studdy_buddy
 A web app for creating study groups and making friends.
 
+# running:
+## backend
+```
+python3 -m pip install django
+python3 -m pip install django-rest-framework
+python3 -m pip django-multiselectfield
+python3 manage.py runserver
+```
+In another terminal:
+```
+cd frontend
+npm ci
+npm start
+```
 
 # backend documentation
 ## messages

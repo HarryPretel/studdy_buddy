@@ -7,6 +7,13 @@ import datetime
 # Create your models here.
 
 
+STUDY_TIMES = (
+    ('m', 'morning'),
+    ('a', 'afternoon'),
+    ('e', 'evening'),
+    ('n', 'night'),
+)
+
 # class StudyTime(models.Model):
 #     STUDY_TIMES = (
 #         ('m', 'morning'),
@@ -17,21 +24,22 @@ import datetime
 #     user = models.ForeignKey(User, on_delete = models.CASCADE)
 #     time = models.CharField(max_length=1, choices=STUDY_TIMES)
 
-#Profile is sub of User
+# Profile is sub of User
+
+
 class UserProfile(models.Model):
-    STUDY_TIMES = (
-        ('m', 'morning'),
-        ('a', 'afternoon'),
-        ('e', 'evening'),
-        ('n', 'night'),
-    )
+    # user = models.ForeignKey(
+    #     User, related_name='profile', on_delete=models.CASCADE)
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    studytime = MultiSelectField(max_length=10,choices=STUDY_TIMES, default = 'e')
+    #studytime = models.ManyToManyField(StudyTime, related_name='students')
+    studytime = MultiSelectField(
+        max_length=10, choices=STUDY_TIMES, default='e')
     studylocation = models.CharField(max_length=15)
 
     def __str__(self):
         return self.user.username
+
 
 def create_user_profile(sender, instance, created, **kwargs):
     """Create the UserProfile when a new User is saved"""
@@ -39,6 +47,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         profile = UserProfile()
         profile.user = instance
         profile.save()
+
 
 post_save.connect(create_user_profile, sender=User)
 
@@ -54,6 +63,8 @@ class Course(models.Model):
 
 
 # Message is sub of USer
+
+
 class Message(models.Model):
     sender = models.ForeignKey(
         User, related_name='sent_message', on_delete=models.CASCADE
@@ -73,6 +84,8 @@ class Message(models.Model):
         super(Message, self).save(*args, **kwargs)
 
 # Event is sub of Class and User
+
+
 class Event(models.Model):
     course_focus = models.ForeignKey(
         Course, related_name='events', on_delete=models.CASCADE)
@@ -93,6 +106,8 @@ class Event(models.Model):
         super(Event, self).save(*args, **kwargs)
 
 # Attendance is sub of User and Event
+
+
 class Attendance(models.Model):
     user = models.ForeignKey(
         User, related_name='attendance', on_delete=models.CASCADE)

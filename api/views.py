@@ -12,12 +12,13 @@ from .serializers import *
 from .models import *
 from .permissions import *
 
+
 @api_view(['GET'])
 def current_user(request):
     """
     Determine the current user by their token, and return their data
     """
-    
+
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
@@ -38,22 +39,23 @@ class UserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#class UserList(generics.ListCreateAPIView):
+# class UserList(generics.ListCreateAPIView):
 #    queryset = User.objects.all()
 #    serializer_class = UserSerializer
 
 class UserProfileView(APIView):
     permission_classes = (permissions.AllowAny,)
-    
-    def get(self, request, format = None):
+
+    def get(self, request, format=None):
         profile = UserProfile.objects.all()
-        serializer = UserProfileSerializer(profile, many = True)
+        serializer = UserProfileSerializer(profile, many=True)
         return Response(serializer.data)
+
 
 class UserProfileDetailView(APIView):
     #permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, pk,format = None):
+    def get(self, request, pk, format=None):
         profile = self.get_object(pk)
         serializer = UserProfileSerializer(profile)
         return Response(serializer.data)
@@ -61,13 +63,15 @@ class UserProfileDetailView(APIView):
     def get_object(self, pk):
         return UserProfile.objects.get(pk=pk)
 
-    def patch(self, request, pk, format = None):
+    def patch(self, request, pk, format=None):
         profile_object = self.get_object(pk)
-        serializer = UserProfileSerializer(profile_object, data = request.data, partial = True)
+        serializer = UserProfileSerializer(
+            profile_object, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status = status.HTTP_201_CREATED)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CourseView(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -112,11 +116,10 @@ class EnrolledDetailView(APIView):
 #     queryset = StudyTime.objects.all()
 #     serializer_class = StudyTimeSerializer
 
+
 class AllMessageList(generics.ListAPIView):
     serializer_class = MessageSerializer
-    permission_classes = [
-        IsOwnerOrNoAccess
-    ]
+    permission_classes = (permissions.AllowAny,)
 
     def get_queryset(self):
         return (
@@ -129,9 +132,7 @@ class SentMessageList(generics.ListAPIView):
     List all snippets, or create a new snippet.
     """
     serializer_class = MessageSerializer
-    permission_classes = [
-        IsOwnerOrNoAccess
-    ]
+    permission_classes = (permissions.AllowAny,)
 
     def perform_create(self, serializer):  # does nothing because this view is read-only
         serializer.save(owner=self.request.user)
@@ -140,18 +141,31 @@ class SentMessageList(generics.ListAPIView):
         return self.request.user.sent_message.all().order_by('-timestamp')
 
 
-class SendMessage(generics.CreateAPIView):
-    serializer_class = MessageSerializer
+class MessageList(APIView):
+    permission_classes = (permissions.AllowAny,)
 
+    def get(self, request, format=None):
+        messages = Message.objects.all()
+        serializer = MessageSerializer(Message)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = MessageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(serializer.errors, statuus=status.HTTP_400_BAD_REQUEST)
+
+
+"""
     def perform_create(self, serializer):
         serializer.save(sender=self.request.user)
+"""
 
 
 class ReceivedMessageList(generics.ListAPIView):
     serializer_class = MessageSerializer
-    permission_classes = [
-        IsOwnerOrNoAccess
-    ]
+    permission_classes = (permissions.AllowAny,)
 
     def get_queryset(self):
         return self.request.user.received_message.all().order_by('-timestamp')
@@ -164,6 +178,4 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
-    permission_classes = [
-        IsOwnerOrNoAccess
-    ]
+    permission_classes = (permissions.AllowAny,)
