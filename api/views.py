@@ -43,7 +43,7 @@ class UserList(APIView):
 #    serializer_class = UserSerializer
 
 class UserProfileView(APIView):
-    #permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.AllowAny,)
     
     def get(self, request, format = None):
         profile = UserProfile.objects.all()
@@ -51,7 +51,7 @@ class UserProfileView(APIView):
         return Response(serializer.data)
 
 class UserProfileDetailView(APIView):
-    permission_classes = (permissions.AllowAny,)
+    #permission_classes = (permissions.AllowAny,)
 
     def get(self, request, pk,format = None):
         profile = self.get_object(pk)
