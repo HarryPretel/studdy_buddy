@@ -22,14 +22,4 @@ urlpatterns = [
     path('messages/sent/', views.SentMessageList.as_view()),
     path('messages/received/', views.ReceivedMessageList.as_view()),
     path('messages/<int:pk>', views.MessageDetail.as_view()),
-<<<<<<< HEAD
-    #path('messages/send', views.SendMessage.as_view()),
-    
-    
-    
-=======
-
-
-
->>>>>>> 7de529dda9a71097014bb000a7c8c5b1e85cb63b
 ]
