@@ -17,6 +17,7 @@ class App extends Component {
       messaging: false,
       pk: 0,
       token: '',
+      first: ''
     };
   }
 
@@ -80,11 +81,15 @@ class App extends Component {
           localStorage.setItem('userpk', json.user.pk)
         }
         else throw Error("no user exists")
+        
         this.setState({
+          pk: json.user.pk,
           logged_in: true,
           displayed_form: '',
-          username: json.user ? json.user.username : ''
+          username: json.user ? json.user.username : '',
+          first: json.user.first_name
         });
+        console.log(this.state.first)
       })
       .catch(error => {
         console.log("ERROR: " + error)
@@ -177,7 +182,7 @@ class App extends Component {
       //   break;
 
       default:
-        {this.state.logged_in? form = <Dashboard /> : form = null}
+        {this.state.logged_in? form = <Dashboard userpk = {this.state.pk} /> : form = null}
         // form = null
     }
 
@@ -194,7 +199,7 @@ class App extends Component {
 
         <h3>
           {this.state.logged_in
-            ? `Hello, ${this.state.username}`
+            ? `Hello, ${this.state.first}`
             : 'Welcome to Studdy Buddy'}
         </h3>
         {form}

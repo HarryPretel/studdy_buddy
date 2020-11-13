@@ -56,10 +56,10 @@ class Course(models.Model):
     department = models.CharField(max_length=20)
     number = models.CharField(max_length=3)
     name = models.CharField(max_length = 200, default = "")
-    user = models.ManyToManyField(User, related_name = 'enrolled')
+    user = models.ManyToManyField(User, blank = True)
 
     def __str__(self):
-        return self.department + '' + self.number
+        return self.department + ' ' + self.number
 
 
 # Message is sub of USer

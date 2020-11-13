@@ -33,8 +33,7 @@ const useStyles = makeStyles((theme) => ({
   // icon: {
   //   marginRight: theme.spacing(2),
   // },
-  heroContent: {
-
+  heroContent: { 
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
   },
@@ -65,15 +64,35 @@ const useStyles = makeStyles((theme) => ({
 const cards = [1, 2, 3];
 
 class CourseDemo extends React.Component{
+  
   state = {
-    department: '',
-    number:''
+    courses: []
 
   }
-  
+
+  componentDidMount() {
+    fetch('http://localhost:8000/api/courses/students/' + this.props.userpk + '/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(JSON.stringify(json))
+        this.setState({
+          courses: json
+        })
+        console.log(this.state.courses)
+      })
+      .catch(error => {
+        console.log("ERROR: " + error)
+      });
+  }
+ 
 render() {
   const classes = useStyles;
-
+  console.log(this.state.courses)
   return( 
     <React.Fragment>
       <CssBaseline />
@@ -116,8 +135,8 @@ render() {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {this.state.courses.map((course) => (
+              <Grid item key={course} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   {/* <CardMedia
                     className={classes.cardMedia}
@@ -126,10 +145,10 @@ render() {
                   /> */}
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      CS577
+                      {course.department} {course.number}
                     </Typography>
                     <Typography>
-                      Introduction to Software Engineering
+                      {course.name}
                     </Typography>
                   </CardContent>
                   <CardActions>

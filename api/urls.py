@@ -15,14 +15,14 @@ urlpatterns = [
     
     path('courses/', views.CourseView.as_view()),
     path('courses/<int:pk>/', views.CourseDetailView.as_view()),
-    path('courses/students/', views.EnrolledDetailView().as_view()),
+    path('courses/students/<int:pk>/', views.EnrolledDetailView().as_view()),
 
 
     path('messages/', views.AllMessageList.as_view()),
     path('messages/sent/', views.SentMessageList.as_view()),
     path('messages/received/', views.ReceivedMessageList.as_view()),
     path('messages/<int:pk>', views.MessageDetail.as_view()),
-    path('messages/send', views.SendMessage.as_view()),
+    #path('messages/send', views.SendMessage.as_view()),
     
     
     
