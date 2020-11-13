@@ -1,0 +1,38 @@
+
+messenger {
+    background-color: #add8e6;
+    border-style: inset;
+    border: 2px solid red;
+    border-radius: 5px;
+    margin: 0px 100px 0px 0px;
+
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-bottom: 50px;
+    padding-right: 50px;
+
+    overflow: auto;
+    max-height: 700px;
+
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+message {
+    padding: 5px 5px 5px 5px;
+    position: relative;
+    width: 100px;
+    border: 1px solid black;
+    border-radius: 50px;
+
+}
+
+sentmessage {
+    background: rgb(107, 252, 107);
+    left: 100px;
+}
+receivedmessage {
+    background: rgb(152, 152, 255);
+    right: 100px;
+}
