@@ -177,6 +177,9 @@ class App extends Component {
       case 'signup':
         form = <Signup handle_signup={this.handle_signup} />;
         break;
+      case 'course':
+        form  = <Course/>
+        break;
       // case 'course':
       //   form = <CourseDemo handle_course = {this.handle_course} />;
       //   break;
