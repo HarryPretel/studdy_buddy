@@ -6,11 +6,13 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
+from rest_framework import filters
 # Create your views here.
 from rest_framework import viewsets
 from .serializers import *
 from .models import *
 from .permissions import *
+
 
 
 @api_view(['GET'])
@@ -73,20 +75,24 @@ class UserProfileDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CourseView(APIView):
+class CourseView(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
+    queryset = Course.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['department','number','name',]
+    serializer_class = CourseSerializer
 
-    def get(self, request, format = None):
-        course = Course.objects.all()
-        serializer = CourseSerializer(course, many = True)
-        return Response(serializer.data)
+    # def get(self, request, format = None):
+    #     course = Course.objects.all()
+    #     serializer = CourseSerializer(course, many = True)
+    #     return Response(serializer.data)
     
-    def post(self, request, format = None):
-        serializer = CourseSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # def post(self, request, format = None):
+    #     serializer = CourseSerializer(data = request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CourseDetailView(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -106,6 +112,7 @@ class CourseDetailView(APIView):
             serializer.save()
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 class EnrolledDetailView(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -117,7 +124,6 @@ class EnrolledDetailView(APIView):
         course = self.get_object(pk).all()
         serializer = CourseSerializer(course, many = True)
         return Response(serializer.data)
-    
     
 
 # class StudyTimeViewSet(viewsets.ModelViewSet):
