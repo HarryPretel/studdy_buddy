@@ -27,6 +27,12 @@ test('Test SignupForm', () => {
   expect(element[0]).toBeInTheDocument();
 });
 
+test('Test Signup', () => {
+  render(<Signup />);
+  const element = screen.getAllByText(/next/i);
+  expect(element[0]).toBeInTheDocument();
+});
+
 test('Test Nav', () => {
   render(<Nav />);
   const element = screen.getByText(/StudyBuddy/i);
