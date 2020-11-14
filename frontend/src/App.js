@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import MessageForm from './components/MessageForm';
 import Dashboard from './components/Dashboard';
+import Course from './components/Course';
 
 import './App.css';
 
