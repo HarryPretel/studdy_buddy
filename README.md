@@ -65,3 +65,14 @@ python3 manage.py test
 ```
 python3 manage.py runserver
 ```
+
+# Testing
+### running backend tests
+```
+python3 manage.py test
+```
+### running frontend tests
+```
+cd frontend
+npm test -- --coverage --watchAll=false
+```
