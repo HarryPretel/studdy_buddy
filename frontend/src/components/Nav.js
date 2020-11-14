@@ -12,7 +12,7 @@ function Navi(props) {
     //   <li onClick={() => props.display_form('signup')}>signup</li>
     // </ul>
     <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
-      <Navbar.Brand href="#home">StudyBuddy</Navbar.Brand>
+      <Navbar.Brand onClick={() => props.display_form('')}>StudyBuddy</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav>
@@ -28,7 +28,7 @@ function Navi(props) {
 
     
   <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
-  <Navbar.Brand href="#home">StudyBuddy</Navbar.Brand>
+  <Navbar.Brand onClick={() => props.display_form('')}>StudyBuddy</Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <Navbar.Collapse id="responsive-navbar-nav">
     <Nav className="mr-auto">
@@ -36,7 +36,7 @@ function Navi(props) {
        <Button variant="outline-light">Search</Button>
        <Nav.Link onClick={() => props.display_form('messaging')}>Messages</Nav.Link>
       <Nav.Link href="#pricing">Calendar</Nav.Link>
-      <Nav.Link onClick = {props.handle_course}>Course</Nav.Link>
+      <Nav.Link onClick = {() => props.display_form('course')}>Course</Nav.Link>
       
     </Nav>
     <Nav>
