@@ -90,6 +90,14 @@ class Course extends React.Component{
       events: []
     }
 
+    componentDidUpdate(prevProps){
+      if (prevProps.course !== this.props.course){
+        this.setState({
+          courses: this.props.course
+        })
+      }
+    }
+
     componentDidMount(){
       fetch('http://localhost:8000/api/events/courses/' + this.state.course.pk, {
         method: 'GET',
