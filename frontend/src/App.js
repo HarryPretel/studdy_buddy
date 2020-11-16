@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navi from './components/Nav';
 import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
-import MessageForm from './components/MessageForm';
+import Messenger from './components/Messenger'
 import Dashboard from './components/Dashboard';
 
 import './App.css';
@@ -54,7 +54,7 @@ class App extends Component {
     // }
   }
 
-  handle_course = (e,data) => {
+  handle_course = (e, data) => {
     console.log('handle_course')
     e.preventDefault();
     this.setState({
@@ -81,7 +81,7 @@ class App extends Component {
           localStorage.setItem('userpk', json.user.pk)
         }
         else throw Error("no user exists")
-        
+
         this.setState({
           pk: json.user.pk,
           logged_in: true,
@@ -140,7 +140,7 @@ class App extends Component {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Token '+ this.state.token
+        'Authorization': 'Token ' + this.state.token
       },
       body: JSON.stringify(data.profile)
     })
@@ -160,7 +160,7 @@ class App extends Component {
   };
 
   display_form = form => {
-    if (form == 'messaging') {
+    if (form === 'messaging') {
       this.setState({ messaging: !this.state.messaging })
     }
     this.setState({
@@ -182,12 +182,12 @@ class App extends Component {
       //   break;
 
       default:
-        {this.state.logged_in? form = <Dashboard userpk = {this.state.pk} /> : form = null}
-        // form = null
+        { this.state.logged_in ? form = <Dashboard userpk={this.state.pk} username={this.state.username} /> : form = null }
+      // form = null
     }
 
     // let course = <CourseDemo />;
-    let messaging = this.state.messaging ? <MessageForm /> : null
+    let messaging = this.state.messaging ? <Messenger pk={this.state.pk} username={this.state.username} /> : null
 
     return (
       <div className="App">

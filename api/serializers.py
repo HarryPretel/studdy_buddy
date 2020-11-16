@@ -62,6 +62,7 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')
+    receivers = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Message

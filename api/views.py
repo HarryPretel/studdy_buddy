@@ -55,7 +55,7 @@ class UserProfileView(APIView):
 
 
 class UserProfileDetailView(APIView):
-    #permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.AllowAny,)
 
     def get(self, request, pk, format=None):
         profile = self.get_object(pk)
