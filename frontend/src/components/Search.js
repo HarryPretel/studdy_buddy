@@ -66,6 +66,7 @@ const useStyles = theme => ({
   fixedHeight: {
     height: 240,
   },
+  
 });
 
 function createData(id, Number, Name, Joinstatus) {
@@ -101,7 +102,7 @@ const rows = [
             <CssBaseline />
            
             <Grid container spacing={3}>
-                <Grid item item xs={12} md={12} lg={9}>
+                <Grid item item xs={12} >
                     <Paper className={fixedHeightPaper}>
                         <React.Fragment>
                             <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
@@ -118,8 +119,12 @@ const rows = [
                                         {/* <TableCell>
                                           {row.Name}
                                         </TableCell> */}
+                                         {/* <TableCell align = "right">
+                                        
+                                        </TableCell> */}
                                         <TableCell align = "right">
                                         <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_course(e,course)}>See Page</Button>
+                                         &nbsp; 
                                         <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_join_course(e,course.pk)}>Join</Button>
                                         </TableCell>
             
