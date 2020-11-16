@@ -126,9 +126,27 @@ class EnrolledDetailView(APIView):
         return Response(serializer.data)
     
 
-# class StudyTimeViewSet(viewsets.ModelViewSet):
-#     queryset = StudyTime.objects.all()
-#     serializer_class = StudyTimeSerializer
+class EventView(APIView):
+    def get(self, request, format = None):
+        event = Event.objects.all()
+        serializer = EventSerializer(event, many = True)
+        return Response(serializer.data)
+    
+    def post(self, request, format = None):
+        serializer = EventSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        return Response(serializer.erros, status = status.HTTP_400_BAD_REQUEST)
+
+class EventforCourseView(APIView):
+    def get_object(self,pk):
+        return Event.objects.filter(course_focus__pk = pk)
+    
+    def get(self, request, pk, format = None):
+        event = self.get_object(pk).all()
+        serializer = EventSerializer(event, many = True)
+        return Response(serializer.data)
 
 
 class AllMessageList(generics.ListAPIView):

@@ -79,6 +79,15 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
 #         model = StudyTime
 #         fields = ('pk','time')
 
+class EventSerializer(serializers.HyperlinkedModelSerializer):
+    organizer = UserSerializer(many = False)
+    course_focus = CourseSerializer(many = False)
+    participants = UserSerializer(many = True)
+
+    class Meta:
+        model = Event
+        fields = ('pk','course_focus','organizer','time_organized','start','end','title','size_limit','link','description','status','participants')
+        #fields = '__all__'
 
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')
