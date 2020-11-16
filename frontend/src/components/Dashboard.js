@@ -152,7 +152,7 @@ render() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick = {(e) => this.props.handle_course(e,course)}>
                       View
                     </Button>
                     <Button size="small" color="primary">

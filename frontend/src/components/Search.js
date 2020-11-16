@@ -80,12 +80,22 @@ const rows = [
   ];
 
   class SearchCourse extends React.Component{
+    
+    state = {
+      courses: this.props.content
+    }
+
+    componentDidUpdate(prevProps){
+      if (prevProps.content !== this.props.content){
+        this.setState({
+          courses: this.props.content
+        })
+      }
+    }
 
     render(){
         const classes = useStyles;
         const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    
-
         return (
             <div className={classes.root}>
             <CssBaseline />
@@ -99,18 +109,18 @@ const rows = [
                             </Typography>
                             <Table size="small">
                                 <TableBody>
-                                    {rows.map((row) => (
-                                    <TableRow key={row.Name}>
+                                    {this.state.courses.map((course) => (
+                                    <TableRow key={course.name}>
                                         <TableCell>
                                             <SchoolIcon style={{ fontSize: 25}}>Course</SchoolIcon>
-                                            {row.Number}: {row.Name}
-                              
+                                              {course.department} {course.number}: {course.name}
                                         </TableCell>
                                         {/* <TableCell>
                                           {row.Name}
                                         </TableCell> */}
                                         <TableCell align = "right">
-                                        <Button class="btn btn-xs">See Page</Button>
+                                        <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_course(e,course)}>See Page</Button>
+                                        <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_join_course(e,course.pk)}>Join</Button>
                                         </TableCell>
             
                                     </TableRow>
@@ -139,6 +149,7 @@ const rows = [
 
 export default withStyles(useStyles)(SearchCourse);
 
-// SearchCourse.propTypes = {
-//   display_form: PropTypes.func.isRequired,
-// };
+SearchCourse.propTypes = {
+  handle_course: PropTypes.func.isRequired,
+  handle_join_course: PropTypes.func.isRequired
+};

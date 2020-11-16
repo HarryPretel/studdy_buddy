@@ -85,50 +85,48 @@ const rows = [
   ];
 
 class Course extends React.Component{
+    state = {
+      course: this.props.course,
+      events: []
+    }
 
+    componentDidMount(){
+      fetch('http://localhost:8000/api/events/courses/' + this.state.course.pk, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          //'Authentication': 'Token ' + this.props.token
+        },
+      })
+      .then(res => res.json())
+      .then(json => {
+        console.log(JSON.stringify(json))
+        this.setState({
+          events: json,
+        })
+        console.log(this.state.events)
+      })
+      .catch(error => {
+        console.log("ERROR: " + error)
+      });
+    }
+    
+    
     render(){
         const classes = useStyles;
         const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    
+        console.log('course')
+        console.log(this.state.course)
 
         return (
             <div className={classes.root}>
             <CssBaseline />
             <Container component="main" className={classes.main} maxWidth="sm">
                 <Typography variant="h2" component="h1" gutterBottom>
-                CS506
+                {this.state.course.department} {this.state.course.number}
                 </Typography>
                 
             </Container>
-            {/* <Drawer
-            variant="permanent"
-            classes={{
-              paper: classes.drawerPaper
-            }}
-            >
-            
-            <List>
-              <ListItem button component={Link} to="/">
-                <ListItemText primary="Home" />
-              </ListItem>
-              <ListItem button component={Link} to="/tabs">
-                <ListItemText primary="Tabs" />
-              </ListItem>
-              <ListItem button component={Link} to="/cards">
-               
-                <ListItemText primary="Cards" />
-              </ListItem>
-              <ListItem button component={Link} to="/navigation">
-               
-                <ListItemText primary="Navigation" />
-              </ListItem>
-              <ListItem button component={Link} to="/gridlist">
-               
-                <ListItemText primary="GridList" />
-              </ListItem>
-
-            </List>
-          </Drawer> */}
             <Grid container spacing={3}>
                 <Grid item item xs={12} md={8} lg={9}>
                 <Paper className={fixedHeightPaper} >
@@ -147,12 +145,12 @@ class Course extends React.Component{
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell>{row.Name}</TableCell>
-                                <TableCell>{row.Host}</TableCell>
-                                <TableCell>{row.Time}</TableCell>
-                                <TableCell>{row.Location}</TableCell>
+                            {this.state.events.map((event) => (
+                            <TableRow key={event.pk}>
+                                <TableCell>{event.title}</TableCell>
+                                <TableCell>{event.organizer.first_name} {event.organizer.last_name}</TableCell>
+                                <TableCell>{event.start}</TableCell>
+                                <TableCell><Link target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</Link></TableCell>
                                 <TableCell>
                                 <Button align="right" class="btn btn-xs">Join</Button>
                                 </TableCell>
@@ -183,12 +181,12 @@ class Course extends React.Component{
                             </TableRow>
                         </TableHead> */}
                         <TableBody>
-                            {rows.map((row) => (
-                            <TableRow key={row.id}>
+                            {this.state.course.user.map((student) => (
+                            <TableRow key={student.pk}>
                                 
                                 <TableCell>
                                     <PermIdentityIcon style={{ fontSize: 25}} >profile</PermIdentityIcon>
-                                    {row.Host}
+                                    {student.first_name} {student.last_name}
                                 </TableCell>
     
                             </TableRow>

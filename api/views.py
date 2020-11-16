@@ -140,6 +140,7 @@ class EventView(APIView):
         return Response(serializer.erros, status = status.HTTP_400_BAD_REQUEST)
 
 class EventforCourseView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get_object(self,pk):
         return Event.objects.filter(course_focus__pk = pk)
     

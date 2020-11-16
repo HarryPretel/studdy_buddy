@@ -21,7 +21,10 @@ class App extends Component {
       messaging: false,
       pk: 0,
       token: '',
-      first: ''
+      first: '',
+      search: '',
+      results: [],
+      course: [],
     };
   }
 
@@ -57,14 +60,6 @@ class App extends Component {
     //     });
     // }
   }
-
-  handle_course = (e,data) => {
-    console.log('handle_course')
-    e.preventDefault();
-    this.setState({
-      displayed_form: 'course'
-    });
-  };
 
   handle_login = (e, data) => {
     console.log('handle_login')
@@ -163,6 +158,68 @@ class App extends Component {
     this.setState({ logged_in: false, username: '', displayed_form: 'login' });
   };
 
+  handle_search_value = (e) => {
+    this.setState({
+      search: e.target.value
+    })
+  };
+
+  handle_course = (e,data) => {
+    console.log('handle_course')
+    console.log(data)
+    e.preventDefault();
+    this.setState({
+      displayed_form: 'course',
+      course: data
+    });
+  };
+
+  handle_join_course = (e,data) => {
+    let input = '{"user":[{"pk":'+ this.state.pk +',"username":"'+ this.state.username+'"}]}'
+    console.log(input)
+    e.preventDefault()
+    fetch('http://localhost:8000/api/courses/' + data + '/', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Token '+ this.state.token
+      },
+      body: input
+    })
+    .then(response => response.json())
+    .catch(error => {
+      console.log("ERROR: " + error)
+      alert(error);
+    })
+  }
+
+  handle_search = () => {
+    fetch('http://localhost:8000/api/courses/?search=' + this.state.search, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log(JSON.stringify(json))
+      this.setState({
+        results: json,
+      })
+      console.log(this.state.results)
+      this.setState({
+        displayed_form: 'Search'
+      });
+    })
+    .catch(error => {
+      console.log("ERROR: " + error)
+    });
+
+    //if display form is already search: refresh
+    //else setstate
+    
+  }
+ 
   display_form = form => {
     if (form == 'messaging') {
       this.setState({ messaging: !this.state.messaging })
@@ -171,6 +228,7 @@ class App extends Component {
       displayed_form: form
     });
   };
+
 
   render() {
     let form;
@@ -182,31 +240,32 @@ class App extends Component {
         form = <Signup handle_signup={this.handle_signup} />;
         break;
       case 'course':
-        form  = <Course/>
+        form  = <Course course = {this.state.course} userpk = {this.state.pk} token = {this.state.token}/>
         break;
       case 'Search':
-        form = <SearchCourse
-        display_form={this.display_form}
-        />
+        form = <SearchCourse content = {this.state.results} 
+                            handle_course = {this.handle_course} 
+                            userpk = {this.state.pk}
+                            handle_join_course = {this.handle_join_course}/>
         break;
-      // case 'course':
-      //   form = <CourseDemo handle_course = {this.handle_course} />;
-      //   break;
 
       default:
-        {this.state.logged_in? form = <Dashboard userpk = {this.state.pk} /> : form = null}
+        {this.state.logged_in? form = <Dashboard userpk = {this.state.pk} handle_course = {this.handle_course}/> : form = null}
+        break;
         // form = null
     }
 
     // let course = <CourseDemo />;
     let messaging = this.state.messaging ? <MessageForm /> : null
-
     return (
       <div className="App">
         <Navi
           logged_in={this.state.logged_in}
           display_form={this.display_form}
           handle_logout={this.handle_logout}
+          search = {this.state.search}
+          handle_search_value = {this.handle_search_value}
+          handle_search = {this.handle_search}
         />
 
         <h3>
