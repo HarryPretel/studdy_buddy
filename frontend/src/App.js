@@ -5,8 +5,11 @@ import Signup from './components/Signup';
 import MessageForm from './components/MessageForm';
 import Dashboard from './components/Dashboard';
 import Course from './components/Course';
+import SearchCourse from './components/Search';
 
 import './App.css';
+import { Search } from 'semantic-ui-react';
+
 
 class App extends Component {
   constructor(props) {
@@ -180,6 +183,11 @@ class App extends Component {
         break;
       case 'course':
         form  = <Course/>
+        break;
+      case 'Search':
+        form = <SearchCourse
+        display_form={this.display_form}
+        />
         break;
       // case 'course':
       //   form = <CourseDemo handle_course = {this.handle_course} />;

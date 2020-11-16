@@ -12,7 +12,7 @@ function Navi(props) {
     //   <li onClick={() => props.display_form('signup')}>signup</li>
     // </ul>
     <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
-      <Navbar.Brand onClick={() => props.display_form('')}>StudyBuddy</Navbar.Brand>
+      <Navbar.Brand href = "#home">StudyBuddy</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav>
@@ -33,7 +33,7 @@ function Navi(props) {
   <Navbar.Collapse id="responsive-navbar-nav">
     <Nav className="mr-auto">
     <FormControl type="text" placeholder="SearchCourse" className="mr-sm-2" />
-       <Button variant="outline-light">Search</Button>
+       <Button variant="outline-light" onClick={() => props.display_form('Search')}>Search</Button>
        <Nav.Link onClick={() => props.display_form('messaging')}>Messages</Nav.Link>
       <Nav.Link href="#pricing">Calendar</Nav.Link>
       <Nav.Link onClick = {() => props.display_form('course')}>Course</Nav.Link>
