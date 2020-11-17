@@ -168,6 +168,14 @@ class EventDetailView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, format = None):
+        event = self.get_object(pk)
+        userpk = request.data['userpk']
+        user_remove = User.objects.get(pk=userpk)
+        updatedevent = event.participants.remove(user_remove)
+        serializer = EventSerializer(updatedevent)
+        return Response(serializer.data)
 
 
 class EventforCourseView(APIView):
@@ -190,6 +198,10 @@ class EventforStudentView(APIView):
         event = self.get_object(pk).all()
         serializer = EventSerializer(event, many=True)
         return Response(serializer.data)
+
+class EventforOrganizerView(APIView):
+    def get_object(self,pk):
+        return Event.objects.filter(organizer__pk=pk)
 
 
 class AllMessageList(generics.ListAPIView):

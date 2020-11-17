@@ -27,4 +27,5 @@ urlpatterns = [
     path('events/<int:pk>/', views.EventDetailView.as_view()),
     path('events/courses/<int:pk>/', views.EventforCourseView().as_view()),
     path('events/students/<int:pk>/', views.EventforStudentView().as_view()),
+    path('events/organizers/<int:pk>/', views.EventforOrganizerView().as_view())
 ]
