@@ -1,5 +1,5 @@
 import React from 'react';
-import { get_messages, get_conversations } from '../functions/messaging/HelperFunctions'
+import { get_messages, get_conversations, get_username } from '../functions/messaging/HelperFunctions'
 import './Messenger.css'
 
 
@@ -7,124 +7,117 @@ class Messenger extends React.Component {
     constructor(props) { // usually only use constructor for setting state and binds.
         super(props)
         this.state = {
+            view: null,
+            conversations: [],
             username: this.props.username,
-            view: {
-                sender: this.props.username,
-                receivers: null,
-            }
+            convo: [],
         }
     }
 
-    setView(receivers) {
-        this.setState({ view: { receivers: receivers } })
+    async componentDidMount() {
+        this.setState({ conversations: await get_conversations(this.props.pk) })
+        // this.setState({ username: await get_username(this.props.pk) })
+    }
+
+    showSpecificConvo = (pk) => {
+        this.setState({ view: pk })
+    }
+    showConvoList = () => {
+        this.setState({ view: null })
+    }
+
+    renderConversationList() {
+        return (
+            <ul>
+                {this.state.conversations.map((convo, index) => {
+                    var { sender, receivers, content, timestamp, pk } = convo
+                    let group = []
+                    if (sender != this.state.username) group.push(sender)
+                    for (let i in receivers) {
+                        if (receivers[i] != this.state.username) group.push(receivers[i])
+                    }
+                    var group_str = ''
+                    if (group.length == 0) group_str = 'Me2Me'
+                    else if (group.length == 1) group_str = group[0]
+                    else {
+                        group_str = group[0] + ', '
+                        for (let i = 0; i < group.length; i++) {
+                            if (i == group_str.length - 1) group_str += 'and ' + group[i]
+                            else group_str += group[i] + ', '
+                        }
+                    }
+                    return (
+                        <li onClick={() => this.showSpecificConvo(pk)}>
+                            <group>
+                                {group_str}:
+                            </group>
+                            <lastmessage>
+                                {content}
+                            </lastmessage>
+                            <br />
+                        </li>
+
+                    )
+                })}
+            </ul>)
     }
 
     // this renders sender receiver and content, sender will be changed when log in is fixed
     render() {
         return (
-            < messenger>
-                <h3>
-                    {this.state.view.receivers ? this.state.view.receivers : this.state.username + "'s conversations:"}
+            <messenger>
+                <h3 onClick={this.showConvoList}>
+                    {this.state.username}
                 </h3>
-                <ConversationList username={this.props.username} setView={this.setView} />
                 <br />
-                <Conversation username={this.props.username} />
-                <br />
+                <body>
+                    {this.state.view == null ? this.renderConversationList() : <Conversation username={this.props.username} pk={this.props.pk} pkb={this.state.view} />}
+                </body>
             </messenger >
         )
-    }
-}
-
-class ConversationList extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { username: this.props.username, conversations: get_conversations() }
-    }
-
-    openConvo(receivers) {
-        this.props.setView(receivers)
-    }
-
-    render() {
-        return this.state.conversations.map((convo, index) => {
-            const { sender, receivers, content } = convo //destructuring
-            return <ConversationEntry openConvo={this.openConvo} sender={sender} content={content} timestamp={'random timestamp'} receivers={receivers} />
-        })
     }
 }
 
 class Conversation extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { username: this.props.username, messages: get_messages() }
+        this.state = {
+            messages: []
+        }
+    }
+
+    async componentDidMount() {
+        this.setState({ messages: await get_messages(this.props.pk, this.props.pkb) })
+    }
+
+    renderMessages() {
+        return this.state.messages.map((message, index) => {
+            if (message["sender"] == this.props.username) {
+                return (
+                    <message>
+                        <sentmessage>
+                            {message["content"]}
+                            <br />
+                        </sentmessage>
+                    </message>
+                )
+            }
+            else return (
+                <message>
+
+                    <receivedmessage>
+                        {message["content"]}
+                        <br />
+                    </receivedmessage>
+                </message>
+            )
+        })
     }
 
     render() {
-        return this.state.messages.map((convo, index) => {
-            const { sender, receiver, content } = convo //destructuring
-            return this.props.username === sender ? <SentMessage content={content} /> : <ReceivedMessage content={content} />
-        }).concat(<SendMessageForm />)
-    }
-}
-
-function ConversationEntry(props) {
-    return <conversation_entry onClick={() => props.openConvo(props.receivers)}>
-        {props.sender}: {props.content} @ {props.timestamp} <br />
-    </conversation_entry>
-}
-
-function SentMessage(props) {
-    return <message><sentmessage>
-        {props.content} <br />
-    </sentmessage></message>
-}
-
-function ReceivedMessage(props) {
-    return <message><receivedmessage>
-        {props.content} <br />
-    </receivedmessage></message>
-}
-
-class SendMessageForm extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {}
-
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-    }
-
-    handleChange(event) {
-        this.setState({ outgoing_message: event.target.value })
-    }
-
-    handleSubmit(event) {
-        alert('message sent')
-        event.preventDefault()
-    }
-
-    render() {
-        return <form onSubmit={this.handleSubmit}>
-            <post>
-                sender:
-                    <input type="text" value={this.state.outgoing_message ? this.state.outgoing_message.sender : ''} onChange={this.handleChange} />
-                <br />
-
-                <label>
-                    receiver:<input type="text" value={this.state.outgoing_message ? this.state.outgoing_message.receiver : ''} onChange={this.handleChange} />
-                </label>
-                <br />
-
-                <label>
-                    content:
-                    <input type="text" value={this.state.outgoing_message ? this.state.outgoing_message.content : ''} onChange={this.handleChange} />
-                </label>
-                <br />
-
-            </post>
-            <input type="submit" value="SEND" />
-
-        </form >
+        return (
+            this.renderMessages()
+        )
     }
 }
 
