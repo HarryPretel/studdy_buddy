@@ -168,10 +168,6 @@ class App extends Component {
     console.log('handle_course')
     console.log(data)
     e.preventDefault();
-    // this.setState({
-    //   displayed_form: 'course',
-    //   course: data
-    // });
 
     fetch('http://localhost:8000/api/courses/' + data, {
       method: 'GET',
@@ -214,6 +210,8 @@ class App extends Component {
       console.log("ERROR: " + error)
       alert(error);
     })
+
+    this.handle_search()
   }
 
   handle_search = () => {
