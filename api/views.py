@@ -113,6 +113,14 @@ class CourseDetailView(APIView):
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def delete(self, request, pk, format = None):
+        course = self.get_object(pk)
+        userpk = request.data['userpk']
+        user_remove = User.objects.get(pk = userpk)
+        updatedcourse = course.user.remove(user_remove)
+        serializer = CourseSerializer(updatedcourse)
+        return Response(serializer.data)
+    
 
 class EnrolledDetailView(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -127,6 +135,7 @@ class EnrolledDetailView(APIView):
     
 
 class EventView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, format = None):
         event = Event.objects.all()
         serializer = EventSerializer(event, many = True)
@@ -148,6 +157,9 @@ class EventforCourseView(APIView):
         event = self.get_object(pk).all()
         serializer = EventSerializer(event, many = True)
         return Response(serializer.data)
+
+# class EventforStudentView(APIView):
+#     def get_
 
 
 class AllMessageList(generics.ListAPIView):

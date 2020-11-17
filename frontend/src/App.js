@@ -16,7 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       displayed_form: 'login',
-      logged_in: false,//localStorage.getItem('token') ? true : false,
+      logged_in: localStorage.getItem('token') ? true : false,
       username: '',
       messaging: false,
       pk: 0,
@@ -31,34 +31,27 @@ class App extends Component {
   componentDidMount() {
     console.log('componentDidMount')
     if (this.state.logged_in) {
-      var json = fetch('http://localhost:8000/api/current_user/', {
+
+      fetch('http://localhost:8000/api/current_user/', {
+        method: 'GET',
         headers: {
-          Authorization: `Token ${this.state.token}`
+          Authorization: `jwt ${localStorage.getItem('token')}`
         }
       })
-      json = Promise.resolve(json)
-      console.log('here')
-      console.log(localStorage.getItem('token'))
-      console.log(this.state)
-      this.setState({ username: json.username });
+      .then(res => res.json())
+      .then(json => {
+        console.log(JSON.stringify(json))
+        this.setState({
+          pk: json.pk,
+          displayed_form: '',
+          username: json.username,
+          first: json.first_name
+        })
+      })
+      .catch(error => {
+        console.log("ERROR: " + error)
+      });
     }
-
-    // if (this.state.logged_in) {
-    //   fetch('http://localhost:8000/api/userprofiles/', {
-    //     headers: {
-    //       Authorization: `JWT ${localStorage.getItem('token')}`
-    //     }
-    //   })
-    //     .then(res => res.json())
-    //     .then(json => {
-    //       console.log('state when mounting: ' + JSON.stringify(this.state) + '\njson: ' + JSON.stringify(json))
-    //       for (var i = 0; i < json.length; i++) {
-    //         if (json[i].username === this.state.username) {
-    //           this.setState({ pk: json[i].pk });
-    //         }
-    //       }
-    //     });
-    // }
   }
 
   handle_login = (e, data) => {
@@ -139,7 +132,7 @@ class App extends Component {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Token '+ this.state.token
+        'Authorization': 'jwt '+ this.state.token
       },
       body: JSON.stringify(data.profile)
     })
