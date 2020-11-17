@@ -24,6 +24,10 @@ import Box from '@material-ui/core/Box';
 import Popup from 'reactjs-popup';
 import TextField from '@material-ui/core/TextField';
 import './CreateEvent.css'
+<<<<<<< HEAD
+=======
+
+>>>>>>> 52440b1b3c54b31566efdaf34688c93e801bce8f
 
 
 const drawerWidth = 240;
