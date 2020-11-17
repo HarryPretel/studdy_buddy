@@ -6,7 +6,6 @@ import Messenger from './components/Messenger'
 import Dashboard from './components/Dashboard';
 import Course from './components/Course';
 import SearchCourse from './components/Search';
-
 import './App.css';
 import { Search } from 'semantic-ui-react';
 
