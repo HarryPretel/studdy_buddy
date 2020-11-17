@@ -123,6 +123,7 @@ class Course extends React.Component{
         console.log("ERROR: " + error)
         alert(error);
       })
+      setTimeout(function() {this.handle_fetch_event()}.bind(this),100);
     }
 
     handle_fetch_event(){
@@ -154,6 +155,24 @@ class Course extends React.Component{
         }
       }
       return flag;
+    }
+
+    handle_quit_event(data){
+      let input = '{"userpk":' + this.props.userpk + '}'
+      fetch('http://localhost:8000/api/events/' + data + '/', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `jwt ${localStorage.getItem('token')}`
+        },
+        body: input
+      })
+      .then(response => response.json())
+      .catch(error => {
+        console.log("ERROR: " + error)
+        alert(error);
+      });
+      setTimeout(function() {this.handle_fetch_event()}.bind(this),100);
     }
     
     render(){
@@ -293,8 +312,8 @@ class Course extends React.Component{
                                 <TableCell>
                                 {/* <Button align="right" class="btn btn-xs" onClick = {() => this.handle_join_event(event.pk)}>Join</Button> */}
                                     {this.is_joined(event.participants)
-                                      ? 'Joined'
-                                      : <Button align="right" variant = "contained" color = "primary" size = "small" onClick = {()=>this.props.handle_join_event(event.pk)}>Join</Button>
+                                      ? <Button align="right" variant = "contained" color = "secondary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Button>
+                                      : <Button align="right" variant = "contained" color = "primary" size = "small" onClick = {()=>this.handle_join_event(event.pk)}>Join</Button>
                                     }
                                 </TableCell>
                             </TableRow>

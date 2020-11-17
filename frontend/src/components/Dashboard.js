@@ -149,6 +149,24 @@ handle_get_event(){
     console.log("ERROR: " + error)
   });
 }
+
+handle_quit_event(data){
+  let input = '{"userpk":' + this.props.userpk + '}'
+  fetch('http://localhost:8000/api/events/' + data + '/', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `jwt ${localStorage.getItem('token')}`
+    },
+    body: input
+  })
+  .then(response => response.json())
+  .catch(error => {
+    console.log("ERROR: " + error)
+    alert(error);
+  });
+  setTimeout(function() {this.handle_get_event()}.bind(this),100);
+}
  
 render() {
   const classes = withStyles(useStyles);
@@ -228,7 +246,7 @@ render() {
                                 <TableCell>{event.start}</TableCell>
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
-                                <Button align="right" color="primary">Join</Button>
+                                <Button align="right" color = "secondary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Button>
                                 </TableCell>
                             </TableRow>
                             ))}
