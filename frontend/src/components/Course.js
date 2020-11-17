@@ -10,7 +10,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {Button} from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { spacing } from '@material-ui/system';
@@ -141,13 +141,15 @@ class Course extends React.Component{
                     <React.Fragment>
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
                         Events
+                        <Button align="right"  variant = "contained" color = "primary" size = "small" style={{float: 'right', right: 7, top: 7}}>Create event</Button>
                         </Typography>
                         <Table size="small">
                         <TableHead>
                             <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Host</TableCell>
-                            <TableCell>Time</TableCell>
+                            <TableCell>Date</TableCell>
+                            <TableCell>StartTime</TableCell>
                             <TableCell>Location</TableCell>
                             <TableCell align="right"></TableCell>
                             </TableRow>

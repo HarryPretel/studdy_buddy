@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
+import Bt from '@material-ui/core/Button'
+import {Button} from 'react-bootstrap';
+
 import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -46,14 +48,11 @@ const rows = [
   createData(4, 'Study for CS506', 'Madison, WI', 'Ironman', '16 Mar, 2019', 'Joined'),
 ];
 
+
 const useStyles = makeStyles((theme) => ({
   // icon: {
   //   marginRight: theme.spacing(2),
   // },
-  heroContent: { 
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
   heroButtons: {
     marginTop: theme.spacing(4),
   },
@@ -105,7 +104,7 @@ class CourseDemo extends React.Component{
   }
  
 render() {
-  const classes = useStyles;
+  const classes = withStyles(useStyles);
   console.log(this.state.courses)
   return( 
     <React.Fragment>
@@ -121,29 +120,10 @@ render() {
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
+          <Container  maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Dashboard
             </Typography>
-            {/* <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Something short and leading about the collection below—its contents, the creator, etc.
-              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-              entirely.
-            </Typography> */}
-            {/* <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button variant="contained" color="primary">
-                    Main call to action
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Secondary action
-                  </Button>
-                </Grid>
-              </Grid>
-            </div> */}
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
@@ -166,18 +146,18 @@ render() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary" onClick = {(e) => this.props.handle_course(e,course)}>
+                    <Bt size="small" variant = "contained" color="primary" onClick = {(e) => this.props.handle_course(e,course)}>
                       View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
+                    </Bt>
+                    <Bt size="small"  variant = "contained"color="secondary">
+                      Quit
+                    </Bt>
                   </CardActions>
                 </Card>
               </Grid>
             ))}
           <Grid item xs = {12}>
-          <Paper className={Paper} >
+          <Paper  className={Paper}>
                     <React.Fragment>
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
                         Events
@@ -200,7 +180,7 @@ render() {
                                 <TableCell>{rows.Location}</TableCell>
                                 <TableCell><Link target = "_blank" component = "button" variant = "body2"  >Link</Link></TableCell>
                                 <TableCell>
-                                <Button align="right" class="btn btn-xs">Join</Button>
+                                <Button align="right" color="primary">Join</Button>
                                 </TableCell>
                             </TableRow>
                             ))}

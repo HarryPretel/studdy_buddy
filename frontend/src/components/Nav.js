@@ -37,7 +37,7 @@ function Navi(props) {
       <Button variant="outline-light" onClick={props.handle_search}>Search</Button>
       <Nav.Link onClick={() => props.display_form('messaging')}>Messages</Nav.Link>
       <Nav.Link href="#pricing">Calendar</Nav.Link>
-      <Nav.Link onClick = {() => props.display_form('course')}>Course</Nav.Link>
+      {/* <Nav.Link onClick = {() => props.display_form('course')}>Course</Nav.Link> */}
       
     </Nav>
     <Nav>
