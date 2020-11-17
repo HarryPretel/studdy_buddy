@@ -200,8 +200,19 @@ class EventforStudentView(APIView):
         return Response(serializer.data)
 
 class EventforOrganizerView(APIView):
-    def get_object(self,pk):
-        return Event.objects.filter(organizer__pk=pk)
+    def get_object(self,userpk, eventpk):
+        event = Event.objects.filter(organizer__pk=userpk)
+        return event.get(pk = eventpk)
+
+    def get(self, request,userpk, eventpk, format = None):
+        event = self.get_object(userpk, eventpk)
+        serializer = EventSerializer(event)
+        return Response(serializer.data)
+    
+    def delete(self, request,userpk, eventpk, format = None):
+        event = self.get_object(userpk, eventpk)
+        event.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class AllMessageList(generics.ListAPIView):
