@@ -167,7 +167,18 @@ handle_quit_event(data){
   });
   setTimeout(function() {this.handle_get_event()}.bind(this),100);
 }
- 
+
+get_date(data){
+  var str = data.split("T")
+  return str[0]
+}
+
+get_time(data){
+  var str = data.split("T")[1]
+  var res = str.split("Z")
+  return res[0]
+}
+
 render() {
   const classes = withStyles(useStyles);
   console.log(this.state.courses)
@@ -243,7 +254,7 @@ render() {
                             <TableRow key={event.pk}>
                                 <TableCell>{event.title} </TableCell>
                                 <TableCell>{event.organizer.first_name} {event.organizer.last_name}</TableCell>
-                                <TableCell>{event.start}</TableCell>
+                                <TableCell>{this.get_date(event.start)} {this.get_time(event.start)}</TableCell>
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
                                 <Button align="right" color = "secondary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Button>

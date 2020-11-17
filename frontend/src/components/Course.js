@@ -174,6 +174,17 @@ class Course extends React.Component{
       });
       setTimeout(function() {this.handle_fetch_event()}.bind(this),100);
     }
+
+    get_date(data){
+      var str = data.split("T")
+      return str[0]
+    }
+
+    get_time(data){
+      var str = data.split("T")[1]
+      var res = str.split("Z")
+      return res[0]
+    }
     
     render(){
         const classes = useStyles;
@@ -198,7 +209,7 @@ class Course extends React.Component{
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
                         Events
                         {/* <Button align="right"  variant = "contained" color = "primary" size = "small" style={{float: 'right', right: 7, top: 7}}>Create event</Button> */}
-                        <Popup trigger={<button type = "Button" class = "Button" style={{float: "right"}}> Create Event</button>} position="bottom center">
+                        <Popup trigger={<button type = "Button" class = "Button" sstyle={{float: "right"}}> Create Event</button>} position="bottom center">
                           <div class = 'CreateEvent' >
                             
                             <Typography component="h1" variant="h5">
@@ -307,7 +318,7 @@ class Course extends React.Component{
                             <TableRow key={event.pk}>
                                 <TableCell>{event.title}</TableCell>
                                 <TableCell>{event.organizer.first_name} {event.organizer.last_name}</TableCell>
-                                <TableCell>{event.start}</TableCell>
+                                <TableCell>{this.get_date(event.start)} {this.get_time(event.start)}</TableCell>
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
                                 {/* <Button align="right" class="btn btn-xs" onClick = {() => this.handle_join_event(event.pk)}>Join</Button> */}
