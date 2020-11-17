@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import Bt from '@material-ui/core/Button'
+import Bt from '@material-ui/core/Button';
 import {Button} from 'react-bootstrap';
 
 import CameraIcon from '@material-ui/icons/PhotoCamera';
@@ -269,8 +269,8 @@ render() {
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
                                   {this.is_organizer(event.organizer)
-                                      ? <Button align="right" variant = "contained" color = "secondary" size = "small" >Delete</Button>
-                                      : <Button align="right" variant = "contained" color = "tertiary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Button>
+                                      ? <Bt align="right" variant = "contained" color = "secondary" size = "small" >Delete</Bt>
+                                      : <Bt align="right" variant = "contained" color = "tertiary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Bt>
                                     }
                                 </TableCell>
                             </TableRow>
