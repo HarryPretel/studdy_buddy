@@ -14,6 +14,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 function Copyright() {
   
@@ -28,6 +34,17 @@ function Copyright() {
     </Typography>
   );
 }
+function createData(id, Name, Location, Host , Time, Joinstatus) {
+  return { id, Name, Location, Host, Time, Joinstatus};
+}
+
+const rows = [
+  createData(0, 'Study for CS506', 'Madison, WI', 'Dr.Strange', '16 Mar, 2019', 'Joined'),
+  createData(1, 'Study for CS506', 'Madison, WI', 'Superman', '16 Mar, 2019', 'Joined'),
+  createData(2, 'Study for CS506', 'Madison, WI', 'Batman', '16 Mar, 2019', 'Joined'),
+  createData(3, 'Study for CS506', 'Madison, WI', 'Wonderwoman', '16 Mar, 2019', 'Joined'),
+  createData(4, 'Study for CS506', 'Madison, WI', 'Ironman', '16 Mar, 2019', 'Joined'),
+];
 
 const useStyles = makeStyles((theme) => ({
   // icon: {
@@ -48,9 +65,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
   },
   cardContent: {
     flexGrow: 1,
@@ -162,6 +176,46 @@ render() {
                 </Card>
               </Grid>
             ))}
+          <Grid item xs = {12}>
+          <Paper className={Paper} >
+                    <React.Fragment>
+                        <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
+                        Events
+                        </Typography>
+                        <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Host</TableCell>
+                            <TableCell>Time</TableCell>
+                            <TableCell>Location</TableCell>
+                            <TableCell align="right"></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((rows) => (
+                            <TableRow key={rows.id}>
+                                <TableCell>{rows.Host}</TableCell>
+                                <TableCell>{rows.Name} </TableCell>
+                                <TableCell>{rows.Location}</TableCell>
+                                <TableCell><Link target = "_blank" component = "button" variant = "body2"  >Link</Link></TableCell>
+                                <TableCell>
+                                <Button align="right" class="btn btn-xs">Join</Button>
+                                </TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                        </Table>
+
+                        {/* <div className={classes.seeMore}>
+                        <Link color="primary" href="#" >
+                            See more orders
+                        </Link>
+                        </div> */}
+                </React.Fragment>
+
+                </Paper>
+          </Grid>
           </Grid>
         </Container>
       </main>
