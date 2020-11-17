@@ -150,6 +150,8 @@ class Course extends React.Component{
       });
     }
 
+    
+
     is_joined(data){
       var flag = false;
       for (var i = 0; i < data.length; i++){
@@ -183,6 +185,22 @@ class Course extends React.Component{
       .catch(error => {
         console.log("ERROR: " + error)
         alert(error);
+      });
+      setTimeout(function() {this.handle_fetch_event()}.bind(this),100);
+    }
+
+    handle_delete_event(data){
+      fetch('http://localhost:8000/api/events/organizers/' + this.props.userpk + '-' + data + '/', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `jwt ${localStorage.getItem('token')}`
+        },
+      })
+      .then(response => response.json())
+      .catch(error => {
+        console.log("ERROR: " + error)
+        alert('Delete successfully');
       });
       setTimeout(function() {this.handle_fetch_event()}.bind(this),100);
     }
@@ -350,7 +368,7 @@ class Course extends React.Component{
                                 <TableCell>
                                 {/* <Button align="right" class="btn btn-xs" onClick = {() => this.handle_join_event(event.pk)}>Join</Button> */}
                                     {this.is_organizer(event.organizer)
-                                      ? <Button align="right" variant = "contained" color = "secondary" size = "small" >Delete</Button>
+                                      ? <Button align="right" variant = "contained" color = "secondary" size = "small" onClick = {()=>this.handle_delete_event(event.pk)}>Delete</Button>
                                       : this.is_joined(event.participants) 
                                         ? <Button align="right" variant = "contained" color = "tertiary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Button>
                                         : <Button align="right" variant = "contained" color = "primary" size = "small" onClick = {()=>this.handle_join_event(event.pk)}>Join</Button>

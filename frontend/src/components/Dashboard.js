@@ -106,7 +106,7 @@ handle_quit_course(data){
     console.log("ERROR: " + error)
     alert(error);
   });
-  setTimeout(function() {this.handle_get_course()}.bind(this),100);
+  setTimeout(function() {this.handle_get_course(); this.handle_get_event();}.bind(this),100);
   
 }
 
@@ -164,6 +164,22 @@ handle_quit_event(data){
   .catch(error => {
     console.log("ERROR: " + error)
     alert(error);
+  });
+  setTimeout(function() {this.handle_get_event()}.bind(this),100);
+}
+
+handle_delete_event(data){
+  fetch('http://localhost:8000/api/events/organizers/' + this.props.userpk + '-' + data + '/', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `jwt ${localStorage.getItem('token')}`
+    },
+  })
+  .then(response => response.json())
+  .catch(error => {
+    console.log("ERROR: " + error)
+    alert('Delete successfully');
   });
   setTimeout(function() {this.handle_get_event()}.bind(this),100);
 }
@@ -235,7 +251,7 @@ render() {
                     <Bt size="small" variant = "contained" color="primary" onClick = {(e) => this.props.handle_course(e,course)}>
                       View
                     </Bt>
-                    <Bt size="small"  variant = "contained"color="secondary" onClick = {() => this.handle_quit_course(course.pk)}>
+                    <Bt size="small"  variant = "contained"color="tertiary" onClick = {() => this.handle_quit_course(course.pk)}>
                       Quit
                     </Bt>
                   </CardActions>
@@ -269,7 +285,7 @@ render() {
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
                                   {this.is_organizer(event.organizer)
-                                      ? <Bt align="right" variant = "contained" color = "secondary" size = "small" >Delete</Bt>
+                                      ? <Bt align="right" variant = "contained" color = "secondary" size = "small" onClick = {()=>this.handle_delete_event(event.pk)}>Delete</Bt>
                                       : <Bt align="right" variant = "contained" color = "tertiary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Bt>
                                     }
                                 </TableCell>

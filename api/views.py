@@ -121,6 +121,10 @@ class CourseDetailView(APIView):
         user_remove = User.objects.get(pk=userpk)
         updatedcourse = course.user.remove(user_remove)
         serializer = CourseSerializer(updatedcourse)
+
+        events = EventforCourseView().get_object(pk = pk).filter(participants__pk=userpk)
+        for event in events:
+            EventDetailView().remove(userpk = userpk, pk = event.pk)
         return Response(serializer.data)
 
 
@@ -172,6 +176,13 @@ class EventDetailView(APIView):
     def delete(self, request, pk, format = None):
         event = self.get_object(pk)
         userpk = request.data['userpk']
+        user_remove = User.objects.get(pk=userpk)
+        updatedevent = event.participants.remove(user_remove)
+        serializer = EventSerializer(updatedevent)
+        return Response(serializer.data)
+    
+    def remove(self, userpk, pk, format = None):
+        event = self.get_object(pk)
         user_remove = User.objects.get(pk=userpk)
         updatedevent = event.participants.remove(user_remove)
         serializer = EventSerializer(updatedevent)
