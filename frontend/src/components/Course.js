@@ -24,10 +24,14 @@ import Box from '@material-ui/core/Box';
 import Popup from 'reactjs-popup';
 import TextField from '@material-ui/core/TextField';
 import './CreateEvent.css'
+import Modal from 'react-modal';
 
 
 const drawerWidth = 240;
 
+// function openModal(){
+//   setIsOpen(true);
+// }
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
@@ -208,8 +212,25 @@ class Course extends React.Component{
                     <React.Fragment>
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
                         Events
+<<<<<<< HEAD
                         {/* <Button align="right"  variant = "contained" color = "primary" size = "small" style={{float: 'right', right: 7, top: 7}}>Create event</Button> */}
                         <Popup trigger={<button type = "Button" class = "Button" sstyle={{float: "right"}}> Create Event</button>} position="bottom center">
+=======
+                        {/* <Button align="right"  
+                                variant = "contained" 
+                                color = "primary" size = "small" 
+                                style={{float: 'right', right: 7, top: 7}} 
+                                
+                                >Create event</Button> */}
+                        <Popup trigger={<button type = "Button" class = "Button" style={{float: "right"}}> Create Event</button>} position="bottom center">
+                        {/* <Modal
+                          
+                          animationType='slide'
+                          onRequestClose={() => console.log('no warning')}
+                          presentationStyle="FormSheet"
+                          transparent
+                          visible={this.state.showModal}> */}
+>>>>>>> f87204b83d616b0d7b17c37ac8d7127788c01a6a
                           <div class = 'CreateEvent' >
                             
                             <Typography component="h1" variant="h5">
@@ -221,10 +242,10 @@ class Course extends React.Component{
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
+                                id="title"
                                 label="Title"
-                                name="email"
-                                autoComplete="email"
+                                name="Title"
+                                autoComplete="title"
                                 autoFocus
                               />
                               <TextField
@@ -234,7 +255,7 @@ class Course extends React.Component{
                                 fullWidth
                                 name="password"
                                 label="Date"
-                                type="password"
+                                type = "date"
                                 id="password"
                                 autoComplete="current-password"
                               />
@@ -245,7 +266,7 @@ class Course extends React.Component{
                                 fullWidth
                                 name="password"
                                 label="Start Time"
-                                type="password"
+                                type="time"
                                 id="password"
                                 autoComplete="current-password"
                               />
@@ -256,7 +277,7 @@ class Course extends React.Component{
                                 fullWidth
                                 name="password"
                                 label="End Time"
-                                type="password"
+                                type="time"
                                 id="password"
                                 autoComplete="current-password"
                               />
@@ -267,7 +288,18 @@ class Course extends React.Component{
                                 fullWidth
                                 name="password"
                                 label="Size Limit"
-                                type="password"
+                                type="number"
+                                id="password"
+                                autoComplete="current-password"
+                              />
+                              <TextField
+                                // variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Link"
+                                type="url"
                                 id="password"
                                 autoComplete="current-password"
                               />
@@ -278,7 +310,7 @@ class Course extends React.Component{
                                 fullWidth
                                 name="password"
                                 label="Description"
-                                type="password"
+                                type="text"
                                 id="password"
                                 autoComplete="current-password"
                               />
@@ -300,6 +332,8 @@ class Course extends React.Component{
                           <Box mt={8}>
                          
                           </Box>
+                          {/* </Modal> */}
+
                           </Popup>
                         </Typography>
                         <Table size="small">
@@ -309,6 +343,7 @@ class Course extends React.Component{
                             <TableCell>Host</TableCell>
                             <TableCell>Date</TableCell>
                             <TableCell>StartTime</TableCell>
+                            <TableCell>Link</TableCell>
                             <TableCell>Location</TableCell>
                             <TableCell align="right"></TableCell>
                             </TableRow>
@@ -318,7 +353,8 @@ class Course extends React.Component{
                             <TableRow key={event.pk}>
                                 <TableCell>{event.title}</TableCell>
                                 <TableCell>{event.organizer.first_name} {event.organizer.last_name}</TableCell>
-                                <TableCell>{this.get_date(event.start)} {this.get_time(event.start)}</TableCell>
+                                <TableCell>{this.get_date(event.start)}</TableCell>
+                                <TableCell>{this.get_time(event.start)}</TableCell>
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
                                 {/* <Button align="right" class="btn btn-xs" onClick = {() => this.handle_join_event(event.pk)}>Join</Button> */}
