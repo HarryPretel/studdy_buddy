@@ -212,25 +212,8 @@ class Course extends React.Component{
                     <React.Fragment>
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
                         Events
-<<<<<<< HEAD
                         {/* <Button align="right"  variant = "contained" color = "primary" size = "small" style={{float: 'right', right: 7, top: 7}}>Create event</Button> */}
                         <Popup trigger={<button type = "Button" class = "Button" sstyle={{float: "right"}}> Create Event</button>} position="bottom center">
-=======
-                        {/* <Button align="right"  
-                                variant = "contained" 
-                                color = "primary" size = "small" 
-                                style={{float: 'right', right: 7, top: 7}} 
-                                
-                                >Create event</Button> */}
-                        <Popup trigger={<button type = "Button" class = "Button" style={{float: "right"}}> Create Event</button>} position="bottom center">
-                        {/* <Modal
-                          
-                          animationType='slide'
-                          onRequestClose={() => console.log('no warning')}
-                          presentationStyle="FormSheet"
-                          transparent
-                          visible={this.state.showModal}> */}
->>>>>>> f87204b83d616b0d7b17c37ac8d7127788c01a6a
                           <div class = 'CreateEvent' >
                             
                             <Typography component="h1" variant="h5">
