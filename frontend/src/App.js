@@ -168,10 +168,33 @@ class App extends Component {
     console.log('handle_course')
     console.log(data)
     e.preventDefault();
-    this.setState({
-      displayed_form: 'course',
-      course: data
+    // this.setState({
+    //   displayed_form: 'course',
+    //   course: data
+    // });
+
+    fetch('http://localhost:8000/api/courses/' + data, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log(JSON.stringify(json))
+      this.setState({
+        course: json,
+      })
+      console.log(this.state.results)
+      this.setState({
+        displayed_form: 'course',
+        course: json
+      });
+    })
+    .catch(error => {
+      console.log("ERROR: " + error)
     });
+
   };
 
   handle_join_course = (e,data) => {

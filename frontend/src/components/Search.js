@@ -83,7 +83,8 @@ const rows = [
   class SearchCourse extends React.Component{
     
     state = {
-      courses: this.props.content
+      courses: this.props.content,
+      userpk: this.props.userpk
     }
 
     componentDidUpdate(prevProps){
@@ -92,6 +93,16 @@ const rows = [
           courses: this.props.content
         })
       }
+    }
+
+    is_joined(data){
+      var flag = false;
+      for (var i = 0; i < data.length; i++){
+        if (data[i].pk === this.state.userpk){
+          flag = true;
+        }
+      }
+      return flag;
     }
 
     render(){
@@ -123,9 +134,13 @@ const rows = [
                                         
                                         </TableCell> */}
                                         <TableCell align = "right">
-                                        <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_course(e,course)}>See Page</Button>
+                                         {this.is_joined(course.user)
+                                            ? <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_course(e,course.pk)}>See Page</Button>
+                                            : <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_join_course(e,course.pk)}>Join</Button>
+                                          }
+                                        {/* <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_course(e,course.pk)}>See Page</Button>
                                          &nbsp; 
-                                        <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_join_course(e,course.pk)}>Join</Button>
+                                        <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_join_course(e,course.pk)}>Join</Button> */}
                                         </TableCell>
             
                                     </TableRow>
