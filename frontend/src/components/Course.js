@@ -135,6 +135,7 @@ class Course extends React.Component{
                 </Typography>
                 
             </Container>
+            <Container className={classes.cardGrid} maxWidth="lg">
             <Grid container spacing={3}>
                 <Grid item item xs={12} md={8} lg={9}>
                 <Paper className={fixedHeightPaper} >
@@ -214,7 +215,7 @@ class Course extends React.Component{
                 </Paper>
             </Grid>
           </Grid>
-
+          </Container>
             <footer className={classes.footer}>
                 <Container maxWidth="sm">
                 <Typography variant="body1">My sticky footer can be found here.</Typography>
