@@ -41,15 +41,21 @@ class App extends Component {
       .then(res => res.json())
       .then(json => {
         console.log(JSON.stringify(json))
-        this.setState({
-          pk: json.pk,
-          displayed_form: '',
-          username: json.username,
-          first: json.first_name
-        })
+        if(!json.detail){
+          this.setState({
+            pk: json.pk,
+            displayed_form: '',
+            username: json.username,
+            first: json.first_name
+          })
+        } else throw Error(json.detail)
+        
+        
       })
       .catch(error => {
         console.log("ERROR: " + error)
+        alert("Time out: Please log in again!")
+        this.setState({logged_in: false, displayed_form: 'login'})
       });
     }
   }
