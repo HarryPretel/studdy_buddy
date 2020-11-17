@@ -17,13 +17,14 @@ urlpatterns = [
     path('courses/<int:pk>/', views.CourseDetailView.as_view()),
     path('courses/students/<int:pk>/', views.EnrolledDetailView().as_view()),
 
+    path('messaging/user/<int:pk>', views.MessageView().as_view()),
+    path('messaging/conversations/user/<int:pk>',
+         views.ConversationListView().as_view()),
+    path('messaging/conversations/user/<int:pka>/user2/<int:pkb>',
+         views.TwoWayConvoView.as_view()),
+
     path('events/', views.EventView.as_view()),
     path('events/<int:pk>/', views.EventDetailView.as_view()),
     path('events/courses/<int:pk>/', views.EventforCourseView().as_view()),
     path('events/students/<int:pk>/', views.EventforStudentView().as_view()),
-
-    path('messages/', views.AllMessageList.as_view()),
-    path('messages/sent/', views.SentMessageList.as_view()),
-    path('messages/received/', views.ReceivedMessageList.as_view()),
-    path('messages/<int:pk>', views.MessageDetail.as_view()),
 ]

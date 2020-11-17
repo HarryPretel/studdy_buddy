@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
 import collections
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -17,7 +18,6 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'username': {'validators': []},
         }
-
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -57,11 +57,11 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer(many = True)
-    
+    user = UserSerializer(many=True)
+
     class Meta:
         model = Course
-        fields = ('pk','department','number','name','user')
+        fields = ('pk', 'department', 'number', 'name', 'user')
 
     def update(self, instance, validated_data):
         submitted_user = validated_data.pop('user')
@@ -79,14 +79,16 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
 #         model = StudyTime
 #         fields = ('pk','time')
 
+
 class EventSerializer(serializers.HyperlinkedModelSerializer):
-    organizer = UserSerializer(many = False)
-    course_focus = CourseSerializer(many = False)
-    participants = UserSerializer(many = True)
+    organizer = UserSerializer(many=False)
+    course_focus = CourseSerializer(many=False)
+    participants = UserSerializer(many=True)
 
     class Meta:
         model = Event
-        fields = ('pk','course_focus','organizer','time_organized','start','end','title','size_limit','link','description','status','participants')
+        fields = ('pk', 'course_focus', 'organizer', 'time_organized', 'start', 'end',
+                  'title', 'size_limit', 'link', 'description', 'status', 'participants')
         #fields = '__all__'
 
     def update(self, instance, validated_data):
@@ -100,8 +102,10 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         instance.save()
         return instance
 
+
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')
+    receivers = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Message
