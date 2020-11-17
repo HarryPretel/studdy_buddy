@@ -27,9 +27,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      {/* <Link color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{' '} */}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -100,7 +100,28 @@ class Course extends React.Component{
     }
 
     componentDidMount(){
-      fetch('http://localhost:8000/api/events/courses/' + this.state.course.pk, {
+      this.handle_fetch_event()
+    }
+    
+    handle_join_event(data){
+      let input = '{"participants":[{"username":"'+ this.props.username+'"}]}'
+      fetch('http://localhost:8000/api/events/' + data + '/', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `jwt ${localStorage.getItem('token')}`
+        },
+        body: input
+      })
+      .then(response => response.json())
+      .catch(error => {
+        console.log("ERROR: " + error)
+        alert(error);
+      })
+    }
+
+    handle_fetch_event(){
+      fetch('http://localhost:8000/api/events/courses/' + this.state.course.pk +'/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +140,16 @@ class Course extends React.Component{
         console.log("ERROR: " + error)
       });
     }
-    
+
+    is_joined(data){
+      var flag = false;
+      for (var i = 0; i < data.length; i++){
+        if (data[i].pk === this.props.userpk){
+          flag = true;
+        }
+      }
+      return flag;
+    }
     
     render(){
         const classes = useStyles;
@@ -161,7 +191,11 @@ class Course extends React.Component{
                                 <TableCell>{event.start}</TableCell>
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
-                                <Button align="right" class="btn btn-xs">Join</Button>
+                                {/* <Button align="right" class="btn btn-xs" onClick = {() => this.handle_join_event(event.pk)}>Join</Button> */}
+                                    {this.is_joined(event.participants)
+                                      ? 'Joined'
+                                      : <Button class="btn btn-xs" onClick = {()=>this.props.handle_join_event(event.pk)}>Join</Button>
+                                    }
                                 </TableCell>
                             </TableRow>
                             ))}
@@ -216,7 +250,7 @@ class Course extends React.Component{
 
             <footer className={classes.footer}>
                 <Container maxWidth="sm">
-                <Typography variant="body1">My sticky footer can be found here.</Typography>
+                {/* <Typography variant="body1">My sticky footer can be found here.</Typography> */}
                 <Copyright />
                 </Container>
             

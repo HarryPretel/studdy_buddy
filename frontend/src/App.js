@@ -261,7 +261,7 @@ class App extends Component {
         form = <Signup handle_signup={this.handle_signup} />;
         break;
       case 'course':
-        form  = <Course course = {this.state.course} userpk = {this.state.pk} token = {this.state.token}/>
+        form  = <Course course = {this.state.course} userpk = {this.state.pk} token = {this.state.token} username = {this.state.username}/>
         break;
       case 'Search':
         form = <SearchCourse content = {this.state.results} 

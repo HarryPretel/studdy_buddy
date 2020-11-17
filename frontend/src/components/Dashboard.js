@@ -85,6 +85,8 @@ class CourseDemo extends React.Component{
     events: []
   }
 
+  
+
   componentDidMount() {
     fetch('http://localhost:8000/api/courses/students/' + this.props.userpk + '/', {
       method: 'GET',

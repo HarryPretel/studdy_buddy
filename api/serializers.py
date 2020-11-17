@@ -89,6 +89,17 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('pk','course_focus','organizer','time_organized','start','end','title','size_limit','link','description','status','participants')
         #fields = '__all__'
 
+    def update(self, instance, validated_data):
+        participant = validated_data.pop('participants')
+        print(participant)
+        if participant:
+            for student in participant:
+                name = student["username"]
+                user_instance = User.objects.get(username=name)
+                instance.participants.add(user_instance)
+        instance.save()
+        return instance
+
 class MessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')
 

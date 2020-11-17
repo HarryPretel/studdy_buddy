@@ -148,6 +148,23 @@ class EventView(APIView):
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.erros, status = status.HTTP_400_BAD_REQUEST)
 
+class EventDetailView(APIView):
+    def get_object(self,pk):
+        return Event.objects.get(pk=pk)
+    
+    def get(self, request, pk, format = None):
+        event = self.get_object(pk)
+        serializer = EventSerializer(event)
+        return Response(serializer.data)
+    
+    def patch(self, request, pk, format = None):
+        event = self.get_object(pk)
+        serializer = EventSerializer(event, data = request.data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class EventforCourseView(APIView):
     permission_classes = (permissions.AllowAny,)
     def get_object(self,pk):
