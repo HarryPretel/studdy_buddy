@@ -179,6 +179,15 @@ get_time(data){
   return res[0]
 }
 
+is_organizer(data){
+  var flag = false;
+  if (data.pk === this.props.userpk){
+    flag = true;
+  }
+  console.log(flag)
+  return flag;
+}
+
 render() {
   const classes = withStyles(useStyles);
   console.log(this.state.courses)
@@ -259,7 +268,10 @@ render() {
                                 <TableCell>{this.get_time(event.start)}</TableCell>
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
-                                <Button align="right" color = "secondary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Button>
+                                  {this.is_organizer(event.organizer)
+                                      ? <Button align="right" variant = "contained" color = "secondary" size = "small" >Delete</Button>
+                                      : <Button align="right" variant = "contained" color = "tertiary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Button>
+                                    }
                                 </TableCell>
                             </TableRow>
                             ))}

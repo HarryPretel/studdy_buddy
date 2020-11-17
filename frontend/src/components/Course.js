@@ -24,7 +24,6 @@ import Box from '@material-ui/core/Box';
 import Popup from 'reactjs-popup';
 import TextField from '@material-ui/core/TextField';
 import './CreateEvent.css'
-import Modal from 'react-modal';
 
 
 const drawerWidth = 240;
@@ -158,6 +157,15 @@ class Course extends React.Component{
           flag = true;
         }
       }
+      return flag;
+    }
+
+    is_organizer(data){
+      var flag = false;
+      if (data.pk === this.props.userpk){
+        flag = true;
+      }
+      console.log(flag)
       return flag;
     }
 
@@ -341,9 +349,11 @@ class Course extends React.Component{
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
                                 {/* <Button align="right" class="btn btn-xs" onClick = {() => this.handle_join_event(event.pk)}>Join</Button> */}
-                                    {this.is_joined(event.participants)
-                                      ? <Button align="right" variant = "contained" color = "secondary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Button>
-                                      : <Button align="right" variant = "contained" color = "primary" size = "small" onClick = {()=>this.handle_join_event(event.pk)}>Join</Button>
+                                    {this.is_organizer(event.organizer)
+                                      ? <Button align="right" variant = "contained" color = "secondary" size = "small" >Delete</Button>
+                                      : this.is_joined(event.participants) 
+                                        ? <Button align="right" variant = "contained" color = "tertiary" size = "small" onClick = {()=>this.handle_quit_event(event.pk)}>Quit</Button>
+                                        : <Button align="right" variant = "contained" color = "primary" size = "small" onClick = {()=>this.handle_join_event(event.pk)}>Join</Button>
                                     }
                                 </TableCell>
                             </TableRow>
