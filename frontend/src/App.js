@@ -4,63 +4,61 @@ import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
 import Messenger from './components/Messenger'
 import Dashboard from './components/Dashboard';
+import Course from './components/Course';
+import SearchCourse from './components/Search';
 
 import './App.css';
+import { Search } from 'semantic-ui-react';
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       displayed_form: 'login',
-      logged_in: false,//localStorage.getItem('token') ? true : false,
+      logged_in: localStorage.getItem('token') ? true : false,
       username: '',
       messaging: false,
       pk: 0,
       token: '',
-      first: ''
+      first: '',
+      search: '',
+      results: [],
+      course: [],
     };
   }
 
   componentDidMount() {
     console.log('componentDidMount')
     if (this.state.logged_in) {
-      var json = fetch('http://localhost:8000/api/current_user/', {
+
+      fetch('http://localhost:8000/api/current_user/', {
+        method: 'GET',
         headers: {
-          Authorization: `Token ${this.state.token}`
+          Authorization: `jwt ${localStorage.getItem('token')}`
         }
       })
-      json = Promise.resolve(json)
-      console.log('here')
-      console.log(localStorage.getItem('token'))
-      console.log(this.state)
-      this.setState({ username: json.username });
+        .then(res => res.json())
+        .then(json => {
+          console.log(JSON.stringify(json))
+          if (!json.detail) {
+            this.setState({
+              pk: json.pk,
+              displayed_form: '',
+              username: json.username,
+              first: json.first_name
+            })
+          } else throw Error(json.detail)
+
+
+        })
+        .catch(error => {
+          console.log("ERROR: " + error)
+          alert("Time out: Please log in again!")
+          this.setState({ logged_in: false, displayed_form: 'login' })
+        });
     }
-
-    // if (this.state.logged_in) {
-    //   fetch('http://localhost:8000/api/userprofiles/', {
-    //     headers: {
-    //       Authorization: `JWT ${localStorage.getItem('token')}`
-    //     }
-    //   })
-    //     .then(res => res.json())
-    //     .then(json => {
-    //       console.log('state when mounting: ' + JSON.stringify(this.state) + '\njson: ' + JSON.stringify(json))
-    //       for (var i = 0; i < json.length; i++) {
-    //         if (json[i].username === this.state.username) {
-    //           this.setState({ pk: json[i].pk });
-    //         }
-    //       }
-    //     });
-    // }
   }
-
-  handle_course = (e, data) => {
-    console.log('handle_course')
-    e.preventDefault();
-    this.setState({
-      displayed_form: 'course'
-    });
-  };
 
   handle_login = (e, data) => {
     console.log('handle_login')
@@ -140,7 +138,7 @@ class App extends Component {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Token ' + this.state.token
+        'Authorization': 'jwt ' + this.state.token
       },
       body: JSON.stringify(data.profile)
     })
@@ -159,6 +157,90 @@ class App extends Component {
     this.setState({ logged_in: false, username: '', displayed_form: 'login' });
   };
 
+  handle_search_value = (e) => {
+    this.setState({
+      search: e.target.value
+    })
+  };
+
+  handle_course = (e, data) => {
+    console.log('handle_course')
+    console.log(data)
+    e.preventDefault();
+
+
+    fetch('http://localhost:8000/api/courses/' + data.pk + '/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(JSON.stringify(json))
+        this.setState({
+          course: json,
+        })
+        console.log(this.state.results)
+        this.setState({
+          displayed_form: 'course',
+          course: json
+        });
+      })
+      .catch(error => {
+        console.log("ERROR: " + error)
+      });
+
+  };
+
+  handle_join_course = (e, data) => {
+    let input = '{"user":[{"pk":' + this.state.pk + ',"username":"' + this.state.username + '"}]}'
+    console.log(input)
+    e.preventDefault()
+    fetch('http://localhost:8000/api/courses/' + data + '/', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Token ' + this.state.token
+      },
+      body: input
+    })
+      .then(response => response.json())
+      .catch(error => {
+        console.log("ERROR: " + error)
+        alert(error);
+      })
+
+    this.handle_search()
+  }
+
+  handle_search = () => {
+    fetch('http://localhost:8000/api/courses/?search=' + this.state.search, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(JSON.stringify(json))
+        this.setState({
+          results: json,
+        })
+        console.log(this.state.results)
+        this.setState({
+          displayed_form: 'Search'
+        });
+      })
+      .catch(error => {
+        console.log("ERROR: " + error)
+      });
+
+    //if display form is already search: refresh
+    //else setstate
+
+  }
+
   display_form = form => {
     if (form === 'messaging') {
       this.setState({ messaging: !this.state.messaging })
@@ -167,6 +249,7 @@ class App extends Component {
       displayed_form: form
     });
   };
+
 
   render() {
     let form;
@@ -177,24 +260,34 @@ class App extends Component {
       case 'signup':
         form = <Signup handle_signup={this.handle_signup} />;
         break;
-      // case 'course':
-      //   form = <CourseDemo handle_course = {this.handle_course} />;
-      //   break;
+      case 'course':
+        form = <Course course={this.state.course} userpk={this.state.pk} token={this.state.token} username={this.state.username} />
+        break;
+      case 'Search':
+        form = <SearchCourse content={this.state.results}
+          handle_course={this.handle_course}
+          userpk={this.state.pk}
+          handle_join_course={this.handle_join_course} />
+        break;
 
       default:
-        { this.state.logged_in ? form = <Dashboard userpk={this.state.pk} username={this.state.username} /> : form = null }
+
+        // let course = <CourseDemo />;
+
+        { this.state.logged_in ? form = <Dashboard userpk={this.state.pk} handle_course={this.handle_course} /> : form = null }
+        break;
       // form = null
     }
-
-    // let course = <CourseDemo />;
     let messaging = this.state.messaging ? <Messenger pk={this.state.pk} username={this.state.username} /> : null
-
     return (
       <div className="App">
         <Navi
           logged_in={this.state.logged_in}
           display_form={this.display_form}
           handle_logout={this.handle_logout}
+          search={this.state.search}
+          handle_search_value={this.handle_search_value}
+          handle_search={this.handle_search}
         />
 
         <h3>

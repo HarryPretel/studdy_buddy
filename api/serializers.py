@@ -5,6 +5,7 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
+import collections
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -14,6 +15,9 @@ class UserSerializer(serializers.ModelSerializer):
         #           'password', 'last_login', 'date_joined')
         fields = ('username', 'pk', 'first_name',
                   'last_name', 'email', 'password')
+        extra_kwargs = {
+            'username': {'validators': []},
+        }
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -53,11 +57,50 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer(read_only=True, many=True)
+    user = UserSerializer(many=True)
 
     class Meta:
         model = Course
         fields = ('pk', 'department', 'number', 'name', 'user')
+
+    def update(self, instance, validated_data):
+        submitted_user = validated_data.pop('user')
+        print(submitted_user)
+        if submitted_user:
+            for student in submitted_user:
+                name = student["username"]
+                user_instance = User.objects.get(username=name)
+                instance.user.add(user_instance)
+        instance.save()
+        return instance
+
+# class StudyTimeSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = StudyTime
+#         fields = ('pk','time')
+
+
+class EventSerializer(serializers.HyperlinkedModelSerializer):
+    organizer = UserSerializer(many=False)
+    course_focus = CourseSerializer(many=False)
+    participants = UserSerializer(many=True)
+
+    class Meta:
+        model = Event
+        fields = ('pk', 'course_focus', 'organizer', 'time_organized', 'start', 'end',
+                  'title', 'size_limit', 'link', 'description', 'status', 'participants')
+        #fields = '__all__'
+
+    def update(self, instance, validated_data):
+        participant = validated_data.pop('participants')
+        print(participant)
+        if participant:
+            for student in participant:
+                name = student["username"]
+                user_instance = User.objects.get(username=name)
+                instance.participants.add(user_instance)
+        instance.save()
+        return instance
 
 
 class MessageSerializer(serializers.ModelSerializer):

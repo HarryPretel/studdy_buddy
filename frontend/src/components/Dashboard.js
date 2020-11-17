@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
+import Bt from '@material-ui/core/Button'
+import {Button} from 'react-bootstrap';
+
 import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -13,7 +15,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import { Link } from 'react-router-dom';
 
 function Copyright() {
   
@@ -28,15 +37,23 @@ function Copyright() {
     </Typography>
   );
 }
+function createData(id, Name, Location, Host , Time, Joinstatus) {
+  return { id, Name, Location, Host, Time, Joinstatus};
+}
+
+const rows = [
+  createData(0, 'Study for CS506', 'Madison, WI', 'Dr.Strange', '16 Mar, 2019', 'Joined'),
+  createData(1, 'Study for CS506', 'Madison, WI', 'Superman', '16 Mar, 2019', 'Joined'),
+  createData(2, 'Study for CS506', 'Madison, WI', 'Batman', '16 Mar, 2019', 'Joined'),
+  createData(3, 'Study for CS506', 'Madison, WI', 'Wonderwoman', '16 Mar, 2019', 'Joined'),
+  createData(4, 'Study for CS506', 'Madison, WI', 'Ironman', '16 Mar, 2019', 'Joined'),
+];
+
 
 const useStyles = makeStyles((theme) => ({
   // icon: {
   //   marginRight: theme.spacing(2),
   // },
-  heroContent: { 
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
   heroButtons: {
     marginTop: theme.spacing(4),
   },
@@ -48,9 +65,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
   },
   cardContent: {
     flexGrow: 1,
@@ -66,9 +80,11 @@ const cards = [1, 2, 3];
 class CourseDemo extends React.Component{
   
   state = {
-    courses: []
-
+    courses: [],
+    events: []
   }
+
+  
 
   componentDidMount() {
     fetch('http://localhost:8000/api/courses/students/' + this.props.userpk + '/', {
@@ -88,11 +104,31 @@ class CourseDemo extends React.Component{
       .catch(error => {
         console.log("ERROR: " + error)
       });
+
+    fetch('http://localhost:8000/api/events/students/' + this.props.userpk + '/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem('token')}`
+      },
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log(JSON.stringify(json))
+      this.setState({
+        events: json,
+      })
+      console.log(this.state.events)
+    })
+    .catch(error => {
+      console.log("ERROR: " + error)
+    });
   }
  
 render() {
-  const classes = useStyles;
+  const classes = withStyles(useStyles);
   console.log(this.state.courses)
+
   return( 
     <React.Fragment>
       <CssBaseline />
@@ -107,29 +143,10 @@ render() {
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
+          <Container  maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Dashboard
             </Typography>
-            {/* <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Something short and leading about the collection below—its contents, the creator, etc.
-              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-              entirely.
-            </Typography> */}
-            {/* <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                  <Button variant="contained" color="primary">
-                    Main call to action
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Secondary action
-                  </Button>
-                </Grid>
-              </Grid>
-            </div> */}
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
@@ -152,16 +169,56 @@ render() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Bt size="small" variant = "contained" color="primary" onClick = {(e) => this.props.handle_course(e,course)}>
                       View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
+                    </Bt>
+                    <Bt size="small"  variant = "contained"color="secondary">
+                      Quit
+                    </Bt>
                   </CardActions>
                 </Card>
               </Grid>
             ))}
+          <Grid item xs = {12}>
+          <Paper  className={Paper}>
+                    <React.Fragment>
+                        <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
+                        Events
+                        </Typography>
+                        <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Host</TableCell>
+                            <TableCell>Time</TableCell>
+                            <TableCell>Link</TableCell>
+                            <TableCell align="right"></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.events.map((event) => (
+                            <TableRow key={event.pk}>
+                                <TableCell>{event.title} </TableCell>
+                                <TableCell>{event.organizer.first_name} {event.organizer.last_name}</TableCell>
+                                <TableCell>{event.start}</TableCell>
+                                <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
+                                <TableCell>
+                                <Button align="right" color="primary">Join</Button>
+                                </TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                        </Table>
+
+                        {/* <div className={classes.seeMore}>
+                        <Link color="primary" href="#" >
+                            See more orders
+                        </Link>
+                        </div> */}
+                </React.Fragment>
+
+                </Paper>
+          </Grid>
           </Grid>
         </Container>
       </main>
@@ -170,9 +227,6 @@ render() {
         {/* <Typography variant="h6" align="center" gutterBottom>
           Footer
         </Typography> */}
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
-        </Typography>
         <Copyright />
       </footer>
       {/* End footer */}

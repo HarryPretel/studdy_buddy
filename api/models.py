@@ -100,6 +100,10 @@ class Event(models.Model):
     link = models.CharField(max_length=500)
     description = models.CharField(max_length=500)
     status = models.IntegerField()
+    participants = models.ManyToManyField(User, blank = True)
+
+    def __str__(self):
+        return self.title
 
     def save(self, *args, **kwargs):
         self.time_organized = datetime.datetime.now()

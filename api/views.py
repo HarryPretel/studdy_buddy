@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
+from rest_framework import filters
 # Create your views here.
 from rest_framework import viewsets
 from .serializers import *
@@ -75,20 +76,24 @@ class UserProfileDetailView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CourseView(APIView):
+class CourseView(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
+    queryset = Course.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['department', 'number', 'name', ]
+    serializer_class = CourseSerializer
 
-    def get(self, request, format=None):
-        course = Course.objects.all()
-        serializer = CourseSerializer(course, many=True)
-        return Response(serializer.data)
+    # def get(self, request, format = None):
+    #     course = Course.objects.all()
+    #     serializer = CourseSerializer(course, many = True)
+    #     return Response(serializer.data)
 
-    def post(self, request, format=None):
-        serializer = CourseSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # def post(self, request, format = None):
+    #     serializer = CourseSerializer(data = request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CourseDetailView(APIView):
@@ -110,6 +115,14 @@ class CourseDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, pk, format=None):
+        course = self.get_object(pk)
+        userpk = request.data['userpk']
+        user_remove = User.objects.get(pk=userpk)
+        updatedcourse = course.user.remove(user_remove)
+        serializer = CourseSerializer(updatedcourse)
+        return Response(serializer.data)
+
 
 class EnrolledDetailView(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -121,6 +134,72 @@ class EnrolledDetailView(APIView):
         course = self.get_object(pk).all()
         serializer = CourseSerializer(course, many=True)
         return Response(serializer.data)
+
+
+class EventView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, format=None):
+        event = Event.objects.all()
+        serializer = EventSerializer(event, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = EventSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.erros, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EventDetailView(APIView):
+    def get_object(self, pk):
+        return Event.objects.get(pk=pk)
+
+    def get(self, request, pk, format=None):
+        event = self.get_object(pk)
+        serializer = EventSerializer(event)
+        return Response(serializer.data)
+
+    def patch(self, request, pk, format=None):
+        event = self.get_object(pk)
+        serializer = EventSerializer(event, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EventforCourseView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, pk):
+        return Event.objects.filter(course_focus__pk=pk)
+
+    def get(self, request, pk, format=None):
+        event = self.get_object(pk).all()
+        serializer = EventSerializer(event, many=True)
+        return Response(serializer.data)
+
+
+class EventforStudentView(APIView):
+    def get_object(self, pk):
+        return Event.objects.filter(participants__pk=pk)
+
+    def get(self, request, pk, format=None):
+        event = self.get_object(pk).all()
+        serializer = EventSerializer(event, many=True)
+        return Response(serializer.data)
+
+
+class AllMessageList(generics.ListAPIView):
+    serializer_class = MessageSerializer
+    permission_classes = (permissions.AllowAny,)
+
+    def get_queryset(self):
+        return (
+            self.request.user.sent_message.all() | self.request.user.received_message.all()
+        ).order_by('-timestamp')
 
 
 class MessageView(APIView):

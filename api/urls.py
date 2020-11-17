@@ -22,4 +22,9 @@ urlpatterns = [
          views.ConversationListView().as_view()),
     path('messaging/conversations/user/<int:pka>/user2/<int:pkb>',
          views.TwoWayConvoView.as_view()),
+
+    path('events/', views.EventView.as_view()),
+    path('events/<int:pk>/', views.EventDetailView.as_view()),
+    path('events/courses/<int:pk>/', views.EventforCourseView().as_view()),
+    path('events/students/<int:pk>/', views.EventforStudentView().as_view()),
 ]
