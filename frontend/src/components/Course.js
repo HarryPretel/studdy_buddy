@@ -161,9 +161,10 @@ class Course extends React.Component{
                                 <TableCell>{event.title}</TableCell>
                                 <TableCell>{event.organizer.first_name} {event.organizer.last_name}</TableCell>
                                 <TableCell>{event.start}</TableCell>
+                                <TableCell></TableCell>
                                 <TableCell><Link target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</Link></TableCell>
                                 <TableCell>
-                                <Button align="right" class="btn btn-xs">Join</Button>
+                                <Button align="right" variant = "contained" color = "primary" size = "small">Join</Button>
                                 </TableCell>
                             </TableRow>
                             ))}
