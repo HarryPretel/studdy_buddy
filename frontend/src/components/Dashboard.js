@@ -86,44 +86,69 @@ class CourseDemo extends React.Component{
 
   
 
-  componentDidMount() {
-    fetch('http://localhost:8000/api/courses/students/' + this.props.userpk + '/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => res.json())
-      .then(json => {
-        console.log(JSON.stringify(json))
-        this.setState({
-          courses: json
-        })
-        console.log(this.state.courses)
-      })
-      .catch(error => {
-        console.log("ERROR: " + error)
-      });
+componentDidMount() {
+    this.handle_get_course()
+    this.handle_get_event()
+  }
 
-    fetch('http://localhost:8000/api/events/students/' + this.props.userpk + '/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `jwt ${localStorage.getItem('token')}`
-      },
-    })
+handle_quit_course(data){
+  let input = '{"userpk":' + this.props.userpk + '}'
+  fetch('http://localhost:8000/api/courses/' + data + '/', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `jwt ${localStorage.getItem('token')}`
+    },
+    body: input
+  })
+  .then(response => response.json())
+  .catch(error => {
+    console.log("ERROR: " + error)
+    alert(error);
+  });
+  setTimeout(function() {this.handle_get_course()}.bind(this),100);
+  
+}
+
+handle_get_course(){
+  fetch('http://localhost:8000/api/courses/students/' + this.props.userpk + '/', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
     .then(res => res.json())
     .then(json => {
       console.log(JSON.stringify(json))
       this.setState({
-        events: json,
+        courses: json
       })
-      console.log(this.state.events)
     })
     .catch(error => {
       console.log("ERROR: " + error)
     });
-  }
+}
+
+handle_get_event(){
+  fetch('http://localhost:8000/api/events/students/' + this.props.userpk + '/', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `jwt ${localStorage.getItem('token')}`
+    },
+  })
+  .then(res => res.json())
+  .then(json => {
+    console.log(JSON.stringify(json))
+    this.setState({
+      events: json,
+    })
+    console.log(this.state.events)
+  })
+  .catch(error => {
+    console.log("ERROR: " + error)
+  });
+}
  
 render() {
   const classes = withStyles(useStyles);
@@ -172,7 +197,7 @@ render() {
                     <Bt size="small" variant = "contained" color="primary" onClick = {(e) => this.props.handle_course(e,course)}>
                       View
                     </Bt>
-                    <Bt size="small"  variant = "contained"color="secondary">
+                    <Bt size="small"  variant = "contained"color="secondary" onClick = {() => this.handle_quit_course(course.pk)}>
                       Quit
                     </Bt>
                   </CardActions>

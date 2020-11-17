@@ -88,11 +88,11 @@ const rows = [
     }
 
     componentDidUpdate(prevProps){
-      if (prevProps.content !== this.props.content){
-        this.setState({
-          courses: this.props.content
-        })
-      }
+        if (prevProps.content !== this.props.content){
+          this.setState({
+            courses: this.props.content
+          })
+        }
     }
 
     is_joined(data){
@@ -136,7 +136,7 @@ const rows = [
                                         <TableCell align = "right">
                                          {this.is_joined(course.user)
                                             ? <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_course(e,course)}>See Page</Button>
-                                            : <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_join_course(e,course.pk)}>Join</Button>
+                                            : <Button class="btn btn-xs" onClick = {(e)=>{this.props.handle_join_course(e,course.pk)}}>Join</Button>
                                           }
                                         {/* <Button class="btn btn-xs" onClick = {(e)=>this.props.handle_course(e,course.pk)}>See Page</Button>
                                          &nbsp; 

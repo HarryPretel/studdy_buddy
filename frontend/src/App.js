@@ -210,8 +210,8 @@ class App extends Component {
       console.log("ERROR: " + error)
       alert(error);
     })
-
-    this.handle_search()
+    setTimeout(function() {this.handle_search()}.bind(this),100);
+    
   }
 
   handle_search = () => {
@@ -240,7 +240,7 @@ class App extends Component {
     //else setstate
     
   }
- 
+
   display_form = form => {
     if (form == 'messaging') {
       this.setState({ messaging: !this.state.messaging })
