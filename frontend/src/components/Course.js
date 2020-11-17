@@ -10,7 +10,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {Button} from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { spacing } from '@material-ui/system';
@@ -166,19 +166,22 @@ class Course extends React.Component{
                 </Typography>
                 
             </Container>
-            <Grid container spacing={3}>
-                <Grid item item xs={12} md={8} lg={9}>
+            <Container className={classes.cardGrid} maxWidth="xl">
+            <Grid container spacing={2}>
+                <Grid item item xs={12} md={8} lg={8} sm = {12}>
                 <Paper className={fixedHeightPaper} >
                     <React.Fragment>
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
                         Events
+                        <Button align="right"  variant = "contained" color = "primary" size = "small" style={{float: 'right', right: 7, top: 7}}>Create event</Button>
                         </Typography>
                         <Table size="small">
                         <TableHead>
                             <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Host</TableCell>
-                            <TableCell>Time</TableCell>
+                            <TableCell>Date</TableCell>
+                            <TableCell>StartTime</TableCell>
                             <TableCell>Location</TableCell>
                             <TableCell align="right"></TableCell>
                             </TableRow>
@@ -194,7 +197,7 @@ class Course extends React.Component{
                                 {/* <Button align="right" class="btn btn-xs" onClick = {() => this.handle_join_event(event.pk)}>Join</Button> */}
                                     {this.is_joined(event.participants)
                                       ? 'Joined'
-                                      : <Button class="btn btn-xs" onClick = {()=>this.props.handle_join_event(event.pk)}>Join</Button>
+                                      : <Button align="right" variant = "contained" color = "primary" size = "small" onClick = {()=>this.props.handle_join_event(event.pk)}>Join</Button>
                                     }
                                 </TableCell>
                             </TableRow>
@@ -211,7 +214,7 @@ class Course extends React.Component{
 
                 </Paper>
             </Grid>
-            <Grid item item xs={12} md={4} lg={9}>
+            <Grid item item xs={12} md={4} lg={4} sm = {12}>
                 <Paper className={fixedHeightPaper}>
                     <React.Fragment>
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
@@ -247,7 +250,7 @@ class Course extends React.Component{
                 </Paper>
             </Grid>
           </Grid>
-
+          </Container>
             <footer className={classes.footer}>
                 <Container maxWidth="sm">
                 {/* <Typography variant="body1">My sticky footer can be found here.</Typography> */}
