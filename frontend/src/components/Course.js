@@ -20,6 +20,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { Link } from 'react-router-dom';
+import Box from '@material-ui/core/Box';
+import Popup from 'reactjs-popup';
+import TextField from '@material-ui/core/TextField';
+import './CreateEvent.css'
+
 
 const drawerWidth = 240;
 
@@ -173,7 +178,99 @@ class Course extends React.Component{
                     <React.Fragment>
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
                         Events
-                        <Button align="right"  variant = "contained" color = "primary" size = "small" style={{float: 'right', right: 7, top: 7}}>Create event</Button>
+                        {/* <Button align="right"  variant = "contained" color = "primary" size = "small" style={{float: 'right', right: 7, top: 7}}>Create event</Button> */}
+                        <Popup trigger={<button type = "Button" class = "Button" style={{float: "right"}}> Create Event</button>} position="bottom center">
+                          <div class = 'CreateEvent' >
+                            
+                            <Typography component="h1" variant="h5">
+                            Create Event for CS 506
+                            </Typography>
+                            <form className={classes.form} noValidate>
+                              <TextField
+                                // variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Title"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                              />
+                              <TextField
+                                // variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Date"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                              />
+                              <TextField
+                                // variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Start Time"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                              />
+                              <TextField
+                                // variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="End Time"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                              />
+                              <TextField
+                                // variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Size Limit"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                              />
+                              <TextField
+                                // variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Description"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                              />
+                                
+                            {/* <Link >Cancel</Link> */}
+                              <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                              
+                                className={classes.submit}
+                              >
+                                Confirm
+                              </Button>
+                              
+                            </form>
+                          </div>
+                          <Box mt={8}>
+                         
+                          </Box>
+                          </Popup>
                         </Typography>
                         <Table size="small">
                         <TableHead>

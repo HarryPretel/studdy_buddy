@@ -36,7 +36,10 @@ function Navi(props) {
     <FormControl type="text" placeholder="SearchCourse" className="mr-sm-2" value = {props.search} onChange = {props.handle_search_value}/>
       <Button variant="outline-light" onClick={props.handle_search}>Search</Button>
       <Nav.Link onClick={() => props.display_form('messaging')}>Messages</Nav.Link>
+     
       <Nav.Link href="#pricing">Calendar</Nav.Link>
+
+    
       {/* <Nav.Link onClick = {() => props.display_form('course')}>Course</Nav.Link> */}
       
     </Nav>
