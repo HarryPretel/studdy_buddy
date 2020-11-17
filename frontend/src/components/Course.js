@@ -135,9 +135,9 @@ class Course extends React.Component{
                 </Typography>
                 
             </Container>
-            <Container className={classes.cardGrid} maxWidth="lg">
-            <Grid container spacing={3}>
-                <Grid item item xs={12} md={8} lg={9}>
+            <Container className={classes.cardGrid} maxWidth="xl">
+            <Grid container spacing={2}>
+                <Grid item item xs={12} md={8} lg={8} sm = {12}>
                 <Paper className={fixedHeightPaper} >
                     <React.Fragment>
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
@@ -179,7 +179,7 @@ class Course extends React.Component{
 
                 </Paper>
             </Grid>
-            <Grid item item xs={12} md={4} lg={9}>
+            <Grid item item xs={12} md={4} lg={4} sm = {12}>
                 <Paper className={fixedHeightPaper}>
                     <React.Fragment>
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
