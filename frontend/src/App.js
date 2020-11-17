@@ -169,7 +169,8 @@ class App extends Component {
     console.log(data)
     e.preventDefault();
 
-    fetch('http://localhost:8000/api/courses/' + data, {
+
+    fetch('http://localhost:8000/api/courses/' + data.pk + '/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
