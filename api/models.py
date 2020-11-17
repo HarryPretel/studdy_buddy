@@ -88,10 +88,10 @@ class Message(models.Model):
 
 class Event(models.Model):
     course_focus = models.ForeignKey(
-        Course, related_name='events', on_delete=models.CASCADE)
+        Course, related_name='events', on_delete=models.CASCADE, blank= True)
     organizer = models.ForeignKey(
-        User, related_name='organized_events', on_delete=models.CASCADE)
-    time_organized = models.DateTimeField()
+        User, related_name='organized_events', on_delete=models.CASCADE,blank= True)
+    time_organized = models.DateTimeField(auto_now_add=True)
 
     start = models.DateTimeField()
     end = models.DateTimeField()

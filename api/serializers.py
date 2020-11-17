@@ -63,7 +63,7 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
         model = Course
         fields = ('pk', 'department', 'number', 'name', 'user')
 
-    def update(self, instance, validated_data):
+    def update(self, validated_data):
         submitted_user = validated_data.pop('user')
         print(submitted_user)
         if submitted_user:
@@ -81,15 +81,34 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
-    organizer = UserSerializer(many=False)
-    course_focus = CourseSerializer(many=False)
-    participants = UserSerializer(many=True)
+    organizer = UserSerializer(many=False,read_only=True)
+    course_focus = CourseSerializer(many=False, read_only=True)
+    participants = UserSerializer(many=True, read_only=True)
 
     class Meta:
         model = Event
         fields = ('pk', 'course_focus', 'organizer', 'time_organized', 'start', 'end',
                   'title', 'size_limit', 'link', 'description', 'status', 'participants')
         #fields = '__all__'
+
+    def create(self, validated_data):
+        course = Course.objects.get(pk=validated_data.pop('course_focus'))
+        organizer = User.objects.get(pk = validated_data.pop('organizer'))
+        
+        # time_organized = validated_data.get('time_organized')
+        # start = validated_data.get('start')
+        # end = validated_data.get('end')
+        # title = validated_data.get('title')
+        # size_limit = validated_data.get('size_limit')
+        # link = validated_data.get('link')
+        # description = validated_data.get('description')
+        # status = validated_data.get('status')
+        # instance = Event.objects.create(time_organized=time_organized,start=start,end=end,title=title,size_limit=size_limit,link=link,description=description,status=status, course_focus=course, organizer=organizer, participants=participants)
+        instance = Event.objects.create(**validated_data)
+        instance.participants.add(organizer)
+        instance.organizer = organizer
+        instance.course_focus = course
+        return instance
 
     def update(self, instance, validated_data):
         participant = validated_data.pop('participants')

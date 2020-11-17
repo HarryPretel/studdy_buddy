@@ -200,7 +200,6 @@ class EventforCourseView(APIView):
         serializer = EventSerializer(event, many=True)
         return Response(serializer.data)
 
-
 class EventforStudentView(APIView):
     def get_object(self, pk):
         return Event.objects.filter(participants__pk=pk)
@@ -224,6 +223,25 @@ class EventforOrganizerView(APIView):
         event = self.get_object(eventpk)
         event.delete()
         return Response(status=status.HTTP_200_OK)
+
+class EventCreateView(APIView):
+
+    def post(self, request, userpk, coursepk, format=None):
+        event = request.data
+        # event['organizer'] = User.objects.get(pk=userpk).__dict__
+        # user = Course.objects.get(pk = coursepk).user.all()
+        # userlist = [i.__dict__ for i in user]
+        # event['course_focus'] = Course.objects.get(pk = coursepk).__dict__
+        # event['course_focus']['user'] = userlist
+        # event['status'] = 1
+        event['course_focus'] = coursepk
+        event['user'] = userpk
+        # event['participants'] = [event['organizer']]
+        serializer = EventSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AllMessageList(generics.ListAPIView):
