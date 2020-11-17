@@ -158,8 +158,14 @@ class EventforCourseView(APIView):
         serializer = EventSerializer(event, many = True)
         return Response(serializer.data)
 
-# class EventforStudentView(APIView):
-#     def get_
+class EventforStudentView(APIView):
+    def get_object(self,pk):
+        return Event.objects.filter(participants__pk = pk)
+    
+    def get(self, request, pk, format = None):
+        event = self.get_object(pk).all()
+        serializer = EventSerializer(event, many = True)
+        return Response(serializer.data)
 
 
 class AllMessageList(generics.ListAPIView):

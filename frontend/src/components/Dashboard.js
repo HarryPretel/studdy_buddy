@@ -13,13 +13,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { Link } from 'react-router-dom';
 
 function Copyright() {
   
@@ -80,8 +81,8 @@ const cards = [1, 2, 3];
 class CourseDemo extends React.Component{
   
   state = {
-    courses: []
-
+    courses: [],
+    events: []
   }
 
   componentDidMount() {
@@ -102,11 +103,31 @@ class CourseDemo extends React.Component{
       .catch(error => {
         console.log("ERROR: " + error)
       });
+
+    fetch('http://localhost:8000/api/events/students/' + this.props.userpk + '/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `jwt ${localStorage.getItem('token')}`
+      },
+    })
+    .then(res => res.json())
+    .then(json => {
+      console.log(JSON.stringify(json))
+      this.setState({
+        events: json,
+      })
+      console.log(this.state.events)
+    })
+    .catch(error => {
+      console.log("ERROR: " + error)
+    });
   }
  
 render() {
   const classes = useStyles;
   console.log(this.state.courses)
+
   return( 
     <React.Fragment>
       <CssBaseline />
@@ -188,17 +209,17 @@ render() {
                             <TableCell>Name</TableCell>
                             <TableCell>Host</TableCell>
                             <TableCell>Time</TableCell>
-                            <TableCell>Location</TableCell>
+                            <TableCell>Link</TableCell>
                             <TableCell align="right"></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((rows) => (
-                            <TableRow key={rows.id}>
-                                <TableCell>{rows.Host}</TableCell>
-                                <TableCell>{rows.Name} </TableCell>
-                                <TableCell>{rows.Location}</TableCell>
-                                <TableCell><Link target = "_blank" component = "button" variant = "body2"  >Link</Link></TableCell>
+                            {this.state.events.map((event) => (
+                            <TableRow key={event.pk}>
+                                <TableCell>{event.title} </TableCell>
+                                <TableCell>{event.organizer.first_name} {event.organizer.last_name}</TableCell>
+                                <TableCell>{event.start}</TableCell>
+                                <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
                                 <Button align="right" class="btn btn-xs">Join</Button>
                                 </TableCell>

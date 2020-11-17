@@ -19,6 +19,7 @@ urlpatterns = [
 
     path('events/', views.EventView.as_view()),
     path('events/courses/<int:pk>/', views.EventforCourseView().as_view()),
+    path('events/students/<int:pk>/', views.EventforStudentView().as_view()),
 
     path('messages/', views.AllMessageList.as_view()),
     path('messages/sent/', views.SentMessageList.as_view()),

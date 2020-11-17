@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import { withStyles } from "@material-ui/core/styles";
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -19,6 +19,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -158,7 +159,7 @@ class Course extends React.Component{
                                 <TableCell>{event.title}</TableCell>
                                 <TableCell>{event.organizer.first_name} {event.organizer.last_name}</TableCell>
                                 <TableCell>{event.start}</TableCell>
-                                <TableCell><Link target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</Link></TableCell>
+                                <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
                                 <Button align="right" class="btn btn-xs">Join</Button>
                                 </TableCell>
