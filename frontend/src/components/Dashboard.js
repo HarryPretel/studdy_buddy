@@ -215,7 +215,8 @@ render() {
                             <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Host</TableCell>
-                            <TableCell>Time</TableCell>
+                            <TableCell>Date</TableCell>
+                            <TableCell>StartTime</TableCell>
                             <TableCell>Link</TableCell>
                             <TableCell align="right"></TableCell>
                             </TableRow>
@@ -226,6 +227,7 @@ render() {
                                 <TableCell>{event.title} </TableCell>
                                 <TableCell>{event.organizer.first_name} {event.organizer.last_name}</TableCell>
                                 <TableCell>{event.start}</TableCell>
+                                <TableCell> </TableCell>
                                 <TableCell><a target = "_blank" component = "button" variant = "body2" href = {event.link} >Link</a></TableCell>
                                 <TableCell>
                                 <Button align="right" color="primary">Join</Button>
