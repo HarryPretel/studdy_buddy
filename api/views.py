@@ -164,3 +164,14 @@ class ConversationListView(APIView):
                 ret.append(m)
         serializer = MessageSerializer(ret, many=True)
         return Response(serializer.data)
+
+
+class TwoWayConvoView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, pka, pkb, format=None):
+        messages = Message.objects.filter(sender__pk=pka) | Message.objects.filter(
+            sender__pk=pkb) | Message.objects.filter(receivers__pk=pka) | Message.objects.filter(receivers__pk=pkb)
+        messages = messages.order_by('-timestamp')
+        serializer = MessageSerializer(messages, many=True)
+        return Response(serializer.data)

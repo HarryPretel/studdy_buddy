@@ -20,4 +20,6 @@ urlpatterns = [
     path('messaging/user/<int:pk>', views.MessageView().as_view()),
     path('messaging/conversations/user/<int:pk>',
          views.ConversationListView().as_view()),
+    path('messaging/conversations/user/<int:pka>/user2/<int:pkb>',
+         views.TwoWayConvoView.as_view()),
 ]

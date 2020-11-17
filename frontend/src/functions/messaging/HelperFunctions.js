@@ -1,12 +1,14 @@
-export function get_messages() {
-    return [
-        { pk: 1, sender: 'harrisonp', receiver: 'ek', content: 'waddup bro' },
-        { pk: 2, sender: 'harrisonp', receiver: 'ek', content: 'waddup bro x2' },
-        { pk: 3, sender: 'ek', receiver: 'hp', content: 'waddup bro x3' },
-    ]
+async function get_messages(pka, pkb) {
+    var endpoint = 'http://localhost:8000/api/messaging/conversations/user/' + pka + '/user2/' + pkb
+    var messages = await fetch(endpoint).catch(error => {
+        console.log('ERROR: ' + error)
+        return []
+    })
+    messages = await messages.json()
+    return messages
 }
 
-export async function get_conversations(pk) {
+async function get_conversations(pk) {
     console.log('get_conversations ' + pk)
     var endpoint = 'http://localhost:8000/api/messaging/conversations/user/' + pk
     console.log(endpoint)
@@ -21,7 +23,7 @@ export async function get_conversations(pk) {
     return conversations
 }
 
-export async function get_username(pk) {
+async function get_username(pk) {
     var endpoint = 'http://localhost:8000/api/userprofiles/' + pk
     var user = await fetch(endpoint).catch(error => {
         console.log("ERROR: " + error)
@@ -31,3 +33,5 @@ export async function get_username(pk) {
     console.log('get_username: ' + JSON.stringify(user))
     return [user]
 }
+
+export { get_messages, get_conversations, get_username };
