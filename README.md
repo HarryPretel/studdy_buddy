@@ -2,19 +2,27 @@
 A web app for creating study groups and making friends.
 
 # running:
-## backend
+## repo setup
+```
+git clone https://github.com/HarryPretel/studdy_buddy.git
+```
+## server setup
+run each of the following commands in the repo you just downloaded
+### backend
 ```
 python3 -m pip install django
 python3 -m pip install django-rest-framework
-python3 -m pip django-multiselectfield
+python3 -m pip install django-multiselectfield
 python3 manage.py runserver
 ```
-In another terminal:
+### frontend
 ```
 cd frontend
-npm ci
-npm start
+yarn
+yarn start
 ```
+## running our app
+Go to localhost:3000 in your chrome browser to view our website
 
 # backend documentation
 ## messages

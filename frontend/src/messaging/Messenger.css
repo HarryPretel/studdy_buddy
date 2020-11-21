@@ -1,0 +1,79 @@
+messenger {
+    border: 2px solid navy;
+
+    padding: 10px 10px 10px 10px;
+
+    width: 500px;
+    height: 500px;
+
+    position: fixed;
+    bottom: 0;
+    right: 50px;
+}
+t {
+    width: 90%;
+    height: 10%;
+    margin:10%;
+}
+
+
+add {
+    position: absolute;
+    right:0;
+    top:0;
+    margin: 10px;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    border: 2px solid navy;
+    border-radius: 10px;
+}
+
+
+convopage {
+    width: 80%;
+    height: 80%;
+}
+
+convo {
+    width: 80%;
+    margin: auto;
+    display:block;
+}
+
+message {
+    width: 100%;
+}
+
+sentmessage {
+    background: rgb(152, 152, 255);
+    border: 2px solid rgb(152, 152, 255);
+    border-radius: 50px;
+    
+    margin-left:75%;
+}
+
+receivedmessage {
+    background: rgb(107, 252, 107);
+    border: 2px solid  rgb(107, 252, 107);
+    border-radius: 50px;
+    
+    margin-right: 75%;
+}
+
+
+newmessage input {
+    width: 100px;
+}
+
+conversationlist li {
+    list-style: none;
+    font-size: 25px;
+    width: 100%;
+    border: 1px solid navy;
+    margin: auto;
+}
+
+conversationlist li group {
+    text-align: left;
+}

@@ -55,8 +55,8 @@ post_save.connect(create_user_profile, sender=User)
 class Course(models.Model):
     department = models.CharField(max_length=20)
     number = models.CharField(max_length=3)
-    name = models.CharField(max_length = 200, default = "")
-    user = models.ManyToManyField(User, blank = True)
+    name = models.CharField(max_length=200, default="")
+    user = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return self.department + ' ' + self.number
@@ -70,11 +70,11 @@ class Message(models.Model):
         User, related_name='sent_message', on_delete=models.CASCADE
     )
     receivers = models.ManyToManyField(User, related_name='received_message')
-    message_type = models.CharField(max_length=10)
+    message_type = models.CharField(max_length=10, blank=True)
     content = models.CharField(max_length=140)
     # files in MEDIA_ROOT/uploads/year/m/d
     # attachment = models.FileField(upload_to='uploads/%Y/%m/%d/')
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(blank=True)
 
     def __str__(self):
         return 'from: ' + self.sender.username + ' message: ' + self.content
@@ -88,9 +88,9 @@ class Message(models.Model):
 
 class Event(models.Model):
     course_focus = models.ForeignKey(
-        Course, related_name='events', on_delete=models.CASCADE, blank= True)
+        Course, related_name='events', on_delete=models.CASCADE, blank=True)
     organizer = models.ForeignKey(
-        User, related_name='organized_events', on_delete=models.CASCADE,blank= True)
+        User, related_name='organized_events', on_delete=models.CASCADE, blank=True)
     time_organized = models.DateTimeField(auto_now_add=True)
 
     start = models.DateTimeField()
@@ -100,7 +100,7 @@ class Event(models.Model):
     link = models.CharField(max_length=500)
     description = models.CharField(max_length=500)
     status = models.IntegerField()
-    participants = models.ManyToManyField(User, blank = True)
+    participants = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return self.title
