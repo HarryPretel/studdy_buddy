@@ -76,7 +76,7 @@ class Messenger extends React.Component {
             <newmessage>
 
                 <form onSubmit={this.handleSend}>
-                    <input type='text' value={this.state.addconvoparam} onChange={this.editUserSearchTerm} placeholder='recipient' />
+                    <input type='text' value={this.state.addconvoparam} onChange={this.editUserSearchTerm} placeholder='recipients username' />
                     <br />
                     <input type='text' value={this.state.messagecontents} onChange={this.editMessageContents} placeholder='message' />
                     <br />
