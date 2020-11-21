@@ -20,13 +20,19 @@ urlpatterns = [
     path('messaging/user/<int:pk>', views.MessageView().as_view()),
     path('messaging/conversations/user/<int:pk>',
          views.ConversationListView().as_view()),
-    path('messaging/conversations/user/<int:pka>/user2/<int:pkb>',
+    path('messaging/conversations/user/<int:pka>/user2/<str:pkb>',
          views.TwoWayConvoView.as_view()),
+    path('messaging/allusers/', views.AllUsers.as_view()),
+    path('messaging/sendmessage/', views.SendMessage.as_view()),
+    path('messaging/username_to_pk/<str:username>',
+         views.Username_to_pk.as_view()),
 
     path('events/', views.EventView.as_view()),
     path('events/<int:pk>/', views.EventDetailView.as_view()),
     path('events/courses/<int:pk>/', views.EventforCourseView().as_view()),
     path('events/students/<int:pk>/', views.EventforStudentView().as_view()),
-    path('events/organizers/<int:userpk>-<int:eventpk>/', views.EventforOrganizerView().as_view()),
-    path('events/create/<int:userpk>-<int:coursepk>/', views.EventCreateView().as_view())
+    path('events/organizers/<int:userpk>-<int:eventpk>/',
+         views.EventforOrganizerView().as_view()),
+    path('events/create/<int:userpk>-<int:coursepk>/',
+         views.EventCreateView().as_view()),
 ]

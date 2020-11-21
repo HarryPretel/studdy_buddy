@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navi from './components/Nav';
 import LoginForm from './components/LoginForm';
 import Signup from './components/Signup';
-import Messenger from './components/Messenger'
+import Messenger from './messaging/Messenger'
 import Dashboard from './components/Dashboard';
 import Course from './components/Course';
 import SearchCourse from './components/Search';
@@ -204,13 +204,13 @@ class App extends Component {
       },
       body: input
     })
-    .then(response => response.json())
-    .catch(error => {
-      console.log("ERROR: " + error)
-      alert(error);
-    })
-    setTimeout(function() {this.handle_search()}.bind(this),100);
-    
+      .then(response => response.json())
+      .catch(error => {
+        console.log("ERROR: " + error)
+        alert(error);
+      })
+    setTimeout(function () { this.handle_search() }.bind(this), 100);
+
   }
 
   handle_search = () => {

@@ -6,6 +6,7 @@ from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
 import collections
+import datetime
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -81,7 +82,7 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
-    organizer = UserSerializer(many=False,read_only=True)
+    organizer = UserSerializer(many=False, read_only=True)
     course_focus = CourseSerializer(many=False, read_only=True)
     participants = UserSerializer(many=True, read_only=True)
 
@@ -93,8 +94,8 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         course = Course.objects.get(pk=validated_data.pop('course_focus'))
-        organizer = User.objects.get(pk = validated_data.pop('organizer'))
-        
+        organizer = User.objects.get(pk=validated_data.pop('organizer'))
+
         # time_organized = validated_data.get('time_organized')
         # start = validated_data.get('start')
         # end = validated_data.get('end')
@@ -123,9 +124,16 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
-    sender = serializers.ReadOnlyField(source='sender.username')
+    sender = serializers.StringRelatedField(source='sender.username')
     receivers = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Message
         fields = ('sender', 'receivers', 'content', 'timestamp', 'pk')
+
+
+class MessageSerializerForSending(serializers.ModelSerializer):
+
+    class Meta:
+        model = Message
+        fields = ('sender', 'receivers', 'content')
