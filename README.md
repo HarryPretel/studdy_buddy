@@ -12,7 +12,7 @@ run each of the following commands in the repo you just downloaded
 ```
 python3 -m pip install django
 python3 -m pip install django-rest-framework
-python3 -m pip django-multiselectfield
+python3 -m pip install django-multiselectfield
 python3 manage.py runserver
 ```
 ### frontend
