@@ -64,7 +64,7 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
         model = Course
         fields = ('pk', 'department', 'number', 'name', 'user')
 
-    def update(self, validated_data):
+    def update(self, instance, validated_data):
         submitted_user = validated_data.pop('user')
         print(submitted_user)
         if submitted_user:
