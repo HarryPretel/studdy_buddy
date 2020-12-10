@@ -46,7 +46,7 @@ function Navi(props) {
     <Nav>
       <Nav.Link onClick = {props.handle_logout}>Logout</Nav.Link>
      
-      <Navbar.Brand href="#profile">
+      <Navbar.Brand onClick= {() =>props.display_form('profile')}>
       <PermIdentityIcon style={{ fontSize: 25}} >profile</PermIdentityIcon>
       </Navbar.Brand>
     </Nav>
