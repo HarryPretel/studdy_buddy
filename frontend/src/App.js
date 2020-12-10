@@ -6,6 +6,7 @@ import Messenger from './messaging/Messenger'
 import Dashboard from './components/Dashboard';
 import Course from './components/Course';
 import SearchCourse from './components/Search';
+import Profile from './components/Profile'
 import './App.css';
 import { Search } from 'semantic-ui-react';
 
@@ -267,6 +268,9 @@ class App extends Component {
           handle_course={this.handle_course}
           userpk={this.state.pk}
           handle_join_course={this.handle_join_course} />
+          break;
+      case 'profile':
+        form = <Profile />
         break;
 
       default:
