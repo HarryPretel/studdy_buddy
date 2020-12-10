@@ -121,7 +121,6 @@ class CourseDetailView(APIView):
         user_remove = User.objects.get(pk=userpk)
         updatedcourse = course.user.remove(user_remove)
         serializer = CourseSerializer(updatedcourse)
-
         events = EventforCourseView().get_object(pk=pk).filter(participants__pk=userpk)
         for event in events:
             EventDetailView().remove(userpk=userpk, pk=event.pk)
@@ -239,9 +238,14 @@ class EventCreateView(APIView):
         # event['status'] = 1
         event['course_focus'] = coursepk
         event['user'] = userpk
+        course = CourseDetailView().get_object(pk=coursepk)
+        organizer = User.objects.get(pk=userpk)
+        print(course)
         # event['participants'] = [event['organizer']]
-        serializer = EventSerializer(data=request.data)
+        serializer = EventSerializer(data=event, partial = True)
         if serializer.is_valid():
+            serializer.validated_data['course_focus'] = course
+            serializer.validated_data['organizer'] = organizer
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -93,22 +93,10 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         #fields = '__all__'
 
     def create(self, validated_data):
-        course = Course.objects.get(pk=validated_data.pop('course_focus'))
-        organizer = User.objects.get(pk=validated_data.pop('organizer'))
-
-        # time_organized = validated_data.get('time_organized')
-        # start = validated_data.get('start')
-        # end = validated_data.get('end')
-        # title = validated_data.get('title')
-        # size_limit = validated_data.get('size_limit')
-        # link = validated_data.get('link')
-        # description = validated_data.get('description')
-        # status = validated_data.get('status')
-        # instance = Event.objects.create(time_organized=time_organized,start=start,end=end,title=title,size_limit=size_limit,link=link,description=description,status=status, course_focus=course, organizer=organizer, participants=participants)
+        print(validated_data)
         instance = Event.objects.create(**validated_data)
-        instance.participants.add(organizer)
-        instance.organizer = organizer
-        instance.course_focus = course
+        print(validated_data)
+        instance.participants.add(validated_data['organizer'])
         return instance
 
     def update(self, instance, validated_data):
