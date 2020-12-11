@@ -106,6 +106,7 @@ handle_quit_course(data){
     console.log("ERROR: " + error)
     alert(error);
   });
+  alert("Quit Successfully!")
   setTimeout(function() {this.handle_get_course(); this.handle_get_event();}.bind(this),100);
   
 }
@@ -165,6 +166,7 @@ handle_quit_event(data){
     console.log("ERROR: " + error)
     alert(error);
   });
+  alert("Quit Successfully!")
   setTimeout(function() {this.handle_get_event()}.bind(this),100);
 }
 
@@ -179,7 +181,7 @@ handle_delete_event(data){
   .then(response => response.json())
   .catch(error => {
     console.log("ERROR: " + error)
-    alert('Delete successfully');
+    alert('Delete successfully!');
   });
   setTimeout(function() {this.handle_get_event()}.bind(this),100);
 }

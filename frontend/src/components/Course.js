@@ -189,6 +189,8 @@ class Course extends React.Component{
         console.log("ERROR: " + error)
         alert(error);
       });
+
+      alert("Quit Successfully!")
       setTimeout(function() {this.handle_fetch_event()}.bind(this),100);
     }
 
