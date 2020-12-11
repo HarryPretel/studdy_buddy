@@ -244,9 +244,7 @@ class Course extends React.Component{
         datetime += 'T' + e.target.value + ':00Z'
         console.log(datetime)
       }else{
-        datetime.concat('T')
-        datetime.concat(e.target.value)
-        datetime.concat(':00Z')
+        datetime += 'T' + e.target.value + ':00Z'
       }
       setTimeout(function() {
         this.setState(prevState => ({
