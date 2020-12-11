@@ -191,7 +191,6 @@ function Copyright() {
                 />
             </div> */}
 
-            <Paper >
             <Typography component="h1" variant="h5" align = 'left'>
                 Username :  {this.state.userprofile.user.username}
             </Typography> 
@@ -201,14 +200,15 @@ function Copyright() {
             </Typography> 
 
 
+            <Paper >
             <Typography component="h1" variant="h4" align = 'left'>
-                Profile
-            </Typography> 
+                Profile 
+            
             {this.state.is_edit
-                ? <Button variant="contained" color="secondary" className = {classes.button} onClick = {() => this.handle_confirm()}> Confirm </Button>
+                ? <Button variant="contained" color="secondary"  className = {classes.button} onClick = {() => this.handle_confirm()}> Confirm </Button>
                 : <Button variant="contained" color="primary" className = {classes.button} onClick = {() => this.handle_edit()}> Edit </Button>
             }
-            
+            </Typography> 
             <Divider />
             {this.state.is_edit
                 ?
