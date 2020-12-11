@@ -46,7 +46,7 @@ const useStyles = theme => ({
   },
 });
 
-class LoginForm extends React.Component{
+class LoginForm extends React.Component {
   state = {
     username: '',
     password: ''
@@ -62,7 +62,7 @@ class LoginForm extends React.Component{
     });
   };
 
-  render(){
+  render() {
     const classes = withStyles(useStyles);
     return (
       <Container component="main" maxWidth="xs">
@@ -109,18 +109,6 @@ class LoginForm extends React.Component{
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              {/* <Grid item>
-                <Link href="#" variant="body2" onClick={e => this.props.handle_signup}>
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid> */}
-            </Grid>
           </form>
         </div>
         <Box mt={8}>
