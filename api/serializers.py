@@ -98,6 +98,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
+        print(validated_data)
         participant = validated_data.pop('participants')
         print(participant)
         if participant:

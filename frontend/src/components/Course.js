@@ -139,7 +139,7 @@ class Course extends React.Component{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          //'Authentication': 'Token ' + this.props.token
+          'Authentication': `jwt ${localStorage.getItem('token')}`
         },
       })
       .then(res => res.json())

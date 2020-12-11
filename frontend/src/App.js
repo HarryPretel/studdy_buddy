@@ -274,7 +274,7 @@ class App extends Component {
           handle_join_course={this.handle_join_course} />
           break;
       case 'profile':
-        form = <Profile />
+        form = <Profile userpk={this.state.pk}/>
         break;
 
       default:
