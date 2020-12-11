@@ -46,24 +46,33 @@ function Copyright() {
                 />
             </div>
             
-            <Paper >
+
             <Typography component="h1" variant="h5" align = 'left'>
+                Username : 
+            </Typography> 
+            <Divider />
+            <Typography component="h1" variant="h5" align = 'left'>
+                Email : 
+            </Typography> 
+
+            <Paper >
+            {/* <Typography component="h1" variant="h5" align = 'left'>
                 Edit Profile Image
             </Typography>
             <TextField id="filled-basic"  type = "file"  />
                 
                 <Button align="right" variant = "contained" color = "primary" size = "large">
                     Save
-                </Button>
+                </Button> */}
 
-            <Divider />
-            <Typography component="h1" variant="h5" align = 'left'>
+            {/* <Divider /> */}
+            {/* <Typography component="h1" variant="h5" align = 'left'>
                     Email
                 </Typography>
                 <Typography component="h1" variant="h6" align = 'center'>
                     zcai57@wisc.edu
-                </Typography>
-                <div>
+                </Typography> */}
+                {/* <div>
                 <form>
     
                 <TextField id="filled-basic" label="New Email"  type = "email"/>
@@ -75,8 +84,8 @@ function Copyright() {
                 </Button>
                 
                 </form>
-                </div>
-                <Divider />
+                </div> */}
+                {/* <Divider />
             <Typography component="h1" variant="h5" align = 'left'>
                 Username
             </Typography> 
@@ -85,22 +94,22 @@ function Copyright() {
             </Typography>
             <TextField id="filled-basic" label="New Username"  />
                 
-                <Button align="right" variant = "contained" color = "primary" size = "large">
-                    Save
-                </Button>
-            <Divider />
-            <Typography component="h1" variant="h5" align = 'left'>
+            <Button align="right" variant = "contained" color = "primary" size = "large">
+                Save
+            </Button> */}
+            {/* <Divider /> */}
+            {/* <Typography component="h1" variant="h5" align = 'left'>
                 Password
             </Typography> 
             <Typography component="h1" variant="h5" align = 'center'>
                 ********
-            </Typography> 
-            <TextField id="filled-basic" label="New Password" type = "password" />
+            </Typography>  */}
+            {/* <TextField id="filled-basic" label="New Password" type = "password" />
                 
                 <Button align="right" variant = "contained" color = "primary" size = "large">
                     Save
                 </Button>
-            <Divider />
+            <Divider /> */}
             
             <Typography component="h1" variant="h5" align = 'left'>
                 StudyLocation
