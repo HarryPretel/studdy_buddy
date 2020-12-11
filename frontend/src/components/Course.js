@@ -216,7 +216,7 @@ class Course extends React.Component{
     get_time(data){
       var str = data.split("T")[1]
       var res = str.split("Z")
-      return res[0]
+      return res[0].split(":00")[0]
     }
 
     handle_on_change(e){
