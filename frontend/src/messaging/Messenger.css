@@ -46,6 +46,7 @@ convo {
 
 message {
     width: 100%;
+    line-height: 1.6;
 }
 
 sentmessage {

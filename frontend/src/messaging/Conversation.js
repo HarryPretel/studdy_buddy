@@ -14,13 +14,19 @@ class Conversation extends React.Component {
         }
     }
 
-    async componentDidMount() {
+    load_messages = async () => {
         this.setState({ messages: await get_messages(this.props.pk, this.props.pkb) })
         this.setState({ message: { ...this.state.message, receivers: [await username_to_pk(this.props.pkb)] } })
     }
 
+    async componentDidMount() {
+        this.load_messages();
+    }
+
     handleSubmit = async (e) => {
         await send_message(this.state.message)
+        this.load_messages();
+        this.setState({ message: { ...this.state.message, content: '' } })
         e.preventDefault()
     }
 
