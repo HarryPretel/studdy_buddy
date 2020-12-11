@@ -23,16 +23,3 @@ yarn start
 ```
 ## running our app
 Go to localhost:3000 in your chrome browser to view our website
-
-# troubleshooting
-### problems w db
-```
-rm -f db.sqlite3
-python3 manage.py makemigrations
-python3 manage.py migrate --run-syncdb
-```
-
-### running backend server
-```
-python3 manage.py runserver
-```
