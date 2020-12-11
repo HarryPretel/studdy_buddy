@@ -96,7 +96,10 @@ const rows = [
 class Course extends React.Component{
     state = {
       course: this.props.course,
-      events: []
+      events: [],
+      create:{
+        status: 1,
+      }
     }
 
     componentDidUpdate(prevProps){
@@ -130,6 +133,7 @@ class Course extends React.Component{
     }
 
     handle_fetch_event(){
+      
       fetch('http://localhost:8000/api/events/courses/' + this.state.course.pk +'/', {
         method: 'GET',
         headers: {
@@ -149,8 +153,6 @@ class Course extends React.Component{
         console.log("ERROR: " + error)
       });
     }
-
-    
 
     is_joined(data){
       var flag = false;
@@ -215,6 +217,75 @@ class Course extends React.Component{
       var res = str.split("Z")
       return res[0]
     }
+
+    handle_on_change(e){
+      this.setState(prevState => ({
+        ...prevState,
+        create: {
+          ...prevState.create,
+          [e.target.id]:e.target.value
+        }
+      }))
+      setTimeout(function() {console.log(this.state.create)}.bind(this),100);
+    }
+
+    handle_event_time(e){
+      var datetime = this.state.create.start
+      if (e.target.id === 'start'){
+        console.log('here')
+        datetime += 'T' + e.target.value + ':00Z'
+        console.log(datetime)
+      }else{
+        datetime.concat('T')
+        datetime.concat(e.target.value)
+        datetime.concat(':00Z')
+      }
+      setTimeout(function() {
+        this.setState(prevState => ({
+          ...prevState,
+          create: {
+            ...prevState.create,
+            [e.target.id]:datetime
+          }
+        }))
+      }.bind(this),100);
+      setTimeout(function() {console.log(this.state.create)}.bind(this),100);
+    }
+
+    handle_create_event(){
+      console.log(JSON.stringify(this.state.create))
+      fetch('http://localhost:8000/api/events/create/' + this.props.userpk + '-' + this.state.course.pk + '/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `jwt ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(this.state.create)
+      })
+      .then(response => response.json())
+      .catch(error => {
+        console.log("ERROR: " + error)
+        alert(error);
+      })
+      setTimeout(function() {this.handle_fetch_event()}.bind(this),100);
+    }
+
+    handle_on_submit(){
+      var today = new Date()
+      var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+      var time_organized = date + 'T' + time + 'Z'
+
+      this.setState(prevState => ({
+        ...prevState,
+        create: {
+          ...prevState.create,
+          time_organized: time_organized
+        }
+      }))
+      console.log(this.state.create)
+      setTimeout(function() {this.handle_create_event()}.bind(this),100);
+    }
     
     render(){
         const classes = useStyles;
@@ -254,7 +325,7 @@ class Course extends React.Component{
                                 id="title"
                                 label="Title"
                                 name="Title"
-                                autoComplete="title"
+                                onChange = {(e) => this.handle_on_change(e)}
                                 autoFocus
                               />
                               <TextField
@@ -265,8 +336,8 @@ class Course extends React.Component{
                                 name="password"
                                 label="Date"
                                 type = "date"
-                                id="password"
-                                autoComplete="current-password"
+                                id="start"
+                                onChange = {(e) => this.handle_on_change(e)}
                               />
                               <TextField
                                 // variant="outlined"
@@ -276,8 +347,8 @@ class Course extends React.Component{
                                 name="password"
                                 label="Start Time"
                                 type="time"
-                                id="password"
-                                autoComplete="current-password"
+                                id="start"
+                                onChange = {(e) => this.handle_event_time(e)}
                               />
                               <TextField
                                 // variant="outlined"
@@ -287,8 +358,8 @@ class Course extends React.Component{
                                 name="password"
                                 label="End Time"
                                 type="time"
-                                id="password"
-                                autoComplete="current-password"
+                                id="end"
+                                onChange = {(e) => this.handle_event_time(e)}
                               />
                               <TextField
                                 // variant="outlined"
@@ -298,8 +369,8 @@ class Course extends React.Component{
                                 name="password"
                                 label="Size Limit"
                                 type="number"
-                                id="password"
-                                autoComplete="current-password"
+                                id="size_limit"
+                                onChange = {(e) => this.handle_on_change(e)}
                               />
                               <TextField
                                 // variant="outlined"
@@ -309,8 +380,8 @@ class Course extends React.Component{
                                 name="password"
                                 label="Link"
                                 type="url"
-                                id="password"
-                                autoComplete="current-password"
+                                id="link"
+                                onChange = {(e) => this.handle_on_change(e)}
                               />
                               <TextField
                                 // variant="outlined"
@@ -320,17 +391,16 @@ class Course extends React.Component{
                                 name="password"
                                 label="Description"
                                 type="text"
-                                id="password"
-                                autoComplete="current-password"
+                                id="description"
+                                onChange = {(e) => this.handle_on_change(e)}
                               />
                                 
                             {/* <Link >Cancel</Link> */}
                               <Button
-                                type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                              
+                                onClick = {() => this.handle_on_submit()}
                                 className={classes.submit}
                               >
                                 Confirm

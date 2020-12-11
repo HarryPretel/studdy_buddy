@@ -93,9 +93,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         #fields = '__all__'
 
     def create(self, validated_data):
-        print(validated_data)
         instance = Event.objects.create(**validated_data)
-        print(validated_data)
         instance.participants.add(validated_data['organizer'])
         return instance
 

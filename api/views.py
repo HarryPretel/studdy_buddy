@@ -230,18 +230,11 @@ class EventCreateView(APIView):
 
     def post(self, request, userpk, coursepk, format=None):
         event = request.data
-        # event['organizer'] = User.objects.get(pk=userpk).__dict__
-        # user = Course.objects.get(pk = coursepk).user.all()
-        # userlist = [i.__dict__ for i in user]
-        # event['course_focus'] = Course.objects.get(pk = coursepk).__dict__
-        # event['course_focus']['user'] = userlist
-        # event['status'] = 1
+
         event['course_focus'] = coursepk
         event['user'] = userpk
         course = CourseDetailView().get_object(pk=coursepk)
         organizer = User.objects.get(pk=userpk)
-        print(course)
-        # event['participants'] = [event['organizer']]
         serializer = EventSerializer(data=event, partial = True)
         if serializer.is_valid():
             serializer.validated_data['course_focus'] = course
