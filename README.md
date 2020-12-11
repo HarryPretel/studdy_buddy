@@ -82,5 +82,5 @@ python3 manage.py test
 ### running frontend tests
 ```
 cd frontend
-npm test -- --coverage --watchAll=false
+npm run test:all
 ```
