@@ -166,8 +166,10 @@ class EventDetailView(APIView):
 
     def patch(self, request, pk, format=None):
         event = self.get_object(pk)
+        print(request.data)
         serializer = EventSerializer(event, data=request.data, partial=True)
         if serializer.is_valid():
+            serializer.validated_data['participants'] = request.data['participants']
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
