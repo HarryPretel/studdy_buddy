@@ -10,6 +10,7 @@ git clone https://github.com/HarryPretel/studdy_buddy.git
 run each of the following commands in the repo you just downloaded
 ### backend
 ```
+cd studdy_buddy
 python3 -m pip install django
 python3 -m pip install django-rest-framework
 python3 -m pip install django-multiselectfield
