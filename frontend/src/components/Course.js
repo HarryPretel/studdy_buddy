@@ -316,12 +316,14 @@ class Course extends React.Component{
                         <Typography component="h2" variant="h6" color="primary" align="left" gutterBottom>
                         Events
                         {/* <Button align="right"  variant = "contained" color = "primary" size = "small" style={{float: 'right', right: 7, top: 7}}>Create event</Button> */}
-                        <Popup trigger={<button type = "Button" class = "Button" sstyle={{float: "right"}}> Create Event</button>} position="bottom center">
+                        <Popup trigger={<button type = "Button" className = "button" style={{color: "blue", float: "right"}}> Create Event</button>} position="bottom center">
+                       
                           <div class = 'CreateEvent' >
-                            
+                          <Paper>
                             <Typography component="h1" variant="h5">
                             Create Event for CS 506
                             </Typography>
+                            
                             <form className={classes.form} noValidate>
                               <TextField
                                 // variant="outlined"
@@ -413,6 +415,7 @@ class Course extends React.Component{
                               </Button>
                               
                             </form>
+                            </Paper>
                           </div>
                           <Box mt={8}>
                          
