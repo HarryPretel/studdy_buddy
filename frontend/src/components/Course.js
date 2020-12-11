@@ -112,6 +112,7 @@ class Course extends React.Component{
     }
 
     componentDidMount(){
+      console.log('mount')
       this.handle_fetch_event()
     }
     
@@ -130,6 +131,7 @@ class Course extends React.Component{
         console.log("ERROR: " + error)
         alert(error);
       })
+
       setTimeout(function() {this.handle_fetch_event()}.bind(this),100);
     }
 
@@ -139,7 +141,7 @@ class Course extends React.Component{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authentication': `jwt ${localStorage.getItem('token')}`
+          // 'Authentication': `jwt ${localStorage.getItem('token')}`
         },
       })
       .then(res => res.json())
@@ -434,7 +436,7 @@ class Course extends React.Component{
                             <TableCell>Date</TableCell>
                             <TableCell>StartTime</TableCell>
                             <TableCell>Link</TableCell>
-                            <TableCell>Location</TableCell>
+                            <TableCell> </TableCell>
                             <TableCell align="right"></TableCell>
                             </TableRow>
                         </TableHead>

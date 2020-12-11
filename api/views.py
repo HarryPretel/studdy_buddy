@@ -140,7 +140,7 @@ class EnrolledDetailView(APIView):
 
 
 class EventView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
 
     def get(self, request, format=None):
         event = Event.objects.all()
@@ -156,6 +156,7 @@ class EventView(APIView):
 
 
 class EventDetailView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get_object(self, pk):
         return Event.objects.get(pk=pk)
 
@@ -203,6 +204,7 @@ class EventforCourseView(APIView):
 
 
 class EventforStudentView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get_object(self, pk):
         return Event.objects.filter(participants__pk=pk)
 
@@ -213,6 +215,7 @@ class EventforStudentView(APIView):
 
 
 class EventforOrganizerView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get_object(self, eventpk):
         event = Event.objects.get(pk=eventpk)
         return event
@@ -229,7 +232,7 @@ class EventforOrganizerView(APIView):
 
 
 class EventCreateView(APIView):
-
+    permission_classes = (permissions.AllowAny,)
     def post(self, request, userpk, coursepk, format=None):
         event = request.data
 
