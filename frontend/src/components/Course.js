@@ -97,6 +97,7 @@ class Course extends React.Component{
     state = {
       course: this.props.course,
       events: [],
+      date: '',
       create:{
         status: 1,
       }
@@ -219,18 +220,25 @@ class Course extends React.Component{
     }
 
     handle_on_change(e){
-      this.setState(prevState => ({
-        ...prevState,
-        create: {
-          ...prevState.create,
-          [e.target.id]:e.target.value
-        }
-      }))
-      setTimeout(function() {console.log(this.state.create)}.bind(this),100);
+      if (e.target.id === 'date'){
+        this.setState(prevState => ({
+          ...prevState,
+          date: e.target.value
+        }))
+      } else{
+        this.setState(prevState => ({
+          ...prevState,
+          create: {
+            ...prevState.create,
+            [e.target.id]:e.target.value
+          }
+        }))
+        setTimeout(function() {console.log(this.state.create)}.bind(this),100);
+      }
     }
 
     handle_event_time(e){
-      var datetime = this.state.create.start
+      var datetime = this.state.date
       if (e.target.id === 'start'){
         console.log('here')
         datetime += 'T' + e.target.value + ':00Z'
@@ -336,7 +344,7 @@ class Course extends React.Component{
                                 name="password"
                                 label="Date"
                                 type = "date"
-                                id="start"
+                                id="date"
                                 onChange = {(e) => this.handle_on_change(e)}
                               />
                               <TextField
