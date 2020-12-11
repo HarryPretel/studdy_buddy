@@ -30,6 +30,7 @@ class App extends Component {
 
   componentDidMount() {
     console.log('componentDidMount')
+    this.setState({ messaging: false })
     if (this.state.logged_in) {
 
       fetch('http://localhost:8000/api/current_user/', {
@@ -121,10 +122,10 @@ class App extends Component {
           token: json.token,
           first: json.first_name
         });
-        
-        setTimeout(function() {console.log(this.state)}.bind(this),100);
-        setTimeout(function() {this.handle_create_profile(e, data)}.bind(this),100);
-        
+
+        setTimeout(function () { console.log(this.state) }.bind(this), 100);
+        setTimeout(function () { this.handle_create_profile(e, data) }.bind(this), 100);
+
       })
       .catch(error => {
         console.log("ERROR: " + error)
@@ -151,14 +152,14 @@ class App extends Component {
         alert(error);
       })
 
-    
+
     this.render()
   }
 
   handle_logout = () => {
     console.log('handle_logout')
     localStorage.removeItem('token');
-    this.setState({ logged_in: false, username: '', displayed_form: 'login' });
+    this.setState({ logged_in: false, username: '', displayed_form: 'login', messaging: false });
   };
 
   handle_search_value = (e) => {
@@ -272,7 +273,7 @@ class App extends Component {
           handle_course={this.handle_course}
           userpk={this.state.pk}
           handle_join_course={this.handle_join_course} />
-          break;
+        break;
       case 'profile':
         form = <Profile userpk={this.state.pk}/>
         break;

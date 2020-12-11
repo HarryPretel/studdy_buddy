@@ -9,6 +9,9 @@ messenger {
     position: fixed;
     bottom: 0;
     right: 50px;
+
+    background-color: white;
+
 }
 t {
     width: 90%;
@@ -43,6 +46,7 @@ convo {
 
 message {
     width: 100%;
+    line-height: 1.6;
 }
 
 sentmessage {
