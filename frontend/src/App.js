@@ -115,13 +115,16 @@ class App extends Component {
         localStorage.setItem('userpk', json.pk)
         this.setState({
           logged_in: true,
-          displayed_form: '',
           username: json.username,
           pk: json.pk,
-          token: json.token
+          displayed_form: '',
+          token: json.token,
+          first: json.first_name
         });
-        console.log(this.state)
-        this.handle_create_profile(e, data)
+        
+        setTimeout(function() {console.log(this.state)}.bind(this),100);
+        setTimeout(function() {this.handle_create_profile(e, data)}.bind(this),100);
+        
       })
       .catch(error => {
         console.log("ERROR: " + error)
@@ -148,6 +151,7 @@ class App extends Component {
         alert(error);
       })
 
+    
     this.render()
   }
 
@@ -276,7 +280,7 @@ class App extends Component {
       default:
 
         // let course = <CourseDemo />;
-
+        console.log('render')
         { this.state.logged_in ? form = <Dashboard userpk={this.state.pk} handle_course={this.handle_course} /> : form = null }
         break;
       // form = null

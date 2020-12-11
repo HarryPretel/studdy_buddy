@@ -46,7 +46,7 @@ class SignupForm extends React.Component {
                   fullWidth
                   id="first_name"
                   label="First Name"
-                  value = {this.props.first_name}
+                  // value = {this.props.first_name}
                   onChange = {this.props.onChange}
                   autoFocus
                 />
@@ -59,7 +59,7 @@ class SignupForm extends React.Component {
                   id="last_name"
                   label="Last Name"
                   name="lastName"
-                  value = {this.props.last_name}
+                  // value = {this.props.last_name}
                   onChange = {this.props.onChange}
                   autoComplete="lname"
                 />
@@ -72,7 +72,7 @@ class SignupForm extends React.Component {
                   id="email"
                   label="Email Address"
                   name="email"
-                  value = {this.props.email}
+                  // value = {this.props.email}
                   onChange = {this.props.onChange}
                   autoComplete="email"
                 />
@@ -85,7 +85,7 @@ class SignupForm extends React.Component {
                   id="username"
                   label="Username"
                   name="username"
-                  value = {this.props.username}
+                  // value = {this.props.username}
                   onChange = {this.props.onChange}
                   autoComplete="username"
                 />
@@ -99,7 +99,7 @@ class SignupForm extends React.Component {
                   label="Password"
                   type="password"
                   id="password"
-                  value = {this.props.password}
+                  // value = {this.props.password}
                   onChange = {this.props.onChange}
                   autoComplete="current-password"
                 />

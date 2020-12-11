@@ -68,7 +68,7 @@ class Signup extends Component {
         this.state = {
             step: 1,
             profile: {
-              studytime: 'a',
+              studytime: ["a"],
               studylocation: 'Home',
             } , 
             user: {username : '',
@@ -104,7 +104,7 @@ class Signup extends Component {
     }
 
     handleOnChange(e) {
-      
+      console.log(e.target.value)
       this.setState(prevState => ({
         ...prevState,
         profile: {
@@ -113,6 +113,16 @@ class Signup extends Component {
         }
     }))
         
+  }
+
+  handleTime = (c) => {
+    this.setState(prevState => ({
+      ...prevState,
+      profile: {
+          ...prevState.profile,
+          studytime: c
+      }
+    }))
   }
 
     render(){
@@ -145,11 +155,11 @@ class Signup extends Component {
                         ) : (
                         <React.Fragment>
                             <SignupForm
-                                first_name = {this.state.user.first_name}
-                                last_name = {this.state.user.last_name}
-                                email = {this.state.user.email}
-                                username = {this.state.user.username}
-                                password = {this.state.user.password}
+                                // first_name = {this.state.user.first_name}
+                                // last_name = {this.state.user.last_name}
+                                // email = {this.state.user.email}
+                                // username = {this.state.user.username}
+                                // password = {this.state.user.password}
                                 onChange = {this.handleUserOnChange.bind(this)}
                                 next = {this.next.bind(this)}
                                 />    
@@ -178,7 +188,7 @@ class Signup extends Component {
                     <React.Fragment>
                         <React.Fragment>
                             <CreateProfileForm
-                                studytime = {this.state.profile.studytime}
+                                callback = {this.handleTime}
                                 studylocation = {this.state.profile.studylocation}
                                 onChange = {this.handleOnChange.bind(this)}
                                 next = {e => this.props.handle_signup(e, this.state)}

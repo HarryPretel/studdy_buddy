@@ -39,6 +39,10 @@ import "semantic-ui-css/semantic.min.css";
   });
   
   class CreateProfileForm extends React.Component {
+ 
+    onTrigger(event, data){
+      this.props.callback(data.value)
+    }
 
     render() {
       const classes = withStyles(useStyles);
@@ -67,17 +71,18 @@ import "semantic-ui-css/semantic.min.css";
             <Dropdown 
               placeholder='Preferred Study Time' 
               fluid multiple selection options={options} 
-              value = {this.props.studytime}
-              onChange={this.props.onChange}
+              // value = {this.props.studytime}
+              onChange= {(event,data) => this.onTrigger(event,data)}
+              id = "studytime"
             />
             <TextField
               variant="outlined"
               margin="normal"
               fullWidth
-              id="location"
+              id="studylocation"
               label="Preferred Study Location"
               name="location"
-              value={this.props.studylocation}
+              
               onChange={this.props.onChange}
               autoFocus
             />
